@@ -1,0 +1,194 @@
+* Installing Gentoo
+** lxqt
+#+begin_src bash
+emerge -a lxqt-base/lxqt-meta
+emerge -a lxqt-base/lxqt-powermanagement
+#+end_src
+
+#+RESULTS:
+
+add to ~/.xinitrc
+  #+begin_src bash
+eval "$(dbus-launch --sh-syntax --exit-with-session)"
+export XMODIFIERS="@im=fcitx"
+export QT_IM_MODULE="fcitx"
+export GTK_IM_MODULE="fcitx"
+exec startlxqt
+  #+end_src
+
+  add user to group root
+use `login user` instead of `su user`
+
+** qutebrowser
+set proxy to http://127.0.0.1:8889 (check qv2ray for port)
+#+begin_src python
+config.set('content.proxy', 'http://127.0.0.1:8889')
+#+end_src
+
+#+RESULTS:
+
+** Qv2ray
+*** Install x2ray
+download binary from https://github.com/XTLS/Xray-core/releases, and unzip to .config/x2ray
+
+*** Install Qv2ray (interface)
+
+download Image from https://github.com/Qv2ray/Qv2ray/releases
+
+set v2ray executable path: /home/auii/.config/x2ray/bin/xray-linux-amd64
+
+set v2ray core path: /home/auii/.config/x2ray/bin/
+
+autostart:
+
+add an entry to
+/home/auii/Projects/Dotfiles/x2ray/Qv2ray-v2.7.0-linux-x64.AppImage
+
+** Battery status, screen lock
+install lxqt-management package, and enable it in session setting
+
+** Chinese input
+*** make sure chinese language is installed
+modify /etc/locale.gen
+
+#+begin_src bash
+# these two are configured during system install
+en_US ISO-8859-1
+en_US.UTF-8 UTF-8
+# these two are configured during input method install
+zh_CN.UTF-8 UTF-8
+zh_CN.GBK GBK
+#+end_src
+
+run command
+#+begin_src bash
+local-gen
+#+end_src
+*** install fcitx
+#+begin_src bash
+emerge -a fcitx
+#+end_src
+*** install rime
+**** install rime for fcitx
+#+begin_src bash
+emerge -a fcitx-rime
+#+end_src
+
+**** install xiaoheshuangpin for rime
+download schemes from https://github.com/ssnhd/rime
+copy all config files to ~/.config/fcitx/rime/, do not care about the build file, remove other useless schemes
+
+modify schemes to enable simplified chinese
+#+begin_src yaml
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 西文 ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - name: simplification
+    # !!! this is added
+    reset: 1
+    states: [ 漢字, 汉字 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+#+end_src
+
+then deploy, all is well!
+
+** Set wifi
+Check device in: https://wiki.gentoo.org/wiki/Wifi
+
+#+begin_src bash
+lspci -k
+#+end_src
+
+https://wiki.gentoo.org/wiki/Wpa_supplicant
+
+#+begin_src bash
+wpc_cl
+#+end_src
+
+#+RESULTS:
+
+*** configure wpa_supplicant
+
+*** connect network
+
+*** add to auto start
+
+** Emacs
+To avoiding Font problem, add use to /etc/portage/package.use/emacs
+#+begin_src bash
+app-editors/emacs xft json
+#+end_src
+** Usefule tools
+*** htop
+#+begin_src bash
+emerge -a sys-process/htop
+#+end_src
+
+* Gentoo usage
+** Update world
+#+begin_src
+# sync
+emerge-webrsync
+# fetch source
+emerge -auDNtvF @world
+# update
+emerge -auDNtv @world
+#+end_src
+** Packages to install
+*** figlet
+*** neofetch
+*** lf
+terminal file manager
+https://github.com/gokcehan/lf
+***
+*** ncmpcpp
+https://github.com/ncmpcpp/ncmpcpp
+*** URXVT
+small terminal, use perl to config
+*** Starship
+*** Calcurse
+ncurse-based calendar
+*** htop
+*** mutt
+email client
+*** browsh
+terminal based browser
+*** groff
+pdf viewer
+*** sxhkd
+global key binder
+https://www.youtube.com/watch?v=2ClckQzJTlk&list=PL-p5XmQHB_JSGspRPnWbjQ2oZzq3ol-32&index=15
+*** zathura
+book reader
+*** wal
+generate color themes by a picture
+*** entr
+automatic run command if the input is changedg
+
+*** tsp
+*** fzf
+fuzzy finder
+** Configs
+*** proxy susbscribe link
+https://patriot.ninja//index.php?m=wray&token=EXy4Ve3pTHUIFAKPgzvKDUFKhs%2B967Ge3xaFws0%2F1I%2BmwXgjBDNvnLwHTdTALu7mCS2Wzq9kHMA%3D
+
+vmess://eyJ2IjoiMiIsInBzIjoiREUtRGV0b3VyIDAyIiwiYWRkIjoiZGUtZGV0b3VyLTAyLndhbGx0aGVmb29sLm9yZyIsInBvcnQiOiIxNTgwMiIsImlkIjoiZGRjMTA1MzItNDEyZC00ZTE5LTg5YzktNTBiMmNiYmFkMzU2IiwiYWlkIjoiMiIsIm5ldCI6InRjcCIsInR5cGUiOiJub25lIiwiaG9zdCI6IiIsInBhdGgiOiIiLCJ0bHMiOiIifQ==
+
+* Customized Desktop
+** DWM
+download by
+** Dmenu
+* Emacs usage
+** Eshell
+
+#+begin_src emacs-lisp :tangle test.el
+(setq a "this is a test another kind iii")
+(message a)
+#+end_src
+
+#+RESULTS:
+: this is a test another kind iii

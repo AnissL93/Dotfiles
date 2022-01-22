@@ -21,17 +21,17 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "Sarasa Mono CL" :size 18 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "Hack" :size 15))
-(setq doom-font (font-spec :family "Hack" :size 18 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Hack" :size 15))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 18 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 15))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-1337)
+(setq doom-theme 'wombat)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Documens/note/org-files")
+(setq org-directory "~/Projects/Org-files")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
