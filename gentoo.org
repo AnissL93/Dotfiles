@@ -164,23 +164,53 @@ global key binder
 https://www.youtube.com/watch?v=2ClckQzJTlk&list=PL-p5XmQHB_JSGspRPnWbjQ2oZzq3ol-32&index=15
 *** zathura
 book reader
-*** wal
+*** pywal
 generate color themes by a picture
+#+begin_src bash
+pip install pywal colorz
+#+end_src
+
+#+begin_src bash
+# set to builtin theme
+wal -i /path/to/pic.jpg --backend colorz
+# set to builtin theme
+wal --theme tempus_dusk.
+#+end_src
+
 *** entr
 automatic run command if the input is changedg
-
 *** tsp
 *** fzf
 fuzzy finder
+*** mpv
+video
+*** sxiv
+picture viewer
+#+begin_src bash
+git clone https://github.com/muennich/sxiv.git
+#+end_src
+
 ** Configs
 *** proxy susbscribe link
 https://patriot.ninja//index.php?m=wray&token=EXy4Ve3pTHUIFAKPgzvKDUFKhs%2B967Ge3xaFws0%2F1I%2BmwXgjBDNvnLwHTdTALu7mCS2Wzq9kHMA%3D
 
-vmess://eyJ2IjoiMiIsInBzIjoiREUtRGV0b3VyIDAyIiwiYWRkIjoiZGUtZGV0b3VyLTAyLndhbGx0aGVmb29sLm9yZyIsInBvcnQiOiIxNTgwMiIsImlkIjoiZGRjMTA1MzItNDEyZC00ZTE5LTg5YzktNTBiMmNiYmFkMzU2IiwiYWlkIjoiMiIsIm5ldCI6InRjcCIsInR5cGUiOiJub25lIiwiaG9zdCI6IiIsInBhdGgiOiIiLCJ0bHMiOiIifQ==
+以上的 link 会变成一段 base64 的编码，解压后变成一组 vess://xxxx（base64 编码），去掉 vess 之后的部分可以解压成 json 格式，vess 是这个 json 的协议格式
 
 * Customized Desktop
 ** DWM
 download by
+*** set monitors to mirror
+#+begin_src bash
+xrandr --output HDMI2 --auto --same-as eDP1 --mode 2560x1440
+#+end_src
+*** add shortcut to config.def.h
+#+begin_src c
+{ 0, XF86XK_MonBrightnessUp, spawn, SHCMD("xbacklight -inc 15") },
+{ 0, XF86XK_MonBrightnessDown, spawn, SHCMD("xbacklight -dec 15") }
+#+end_src
+*** slock
+add shortcut to call slock
+
 ** Dmenu
 * Emacs usage
 ** Eshell
@@ -192,3 +222,5 @@ download by
 
 #+RESULTS:
 : this is a test another kind iii
+** Other stuff
+- show rgb:enable rainbow mode #000000

@@ -24,7 +24,7 @@ c.aliases = {'q': 'quit', 'w': 'session-save', 'wq': 'quit --save'}
 config.set("colors.webpage.darkmode.enabled", True)
 
 # LHY: set proxy to localhost
-config.set('content.proxy', 'http://192.168.3.22:10809')
+config.set('content.proxy', 'http://localhost:10809')
 
 # Which cookies to accept. With QtWebEngine, this setting also controls
 # other features with tracking capabilities similar to those of cookies;
