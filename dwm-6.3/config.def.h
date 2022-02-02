@@ -105,8 +105,8 @@ ResourcePref resources[] = {
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return,      spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_e,           spawn,          {.v = emacscmd } },
+	{ MODKEY,             XK_Return,      spawn,          {.v = termcmd } },
+	{ MODKEY,             XK_e,           spawn,          {.v = emacscmd } },
 
 
 	{ MODKEY|ShiftMask,                       XK_b,      togglebar,      {0} },
@@ -138,7 +138,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_F5,     xrdb,           {.v = NULL} },
 
 	// float window or not
-	{ MODKEY|ShiftMask,             XK_f,  togglefloating, {0} },
+	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
 	{ MODKEY,                       XK_m,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 
@@ -158,7 +158,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ControlMask,             XK_q,      quit,           {0} },
 
 
 	// function keys
