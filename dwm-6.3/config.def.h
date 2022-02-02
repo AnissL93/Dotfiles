@@ -102,6 +102,7 @@ ResourcePref resources[] = {
 
 #include <X11/XF86keysym.h>
 
+#include "keepfloatingposition.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
