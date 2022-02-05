@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+case $1 in
+    "emacs")
+        notify-send "Restart" "Killing and restart Emacs in daemon"
+        killall emacs
+        emacs --daemon
+        ;;
+
+esac

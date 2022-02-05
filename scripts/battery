@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+main() {
+    local full_charged="fully-charged"
+    local charging="charging"
+    local discharge="discharging"
+
+    local full_power_status=$(upower -i $(upower -e | grep BAT) | grep --color=never state)
+    local power_status=${full_power_status/state: /}
+
+    percentage=$(cat /sys/class/power_supply/BAT0/capacity)
+
+    [ $power_status = $full_charged ] && echo "[F $percentage%]"
+    [ $power_status = $charging ] && echo "[C $percentage%]"
+    [ $power_status = $discharge ] && echo "[B $percentage%]"
+}
+
+main

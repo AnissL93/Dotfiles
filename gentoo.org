@@ -199,19 +199,112 @@ https://patriot.ninja//index.php?m=wray&token=EXy4Ve3pTHUIFAKPgzvKDUFKhs%2B967Ge
 * Customized Desktop
 ** DWM
 download by
-*** set monitors to mirror
-#+begin_src bash
-xrandr --output HDMI2 --auto --same-as eDP1 --mode 2560x1440
-#+end_src
 *** add shortcut to config.def.h
 #+begin_src c
 { 0, XF86XK_MonBrightnessUp, spawn, SHCMD("xbacklight -inc 15") },
 { 0, XF86XK_MonBrightnessDown, spawn, SHCMD("xbacklight -dec 15") }
 #+end_src
-*** slock
-add shortcut to call slock
+*** lock
+**** DONE add shortcut to call slock
+*** monitor
+**** set monitors to mirror
+#+begin_src bash
+xrandr --output HDMI2 --auto --same-as eDP1 --mode 2560x1440
+#+end_src
+**** set to independent
+#+begin_src bash
+xrandr --output eDP1 --auto --right-of HDMI2 --mode 2560x1440
+#+end_src
+**** TODO script to change monitor mode
+*** status bar
+**** DONE date
+**** DONE memory
+**** TODO cpu usage
+**** TODO blutooth status
+**** TODO wifi status
+**** TODO click to show status
+*** bluetooth
+**** cmd
+#+begin_src bash
+# commandline tool
+bluetoothctl
+
+# scan
+scan on
+
+# pair
+pair xxx (mac-addr)
+
+# enter agent key
+
+trust xxx
+
+# then success
+#+end_src
+
+#+RESULTS:
+
+****
+**** shorcut to enable/disable
+#+begin_src bash
+# enable
+rfkill block bluetooth
+# disable
+rfkill unblock bluetooth
+#+end_src
+
+bind shortcut to Bluetooth
+*** wifi
+*** power management / lock
+**** TODO disable screensaver when playing videos
+**** TODO go to sleep when close the computer
+**** TODO lock when close lid
+install laptop-mode-tools
+
+add script `lid_down.sh` to "/etc/acpi/actions/lid_down.sh"
+#+begin_src bash
+#!/bin/bash
+
+if [[ "$1" == "button/lid" ]] && [[ $2 == "LID" ]] && [[ $3 == "close" ]]; then
+    export XAUTHORITY=/home/auii/.Xauthority
+    export DISPLAY=':0.0'
+    sudo -u auii slock
+fi
+
+#+end_src
+
+add following to /etc/acpi/actions/lid
+#+begin_src bash
+event=button[ /]lid
+action=/etc/acpi/actions/lid_down.sh %e
+#+end_src
+
+change mode
+#+begin_src bash
+sudo chmod +x /etc/acpi/actions/lid_down.sh
+#+end_src
+*** notify sender
+**** DONE pop a notify window on the right-up corner, do not block later actions
+install package `dunst`, then use notify-send
+
+use this to replace `dzen2`
+*** fcitx
+to know current status
+#+begin_src bash
+fcitx-remote
+#+end_src
+
+#+RESULTS:
+: 1
+
+- 1
+  english
+- 2
+  chinese
+
 
 ** Dmenu
+** st
 * Emacs usage
 ** Eshell
 
