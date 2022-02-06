@@ -1,0 +1,181 @@
+Script started on 2022-02-05 23:20:44+08:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="191" LINES="55"]
+bash: eval: line 6: syntax error near unexpected token `newline'
+bash: eval: line 6: `Usage: lesspipe <file>'
+]4;0;#1f252d\]4;1;#cb8d56\]4;2;#8ba089\]4;3;#a79c46\]4;4;#8c9abe\]4;5;#b190af\]4;6;#8e9aba\]4;7;#a2a8ba\]4;8;#a29899\]4;9;#d39d74\]4;10;#80b48f\]4;11;#bda75a\]4;12;#9ca5de\]4;13;#c69ac6\]4;14;#8caeb6\]4;15;#a2a8ba\]10;#a2a8ba\]11;#1f252d\]12;#a2a8ba\]13;#a2a8ba\]17;#a2a8ba\]19;#1f252d\]4;232;#1f252d\]4;256;#a2a8ba\]708;#1f252d\]4;0;#1f252d\]4;1;#cb8d56\]4;2;#8ba089\]4;3;#a79c46\]4;4;#8c9abe\]4;5;#b190af\]4;6;#8e9aba\]4;7;#a2a8ba\]4;8;#a29899\]4;9;#d39d74\]4;10;#80b48f\]4;11;#bda75a\]4;12;#9ca5de\]4;13;#c69ac6\]4;14;#8caeb6\]4;15;#a2a8ba\]10;#a2a8ba\]11;#1f252d\]12;#a2a8ba\]13;#a2a8ba\]17;#a2a8ba\]19;#1f252d\]4;232;#1f252d\]4;256;#a2a8ba\]708;#1f252d\[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/Projects/Dotfiles[30m on [38;5;141mmain*[30m
+$ (B[m..[K[Kscri
+script        scriptlive    scriptreplay  
+[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/Projects/Dotfiles[30m on [38;5;141mmain*[30m
+$ (B[mscripts
+[?2004lcd -- scripts
+/home/auii/Projects/Dotfiles/scripts
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/scripts[30m on [38;5;141mmain*[30m
+$ (B[mls
+[?2004l[0m[01;32mbattery[0m  [01;32mchangebg[0m  [01;32mdpass[0m  emoji  [01;32mlock[0m  [01;32mrestart[0m  [01;32mselmon[0m  show_top  [01;32mstatusbar[0m
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/scripts[30m on [38;5;141mmain*[30m
+$ (B[mchmod +_[Kx show_top 
+[?2004l[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/scripts[30m on [38;5;141mmain*[30m
+$ (B[m./show_top 
+[?2004l[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/scripts[30m on [38;5;141mmain*[30m
+$ (B[mls
+[?2004l[0m[01;32mbattery[0m  [01;32mchangebg[0m  [01;32mdpass[0m  emoji  [01;32mlock[0m  [01;32mrestart[0m  [01;32mselmon[0m  [01;32mshow_top[0m  [01;32mstatusbar[0m
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/scripts[30m on [38;5;141mmain*[30m
+$ (B[mfd[K[Kf[Kv[Ke show_top 
+[?2004l[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/scripts[30m on [38;5;141mmain*[30m
+$ (B[mls
+[?2004l[0m[01;32mbattery[0m  [01;32mchangebg[0m  [01;32mdpass[0m  emoji  [01;32mlock[0m  [01;32mrestart[0m  [01;32mselmon[0m  [01;32mshow_top[0m  [01;32mstatusbar[0m
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/scripts[30m on [38;5;141mmain*[30m
+$ (B[mcd.[K[K[K..
+[?2004l[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/Projects/Dotfiles[30m on [38;5;141mmain*[30m
+$ (B[mbui
+build-docbook-catalog  buildhtml.py           builtin                
+[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/Projects/Dotfiles[30m on [38;5;141mmain*[30m
+$ (B[mbuil
+[?2004lbash: buil: command not found
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/Projects/Dotfiles[30m on [38;5;141mmain*[30m
+$ (B[mbuild
+[?2004lcd -- build
+/home/auii/Projects/Dotfiles/build
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/build[30m on [38;5;141mmain*[30m
+$ (B[mls
+[?2004l[0m[01;34mdmenu[0m  [01;34mdwm[0m  [01;34mdwmblocks[0m  [01;34mslock[0m  [01;34mst[0m  [01;34msxiv[0m  [01;34mx2ray[0m
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/build[30m on [38;5;141mmain*[30m
+$ (B[mdwm
+[?2004ldwm: another window manager is already running
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/build[30m on [38;5;141mmain*[30m
+$ (B[m./ins[K[K[K[K[Kls
+[?2004l[0m[01;34mdmenu[0m  [01;34mdwm[0m  [01;34mdwmblocks[0m  [01;34mslock[0m  [01;34mst[0m  [01;34msxiv[0m  [01;34mx2ray[0m
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../Dotfiles/build[30m on [38;5;141mmain*[30m
+$ (B[mcd dwm
+[?2004l/home/auii/Projects/Dotfiles/build/dwm
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../build/dwm[30m on [38;5;141mmain*[30m
+$ (B[mls
+[?2004lconfig.def.h       config.mk  [0m[01;32mdwm[0m         dwm.c.rej   keepfloatingposition.c  transient.c
+config.def.h.orig  drw.c      dwm.1       dwm.o       LICENSE                 util.c
+config.def.h.rej   drw.h      dwm.c       [01;35mdwm.png[0m     Makefile                util.h
+config.h           drw.o      dwm.c.orig  [01;32minstall.sh[0m  README                  util.o
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../build/dwm[30m on [38;5;141mmain*[30m
+$ (B[m./install.sh 
+[?2004lrm -f dwm drw.o dwm.o util.o dwm-6.3.tar.gz config.h
+Password: 
+dwm build options:
+CFLAGS   = -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os -I/usr/X11R6/include -I/usr/include/freetype2 -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION="6.3" -DXINERAMA
+LDFLAGS  = -L/usr/X11R6/lib -lX11 -lXinerama -lfontconfig -lXft -lXrender -lX11-xcb -lxcb -lxcb-res 
+CC       = cc
+cp config.def.h config.h
+cc -c -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os -I/usr/X11R6/include -I/usr/include/freetype2 -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\"6.3\" -DXINERAMA drw.c
+cc -c -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os -I/usr/X11R6/include -I/usr/include/freetype2 -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\"6.3\" -DXINERAMA dwm.c
+In file included from [01m[Kdwm.c:352[m[K:
+[01m[Kconfig.h:86:50:[m[K [01;35m[Kwarning: [m[Kinitialization discards ‘[01m[Kconst[m[K’ qualifier from pointer target type [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdiscarded-array-qualifiers-Wdiscarded-array-qualifiers]8;;[m[K]
+   86 |                 { "dmenufont",          STRING,  [01;35m[K&[m[Kdmenufont },
+      |                                                  [01;35m[K^[m[K
+[01m[Kconfig.h:95:50:[m[K [01;35m[Kwarning: [m[Kinitialization discards ‘[01m[Kconst[m[K’ qualifier from pointer target type [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdiscarded-qualifiers-Wdiscarded-qualifiers]8;;[m[K]
+   95 |                 { "borderpx",           INTEGER, [01;35m[K&[m[Kborderpx },
+      |                                                  [01;35m[K^[m[K
+[01m[Kconfig.h:96:58:[m[K [01;35m[Kwarning: [m[Kinitialization discards ‘[01m[Kconst[m[K’ qualifier from pointer target type [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdiscarded-qualifiers-Wdiscarded-qualifiers]8;;[m[K]
+   96 |                 { "snap",                       INTEGER, [01;35m[K&[m[Ksnap },
+      |                                                          [01;35m[K^[m[K
+[01m[Kconfig.h:97:50:[m[K [01;35m[Kwarning: [m[Kinitialization discards ‘[01m[Kconst[m[K’ qualifier from pointer target type [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdiscarded-qualifiers-Wdiscarded-qualifiers]8;;[m[K]
+   97 |                 { "showbar",            INTEGER, [01;35m[K&[m[Kshowbar },
+      |                                                  [01;35m[K^[m[K
+[01m[Kconfig.h:98:50:[m[K [01;35m[Kwarning: [m[Kinitialization discards ‘[01m[Kconst[m[K’ qualifier from pointer target type [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdiscarded-qualifiers-Wdiscarded-qualifiers]8;;[m[K]
+   98 |                 { "topbar",             INTEGER, [01;35m[K&[m[Ktopbar },
+      |                                                  [01;35m[K^[m[K
+[01m[Kdwm.c:[m[K In function ‘[01m[Kgetparentprocess[m[K’:
+[01m[Kdwm.c:2485:9:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kfscanf[m[K’ declared with attribute ‘[01m[Kwarn_unused_result[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-result-Wunused-result]8;;[m[K]
+ 2485 |         [01;35m[Kfscanf(f, "%*u %*s %*c %u", &v)[m[K;
+      |         [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[Kdwm.c:[m[K In function ‘[01m[Kgetstatusbarpid[m[K’:
+[01m[Kdwm.c:1090:25:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kfgets[m[K’ declared with attribute ‘[01m[Kwarn_unused_result[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-result-Wunused-result]8;;[m[K]
+ 1090 |                         [01;35m[Kfgets(buf, sizeof(buf), fp)[m[K;
+      |                         [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[Kdwm.c:1100:9:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kfgets[m[K’ declared with attribute ‘[01m[Kwarn_unused_result[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-result-Wunused-result]8;;[m[K]
+ 1100 |         [01;35m[Kfgets(buf, sizeof(buf), fp)[m[K;
+      |         [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[Kdwm.c:[m[K In function ‘[01m[KrunAutostart[m[K’:
+[01m[Kdwm.c:1636:9:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Ksystem[m[K’ declared with attribute ‘[01m[Kwarn_unused_result[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-result-Wunused-result]8;;[m[K]
+ 1636 |         [01;35m[Ksystem("killall -q dwmblocks; dwmblocks &")[m[K;
+      |         [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+At top level:
+[01m[Kdwm.c:2022:1:[m[K [01;35m[Kwarning: [m[K‘[01m[Ktogglesticky[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-function-Wunused-function]8;;[m[K]
+ 2022 | [01;35m[Ktogglesticky[m[K(const Arg *arg)
+      | [01;35m[K^~~~~~~~~~~~[m[K
+cc -c -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os -I/usr/X11R6/include -I/usr/include/freetype2 -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\"6.3\" -DXINERAMA util.c
+cc -o dwm drw.o dwm.o util.o -L/usr/X11R6/lib -lX11 -lXinerama -lfontconfig -lXft -lXrender -lX11-xcb -lxcb -lxcb-res 
+mkdir -p /usr/local/bin
+cp -f dwm /usr/local/bin
+chmod 755 /usr/local/bin/dwm
+mkdir -p /usr/local/share/man/man1
+sed "s/VERSION/6.3/g" < dwm.1 > /usr/local/share/man/man1/dwm.1
+chmod 644 /usr/local/share/man/man1/dwm.1
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../build/dwm[30m on [38;5;141mmain*[30m
+$ (B[mls
+[?2004lconfig.def.h       config.mk  [0m[01;32mdwm[0m         dwm.c.rej   keepfloatingposition.c  transient.c
+config.def.h.orig  drw.c      dwm.1       dwm.o       LICENSE                 util.c
+config.def.h.rej   drw.h      dwm.c       [01;35mdwm.png[0m     Makefile                util.h
+config.h           drw.o      dwm.c.orig  [01;32minstall.sh[0m  README                  util.o
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../build/dwm[30m on [38;5;141mmain*[30m
+$ (B[mfd[K[Kf[Kexit[K[K[K[Kfd[K[Kf[Kl[Kls
+[?2004lconfig.def.h       config.mk  [0m[01;32mdwm[0m         dwm.c.rej   keepfloatingposition.c  transient.c
+config.def.h.orig  drw.c      dwm.1       dwm.o       LICENSE                 util.c
+config.def.h.rej   drw.h      dwm.c       [01;35mdwm.png[0m     Makefile                util.h
+config.h           drw.o      dwm.c.orig  [01;32minstall.sh[0m  README                  util.o
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/.../build/dwm[30m on [38;5;141mmain*[30m
+$ (B[mfd[K[Kcd
+[?2004l[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~[30m[38;5;141m[30m
+$ (B[mls
+[?2004l[0m[01;34mApplications[0m  [01;34mDownloads[0m  [01;34mMusic[0m     [01;34mProjects[0m  st         [01;34mVideos[0m
+[01;34mDocuments[0m     [01;34mgo[0m         [01;34mPictures[0m  [01;34mPublic[0m    [01;34mTemplates[0m
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~[30m[38;5;141m[30m
+$ (B[mcd Downloads/
+[?2004l/home/auii/Downloads
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/Downloads[30m[38;5;141m[30m
+$ (B[mls
+[?2004l [0m[01;32mAnaconda3-2021.11-Linux-x86_64.sh[0m
+'Bruce H. Lipton - The biology of belief_ unleashing the power of consciousness, matter and miracles-Mountain of Love_Elite Books.epub'
+ [01;31mclang+llvm-13.0.0-aarch64-linux-gnu.tar.xz[0m
+ [00;32mENOCH-McCracken2020.pdf[0m
+ [01;34mfonts[0m
+[00;32m'Kielhorn - A Grammar of the Sanskrit Language-Tukaram Javaji.pdf'[0m
+[00;32m'(Lingua Latina per se Illustrata) Hans H. Ørberg - Pars I_ Familia Romana-Focus Publishing_R. Pullins Co..pdf'[0m[K
+[00;32m'(Lingua Latina per se Illustrata) Hans H. Ørberg - Pars II_ Latin-English Vocabulary II-Focus Publishing_R. Pullins Co..pdf'[0m[K
+'(Lingua Latina per se Illustrata) Jeanne Marie Neumann, Hans H. Ørberg - Lingua Latina_ A College Companion based on Hans Ørberg'\''s Latine Disco, with Vocabulary and Grammar-Focus Publishing_R. Pullins.djvu'
+ [01;31mop_linux_amd64_v1.12.4.zip[0m
+[00;32m'Sheldon Pollock - The Language of the Gods in the World of Men_ Sanskrit, Culture, and Power in Premodern India-University of California Press.pdf'[0m[K
+[00;32m'Thomas Burrow - The Sanskrit language-Motilal Banarsidass.pdf'[0m
+'William C Collar - Beginner'\''s Latin book-Ginn & Company.djvu'
+ [00;32mXKBproto.pdf[0m
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/Downloads[30m[38;5;141m[30m
+$ (B[mfd[K[Kf[Kpdfinfo Thomas\ Burrow\ -\ The\ Sanskrit\ language-Motilal\ Banarsidass.pdf 
+[?2004lCreator:         SE A3 USB 1200 Pro
+Producer:        Adobe Acrobat 9.0 Paper Capture Plug-in
+CreationDate:    Mon Jan  5 09:15:51 2009 CST
+ModDate:         Mon Jan  5 11:48:52 2009 CST
+Custom Metadata: no
+Metadata Stream: yes
+Tagged:          yes
+UserProperties:  no
+Suspects:        no
+Form:            AcroForm
+JavaScript:      no
+Pages:           444
+Encrypted:       no
+Page size:       363 x 593 pts
+Page rot:        0
+File size:       19979715 bytes
+Optimized:       no
+PDF version:     1.6
+[?2004h[1m[91mauii [30mat [38;5;172mlocalhost [30min [38;5;190m~/Downloads[30m[38;5;141m[30m
+$ (B[mls
+[?2004l [0m[01;32mAnaconda3-2021.11-Linux-x86_64.sh[0m
+'Bruce H. Lipton - The biology of belief_ unleashing the power of consciousness, matter and miracles-Mountain of Love_Elite Books.epub'
+ [01;31mclang+llvm-13.0.0-aarch64-linux-gnu.tar.xz[0m
+ [00;32mENOCH-McCracken2020.pdf[0m
+ [01;34mfonts[0m
+[00;32m'Kielhorn - A Grammar of the Sanskrit Language-Tukaram Javaji.pdf'[0m
+[00;32m'(Lingua Latina per se Illustrata) Hans H. Ørberg - Pars I_ Familia Romana-Focus Publishing_R. Pullins Co..pdf'[0m[K
+[00;32m'(Lingua Latina per se Illustrata) Hans H. Ørberg - Pars II_ Latin-English Vocabulary II-Focus Publishing_R. Pullins Co..pdf'[0m[K
+'(Lingua Latina per se Illustrata) Jeanne Marie Neumann, Hans H. Ørberg - Lingua Latina_ A College Companion based on Hans Ørberg'\''s Latine Disco, with Vocabulary and Grammar-Focus Publishing_R. Pullins.djvu'
+ [01;31mop_linux_amd64_v1.12.4.zip[0m
+[00;32m'Sheldon Pollock - The Language of the Gods in the World of Men_ Sanskrit, Culture, and Power in Premodern India-University of California Press.pdf'[0m[K
+[00;32m'Thomas Burrow - The Sanskrit language-Motilal Banarsidass.pdf'[0m
+'William C Collar - Beginner'\''s Latin book-Ginn & Compa

@@ -3,20 +3,20 @@
 static const Block blocks[] = {
 	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
 
-	{"", "__f=$(fcitx-remote); [ $__f = 2 ] && echo [CH]; [ $__f = 2 ] || echo [en]", 0, 1},
+    // weather, update every 8 hours
+	{"", "show_weather", 2*60*60*8, 1},
+
+	{"INP: ", "input_method", 1, 2},
 
 	// memory
-	{"", "echo \"[M $(free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g) ]\"",	200,		0},
+	{"MEM: ", "show_resource", 200,	3},
 
 	// battery
-	{"", "battery", 100, 0 },
+	{"BAT: ", "battery", 100, 0},
 
 	// date
-	{"", "d=$(date '+%b %d (%a) %I:%M%p'); echo [$d]",					120,		0},
+	{"", "d=$(date '+%b %d (%a) %I:%M%p'); echo $d",					120,		0},
 
-
-	// input methods
-	/* {"", "", 5, 0}, */
 
 	/* // network status */
 	/* {"Net:", "", 5, 0}, */
@@ -27,5 +27,5 @@ static const Block blocks[] = {
 };
 
 //sets delimeter between status commands. NULL character ('\0') means no delimeter.
-static char delim[] = " ";
+static char delim[] = " | ";
 static unsigned int delimLen = 5;

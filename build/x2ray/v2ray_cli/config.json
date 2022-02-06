@@ -65,8 +65,8 @@
             "settings": {
                 "vnext": [
                     {
-                        "address": "jp-01.wallthefool.org",
-                        "port": 15601,
+                        "address": "la-detour-05.wallthefool.org",
+                        "port": 15505,
                         "users": [
                             {
                                 "alterId": 2,

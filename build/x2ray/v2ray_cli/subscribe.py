@@ -116,6 +116,5 @@ class Subscribe(object):
             print("config.json write error")
             return
 
-        os.system("killall v2ray")
         os.system("killall xray")
         os.system("xray run -config=./config.json &")

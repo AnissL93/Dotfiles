@@ -10,9 +10,9 @@ main() {
 
     percentage=$(cat /sys/class/power_supply/BAT0/capacity)
 
-    [ $power_status = $full_charged ] && echo "[F $percentage%]"
-    [ $power_status = $charging ] && echo "[C $percentage%]"
-    [ $power_status = $discharge ] && echo "[B $percentage%]"
+    [ $power_status = $full_charged ] && echo "$percentage%(F)"
+    [ $power_status = $charging ] && echo "$percentage%(C)"
+    [ $power_status = $discharge ] && echo "$percentage%"
 }
 
 main

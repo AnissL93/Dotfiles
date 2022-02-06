@@ -222,7 +222,9 @@ xrandr --output eDP1 --auto --right-of HDMI2 --mode 2560x1440
 **** TODO cpu usage
 **** TODO blutooth status
 **** TODO wifi status
-**** TODO click to show status
+**** TODO click to show htop
+**** TODO click to show weather
+**** TODO click to show folder
 *** bluetooth
 **** cmd
 #+begin_src bash
@@ -254,7 +256,99 @@ rfkill unblock bluetooth
 #+end_src
 
 bind shortcut to Bluetooth
-*** wifi
+*** network
+**** wifi
+#+begin_src bash
+wpa_cli
+#+end_src
+***** scan networks
+#+begin_src bash
+wpa_cli scan
+#+end_src
+
+#+RESULTS:
+| Selected | interface | 'wlp61s0' |
+| OK       |           |           |
+
+check the result
+#+begin_src bash
+wpa_cli scan_results
+#+end_src
+
+#+RESULTS:
+| Selected          | interface | 'wlp61s0' |                                              |                                                      |       |   |       |   |      |
+| bssid             |         / | frequency | /                                            | signal                                               | level | / | flags | / | ssid |
+| e0:f4:42:eb:b0:10 |      5220 |       -57 | [WPA2-PSK-CCMP][ESS]                         | HUAWEI-0E1JI5                                        |       |   |       |   |      |
+| e0:f4:42:fb:b0:12 |      5220 |       -57 | [WPA2-PSK-CCMP][ESS]                         | HUAWEI-0E1JI5_Wi-Fi5                                 |       |   |       |   |      |
+| fe:8c:21:0a:ec:81 |      5745 |       -70 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | LOVELIVE                                             |       |   |       |   |      |
+| ec:26:ca:43:a8:8f |      2472 |       -57 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | gao2                                                 |       |   |       |   |      |
+| f8:8c:21:0a:ec:83 |      2437 |       -58 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | LOVELIVE                                             |       |   |       |   |      |
+| 30:b4:9e:b6:83:b0 |      2462 |       -67 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | guoshan2                                             |       |   |       |   |      |
+| e0:f4:42:eb:b0:0c |      2462 |       -46 | [WPA2-PSK-CCMP][ESS]                         | HUAWEI-0E1JI5                                        |       |   |       |   |      |
+| e0:f4:42:fb:b0:11 |      2462 |       -47 | [WPA2-PSK-CCMP][ESS]                         | HUAWEI-0E1JI5_Wi-Fi5                                 |       |   |       |   |      |
+| 40:31:3c:db:f2:b7 |      2447 |       -63 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | rr_wifi                                              |       |   |       |   |      |
+| 44:fb:5a:4a:e3:fc |      2427 |       -64 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-EqdH                                            |       |   |       |   |      |
+| 72:a1:76:b3:92:14 |      2417 |       -70 | [WPA2-PSK-CCMP][ESS]                         | CU_KFQ4                                              |       |   |       |   |      |
+| cc:5c:de:ee:85:11 |      2427 |       -67 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-S57C                                            |       |   |       |   |      |
+| 70:ac:d7:3d:8f:de |      5180 |       -79 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-4PXk-5G                                         |       |   |       |   |      |
+| 44:fb:5a:4a:e3:fd |      5200 |       -79 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-EqdH-5G                                         |       |   |       |   |      |
+| 46:fb:5a:7a:e3:fd |      5200 |       -79 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-EqdH                                            |       |   |       |   |      |
+| 68:d1:ba:a7:fb:fe |      5745 |       -79 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-4Lxz-5G                                         |       |   |       |   |      |
+| 70:89:cc:cf:50:3c |      5805 |       -79 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-518-5G                                          |       |   |       |   |      |
+| 72:89:cc:ce:50:3c |      5805 |       -79 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-518                                             |       |   |       |   |      |
+| 40:31:3c:db:f2:b8 |      5805 |       -79 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | rr_wifi_5G                                           |       |   |       |   |      |
+| 78:1d:4a:17:30:c0 |      2452 |       -70 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-SjR2                                            |       |   |       |   |      |
+| d0:05:e4:1a:cc:bd |      2437 |       -81 | [WPA2-PSK-CCMP][ESS]                         |                                                      |       |   |       |   |      |
+| d0:05:e4:1a:cc:c1 |      2437 |       -81 | [WPA2-PSK-CCMP][ESS]                         |                                                      |       |   |       |   |      |
+| 18:3c:b7:e1:cd:89 |      2437 |       -83 | [WPA2-PSK-CCMP][ESS]                         |                                                      |       |   |       |   |      |
+| 28:75:d8:c7:63:5e |      2427 |       -81 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | CMCC-mkdu                                            |       |   |       |   |      |
+| 7c:b5:9b:ad:35:39 |      2462 |       -83 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | xueliqun                                             |       |   |       |   |      |
+| 44:fb:5a:48:de:9c |      2447 |       -77 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-sxY7                                            |       |   |       |   |      |
+| 14:6b:9a:5e:83:72 |      2422 |       -78 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | CU_DKP4                                              |       |   |       |   |      |
+| 00:1f:64:c8:c2:50 |      2412 |       -82 | [WPA2-PSK-CCMP][ESS]                         | 123456                                               |       |   |       |   |      |
+| 48:3f:e9:64:d4:f0 |      2437 |       -81 | [WPA2-PSK-CCMP][ESS]                         | woyekeyi590                                          |       |   |       |   |      |
+| 70:ac:d7:3d:8f:dd |      2412 |       -81 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-4PXk                                            |       |   |       |   |      |
+| 70:d9:31:f3:97:54 |      2412 |       -79 | [WPA-PSK-CCMP][ESS]                          | CU_Py4w                                              |       |   |       |   |      |
+| 8c:dc:02:c3:1c:d8 |      2452 |       -82 | [WPA2-PSK-CCMP][ESS]                         | Xiaohouzi                                            |       |   |       |   |      |
+| 00:1f:64:c8:b7:30 |      2412 |       -83 | [WPA2-PSK-CCMP][ESS]                         | 123456                                               |       |   |       |   |      |
+| e0:f4:42:77:79:88 |      2412 |       -67 | [WPA2-PSK-CCMP][ESS]                         | fu88888                                              |       |   |       |   |      |
+| 28:bf:89:cb:a7:b8 |      5180 |       -79 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | CMCC-9VCM-5G                                         |       |   |       |   |      |
+| 74:5e:68:d2:2a:01 |      2462 |       -72 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | CMCC-bYGD                                            |       |   |       |   |      |
+| 8c:5a:c1:a0:11:79 |      2437 |       -83 | [WPA2-PSK-CCMP][ESS]                         |                                                      |       |   |       |   |      |
+| cc:c2:e0:f1:e4:3c |      2412 |       -80 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | RC-UZ3U                                              |       |   |       |   |      |
+| 90:47:3c:c9:bd:2d |      2417 |       -80 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | CMCC-Hh9G                                            |       |   |       |   |      |
+| 88:d7:f6:62:cb:f0 |      2417 |       -83 | [WPA2-PSK-CCMP][ESS]                         | guoshan                                              |       |   |       |   |      |
+| 5c:3a:3d:48:ed:8d |      2427 |       -83 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | CU_uspy                                              |       |   |       |   |      |
+| 00:60:7e:5a:af:3a |      2432 |       -83 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | \xe5\xad\x94\xe5\xba\x9c\xe9\x85\x92\xe5\xba\x976666 |       |   |       |   |      |
+| 28:bf:89:cb:a7:b7 |      2472 |       -83 | [WPA-PSK-CCMP][WPA2-PSK-CCMP][ESS]           | CMCC-9VCM                                            |       |   |       |   |      |
+| e0:f4:42:f7:79:8d |      2412 |       -67 | [WPA2-PSK-CCMP][ESS]                         | fu88888_Wi-Fi5                                       |       |   |       |   |      |
+| 58:95:d8:13:6b:86 |      2437 |       -83 | [WPA-PSK-CCMP+TKIP][WPA2-PSK-CCMP+TKIP][ESS] | 6102                                                 |       |   |       |   |      |
+
+***** add network
+to add a new network
+#+begin_src bash
+wpa_cli add_network
+#+end_src
+
+
+:Result
+1
+
+set ssid (the name of the wifi)
+#+begin_src bash
+set_network 1 ssid "xxx"
+#+end_src
+
+set key
+#+begin_src bash
+set_network 1 psk "xxx"
+#+end_src
+
+save config, to allow automatic connect
+#+begin_src bash
+save_config
+#+end_src
+
 *** power management / lock
 **** TODO disable screensaver when playing videos
 **** TODO go to sleep when close the computer
@@ -302,9 +396,30 @@ fcitx-remote
 - 2
   chinese
 
-
 ** Dmenu
 ** st
+** Security
+*** use gpg + pass to generate and store password
+**** set up a gpg key
+#+begin_src bash
+gpg --full-generate-key
+#+end_src
+
+select 4096 as the length
+
+**** using pass to generate and mange passwords
+#+begin_src bash
+emerge -a app-admin/pass
+#+end_src
+** Apps
+*** yt-dlp
+youtube downloader
+
+- download only music
+ #+begin_src bash
+ yt-dlp -f bestaudio url
+ #+end_src
+
 * Emacs usage
 ** Eshell
 
@@ -317,3 +432,10 @@ fcitx-remote
 : this is a test another kind iii
 ** Other stuff
 - show rgb:enable rainbow mode #000000
+* knowledge System
+** reading wiki in terminal
+** organizing bib in terminal
+- crossref.org
+  a website to getbib for a certain doi number
+- sci-hub
+  get paper for free

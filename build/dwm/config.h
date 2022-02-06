@@ -169,8 +169,8 @@ static Key keys[] = {
 	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("xbacklight -dec 15") },
 	{ 0, XF86XK_AudioMute,		    spawn,		SHCMD("pulsemixer --toggle-mute") },
 	{ 0, XF86XK_AudioMicMute,       spawn,		SHCMD("pulsemixer --id source-1 --toggle-mute") },
-	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pulsemixer --change-volume +5") },
-	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("pulsemixer --change-volume -5") },
+	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pulsemixer --change-volume +10") },
+	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("pulsemixer --change-volume -10") },
 
 	// open apps
 
