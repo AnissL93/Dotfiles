@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 send_message() {
-    echo $@ | dzen2 -p 1 -h 30 -y 1060 -fg '#FFFFFF' -bg '#000000'
+    notify-send "Lock system" $@
 }
 
 main() {

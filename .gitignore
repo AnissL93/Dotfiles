@@ -6,10 +6,12 @@ build/st/*.o
 build/st/*.rej
 build/st/*.orig
 build/st/st
-build/dmwnu/dmenu
-build/dmwnu/*.o
-build/dmwnu/*.rej
-build/dmwnu/*.orig
+build/st/config.h
+build/dmenu/dmenu
+build/dmenu/*.o
+build/dmenu/*.rej
+build/dmenu/*.orig
+build/dmenu/config.h
 build/dwmblocks/*.o
 build/dwmblocks/*.rej
 build/dwmblocks/*.orig

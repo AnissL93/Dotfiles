@@ -32,5 +32,7 @@ set -e
 # wget https://st.suckless.org/patches/alpha/st-alpha-0.8.2.diff
 # patch -i st-alpha-0.8.2.diff
 
-wget https://st.suckless.org/patches/anysize/st-anysize-0.8.4.diff
-patch -i st-anysize-0.8.4.diff
+#wget https://st.suckless.org/patches/anysize/st-anysize-0.8.4.diff
+#patch -i st-anysize-0.8.4.diff
+
+make clean; sudo make install

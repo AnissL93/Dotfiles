@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+[ -z $BUTTON ] || notify-send "show resource" "$BUTTON"
+
+case $BUTTON in
+    1) setsid -f st -e htop;;
+	2) setsid -f st -e emacsclient -nc "/home/auii/.config/Scripts/show_resource" ;;
+esac
+
+echo $(free -h | awk '/^Mem/ { print $3"/"$2 }' | sed s/i//g)

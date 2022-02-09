@@ -198,12 +198,17 @@ https://patriot.ninja//index.php?m=wray&token=EXy4Ve3pTHUIFAKPgzvKDUFKhs%2B967Ge
 
 * Customized Desktop
 ** DWM
-download by
 *** add shortcut to config.def.h
 #+begin_src c
 { 0, XF86XK_MonBrightnessUp, spawn, SHCMD("xbacklight -inc 15") },
 { 0, XF86XK_MonBrightnessDown, spawn, SHCMD("xbacklight -dec 15") }
 #+end_src
+**** TODO sticky
+add key binding M-Sh-s to toggle this
+**** TODO centering
+**** TODO swallow
+auto swallow for mpv, qutebrowser
+
 *** lock
 **** DONE add shortcut to call slock
 *** monitor
@@ -216,15 +221,26 @@ xrandr --output HDMI2 --auto --same-as eDP1 --mode 2560x1440
 xrandr --output eDP1 --auto --right-of HDMI2 --mode 2560x1440
 #+end_src
 **** TODO script to change monitor mode
-*** status bar
+*** TODO status bar
 **** DONE date
 **** DONE memory
 **** TODO cpu usage
 **** TODO blutooth status
 **** TODO wifi status
-**** TODO click to show htop
-**** TODO click to show weather
-**** TODO click to show folder
+**** DONE click to show htop
+**** DONE click to show weather
+**** DONE click to show folder
+**** DONE emoji
+see this link https://forums.gentoo.org/viewtopic-p-8617575.html
+
+1. get this patch https://gitlab.freedesktop.org/xorg/lib/libxft/-/merge_requests/1.patch
+2. Put patch in /etc/portage/patches/x11-libs/libXft-2.3.4 (whatever version is used, if the folder not exists, create it) and rebuild libXft package
+3. install font noto-emoji, twemoji
+   twemoji has the flags, but there is some problem of show multiple-byte emoji while the prefix is also an valid emoji
+   https://github.com/eosrei/twemoji-color-font
+4. modify dwm, remove code around `iscol` in drw.c in both dmenu and dwm
+5. add emoji font to fonts in config.def.h
+
 *** bluetooth
 **** cmd
 #+begin_src bash
@@ -255,7 +271,7 @@ rfkill block bluetooth
 rfkill unblock bluetooth
 #+end_src
 
-bind shortcut to Bluetooth
+***** TODO bind shortcut to Bluetooth
 *** network
 **** wifi
 #+begin_src bash
@@ -352,7 +368,7 @@ save_config
 *** power management / lock
 **** TODO disable screensaver when playing videos
 **** TODO go to sleep when close the computer
-**** TODO lock when close lid
+**** DONE lock when close lid
 install laptop-mode-tools
 
 add script `lid_down.sh` to "/etc/acpi/actions/lid_down.sh"
@@ -380,7 +396,6 @@ sudo chmod +x /etc/acpi/actions/lid_down.sh
 *** notify sender
 **** DONE pop a notify window on the right-up corner, do not block later actions
 install package `dunst`, then use notify-send
-
 use this to replace `dzen2`
 *** fcitx
 to know current status
@@ -419,6 +434,19 @@ youtube downloader
  #+begin_src bash
  yt-dlp -f bestaudio url
  #+end_src
+*** app-p2p/transmission
+torrent downloader
+*** qutebrowser
+**** key bind
+***** TODO open video in mpv
+***** TODO add bookmark
+**** security
+***** TODO multiple profile
+**** TODO search choosed content
+**** TODO translate choosed content
+**** TODO choose text by key binding
+*** pass word
+**** deploy less pass
 
 * Emacs usage
 ** Eshell
@@ -427,9 +455,11 @@ youtube downloader
 (setq a "this is a test another kind iii")
 (message a)
 #+end_src
-
-#+RESULTS:
-: this is a test another kind iii
+** remote developing (Tramp mode)
+*** Tramp mode
+#+begin_src emacs-lisp
+(find-file "/ssh:ngzh@192.168.3.49")
+#+end_src
 ** Other stuff
 - show rgb:enable rainbow mode #000000
 * knowledge System

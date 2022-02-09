@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+a=$(cat ~/.local/share/emoji | dmenu)
+# cut descriptions
+echo $a | xclip -sel clip

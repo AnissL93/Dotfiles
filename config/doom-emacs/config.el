@@ -78,3 +78,4 @@
        :desc "goto word" "w" #'evil-avy-goto-word-0
        )
       )
+
