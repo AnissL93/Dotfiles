@@ -1,6 +1,7 @@
 build/dwm/*.o
 build/dwm/*.rej
 build/dwm/*.orig
+build/dwm/config.h
 build/dwm/dwm
 build/st/*.o
 build/st/*.rej
@@ -16,6 +17,7 @@ build/dwmblocks/*.o
 build/dwmblocks/*.rej
 build/dwmblocks/*.orig
 build/dwmblocks/dwmblocks
+build/dwmblocks/blocks.h
 build/slock/*.o
 build/slock/*.rej
 build/slock/*.orig

@@ -8,6 +8,7 @@ static const int swallowfloating =
     1;                        /* 1 means swallow floating windows by default */
 static const int showbar = 1; /* 0 means no bar */
 static const int topbar = 1;  /* 0 means bottom bar */
+//static double defaultopacity = 0.93;
 static const char *fonts[] = {"Liberation Mono:size=11",
                               "Twitter Color Emoji:pixelsize=11",
                               "Noto Color Emoji:pizelsize=11"};
@@ -121,28 +122,27 @@ static const char *dmenucmd[] = {"dmenu_run", "-m",  dmenumon,       "-fn",
                                  dmenufont,   "-nb", normbgcolor,    "-nf",
                                  normfgcolor, "-sb", selbordercolor, "-sf",
                                  selfgcolor,  NULL};
+
 static const char *termcmd[] = {"st", NULL};
 
 /*
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-    {"dmenufont", STRING, &dmenufont},
+    // {"dmenufont", STRING, &dmenufont},
 
-    {"color0", STRING, &normbordercolor},
-    {"color8", STRING, &selbordercolor},
-    {"color0", STRING, &normbgcolor},
-    {"color4", STRING, &normfgcolor},
-    {"color0", STRING, &selbgcolor},
-    {"color4", STRING, &selfgcolor},
+    {"color0", STRING, &normbordercolor}, {"color8", STRING, &selbordercolor},
+    {"color0", STRING, &normbgcolor},     {"color4", STRING, &normfgcolor},
+    {"color0", STRING, &selbgcolor},      {"color4", STRING, &selfgcolor},
+    //{"alpha", STRING, &defaultopacity},
 
     {"borderpx", INTEGER, &borderpx},
-    {"snap", INTEGER, &snap},
-    {"showbar", INTEGER, &showbar},
-    {"topbar", INTEGER, &topbar},
-    {"nmaster", INTEGER, &nmaster},
-    {"resizehints", INTEGER, &resizehints},
-    {"mfact", FLOAT, &mfact},
+    /* {"snap", INTEGER, &snap}, */
+    /* {"showbar", INTEGER, &showbar}, */
+    /* {"topbar", INTEGER, &topbar}, */
+    /* {"nmaster", INTEGER, &nmaster}, */
+    /* {"resizehints", INTEGER, &resizehints}, */
+    /* {"mfact", FLOAT, &mfact}, */
 };
 
 #include <X11/XF86keysym.h>

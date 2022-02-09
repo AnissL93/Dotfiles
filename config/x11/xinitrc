@@ -10,16 +10,18 @@ redshift &
 
 xmodmap ~/.config/x11/xmodmap
 
-emacs --daemon
-
 ~/.config/x2ray/bin/xray run --config ~/.config/x2ray/v2ray_cli/config.json &
 
 xbacklight -set $(cat ~/.config/X11/xbacklight)
 
 ~/.config/Scripts/selmon init
 
+xcompmgr &
+
 xwallpaper --zoom "$HOME/.local/share/bg"
+wal -i $(realpath "$HOME/.local/share/bg") --backend colorz
+xrdb -merge ~/.Xresources
 
-
+emacs --daemon
 dwmblocks &
 exec dwm

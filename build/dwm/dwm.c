@@ -114,6 +114,7 @@ enum {
   NetWMWindowType,
   NetWMWindowTypeDialog,
   NetClientList,
+  //NetWMWindowsOpacity,
   NetLast
 }; /* EWMH atoms */
 enum {
@@ -1013,6 +1014,17 @@ void expose(XEvent *e) {
     drawbar(m);
 }
 
+/*
+void opacity(Client *c, double opacity) {
+  if (opacity >= 0 && opacity <= 1) {
+    unsigned long real_opacity[] = {opacity * 0xffffffff};
+    XChangeProperty(dpy, c->win, netatom[NetWMWindowsOpacity], XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)real_opacity, 1);
+  } else
+    XDeleteProperty(dpy, c->win, netatom[NetWMWindowsOpacity]);
+}
+*/
+
 void focus(Client *c) {
   if (!c || !ISVISIBLE(c, selmon))
     for (c = selmon->cl->stack; c && !ISVISIBLE(c, selmon); c = c->snext)
@@ -1285,6 +1297,7 @@ void manage(Window w, XWindowAttributes *wa) {
   c->oldbw = wa->border_width;
 
   updatetitle(c);
+  // opacity(c, defaultopacity);
   if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
     c->mon = t->mon;
     c->tags = t->tags;
@@ -1817,6 +1830,8 @@ void setup(void) {
   netatom[NetWMWindowTypeDialog] =
       XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
   netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
+  //netatom[NetWMWindowsOpacity] =
+  //    XInternAtom(dpy, "_NET_WM_WINDOW_OPACITY", False);
   /* init cursors */
   cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
   cursor[CurResize] = drw_cur_create(drw, XC_sizing);
@@ -2668,9 +2683,9 @@ void load_xresources(void) {
     return;
 
   db = XrmGetStringDatabase(resm);
-  for (p = resources; p < resources + LENGTH(resources); p++)
-    printf("load a resource\n");
-  resource_load(db, p->name, p->type, p->dst);
+  for (p = resources; p < resources + LENGTH(resources); p++) {
+    resource_load(db, p->name, p->type, p->dst);
+  }
   XCloseDisplay(display);
 }
 
