@@ -203,11 +203,18 @@ https://patriot.ninja//index.php?m=wray&token=EXy4Ve3pTHUIFAKPgzvKDUFKhs%2B967Ge
 { 0, XF86XK_MonBrightnessUp, spawn, SHCMD("xbacklight -inc 15") },
 { 0, XF86XK_MonBrightnessDown, spawn, SHCMD("xbacklight -dec 15") }
 #+end_src
-**** TODO sticky
+**** DONE sticky
 add key binding M-Sh-s to toggle this
-**** TODO centering
-**** TODO swallow
+**** DONE centering
+use centered master layouts to achieve this
+**** DONE swallow
 auto swallow for mpv, qutebrowser
+*careful for the WM_CLASS in rule*
+#+begin_src c
+// set terminal is_terminal to 1
+{"st-256color", NULL, NULL, 0, 0, 0, 1, 0, -1},
+#+end_src
+
 
 *** lock
 **** DONE add shortcut to call slock
@@ -221,6 +228,12 @@ xrandr --output HDMI2 --auto --same-as eDP1 --mode 2560x1440
 xrandr --output eDP1 --auto --right-of HDMI2 --mode 2560x1440
 #+end_src
 **** TODO script to change monitor mode
+**** NOTE careful when patching
+#+begin_src c
+mon->clients;
+// shold be changeed to
+mon->cl->clients;
+#+end_src
 *** TODO status bar
 **** DONE date
 **** DONE memory
@@ -460,6 +473,17 @@ torrent downloader
 #+begin_src emacs-lisp
 (find-file "/ssh:ngzh@192.168.3.49")
 #+end_src
+** everywhere
+to open emacs everywhere with command(key binding)
+#+begin_src bash
+emacsclient --eval "(emacs-everywhere)"
+#+end_src
+*** Depencency
+- xdotool
+- xwininfo
+- xprop
+*** TODO Issue
+C-c C-c not close the window and paste automatically
 ** Other stuff
 - show rgb:enable rainbow mode #000000
 * knowledge System
