@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
+#include <X11/X.h>
 static unsigned int borderpx = 1;    /* border pixel of windows */
 static const unsigned int snap = 32; /* snap pixel */
 static const int swallowfloating =
@@ -70,11 +71,22 @@ static int resizehints = 1; /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen =
     1; /* 1 will force focus on the fullscreen window */
 
+#include "fibonacci.c"
 static const Layout layouts[] = {
     /* symbol     arrange function */
-    {"[]=", tile}, /* first entry is default */
-    {"><>", NULL}, /* no layout function means floating behavior */
-    {"[M]", monocle},
+    {"[]=", tile},   /* first entry is default */
+    {"TTT", bstack}, /*backstack*/
+    //{"===", bstackhoriz}, /*back horizon*/
+
+    {"[@]", spiral},   /* fib  */
+    {"[\\]", dwindle}, /* fib */
+
+    {"|M|", centeredmaster},         /*center master*/
+    {"~M~", centeredfloatingmaster}, /*center float*/
+
+    {"[M]", monocle}, /* full screen */
+    {"><>", NULL},    /* no layout function means floating behavior */
+    {NULL, NULL},
 };
 
 /* key definitions */
@@ -84,6 +96,17 @@ static const Layout layouts[] = {
       {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},               \
       {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
       {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
+
+#define STACKKEYS(MOD, ACTION)                                                 \
+  {MOD, XK_j, ACTION##stack, {.i = INC(+1)}},                                  \
+      {MOD, XK_k, ACTION##stack, {.i = INC(-1)}},                              \
+      {MOD,                                                                    \
+       XK_v,                                                                   \
+       ACTION##stack,                                                          \
+       {.i = 0}}, /* {MOD, XK_grave, ACTION##stack, {.i = PREVSEL}}, \ */
+/* {MOD, XK_a, ACTION##stack, {.i = 1}},                                    \ */
+/* {MOD, XK_z, ACTION##stack, {.i = 2}},                                    \ */
+/* {MOD, XK_x, ACTION##stack, {.i = -1}}, */
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd)                                                             \
@@ -133,10 +156,10 @@ static Key keys[] = {
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
     {MODKEY, XK_e, spawn, SHCMD("emacsclient -c -a \"''\"")},
 
-    {MODKEY | ShiftMask, XK_b, togglebar, {0}},
+    STACKKEYS(MODKEY, focus)            /* focus */
+    STACKKEYS(MODKEY | ShiftMask, push) /* push  */
 
-    {MODKEY, XK_j, focusstack, {.i = +1}},
-    {MODKEY, XK_k, focusstack, {.i = -1}},
+    {MODKEY | ShiftMask, XK_b, togglebar, {0}},
 
     // adjust layout, horizon or vertical
     {MODKEY, XK_o, incnmaster, {.i = +1}},
@@ -152,12 +175,25 @@ static Key keys[] = {
     // quit window
     {MODKEY, XK_q, killclient, {0}},
 
-    // layouts
-    {MODKEY | ShiftMask, XK_t, setlayout, {.v = &layouts[0]}},
-    {MODKEY | ShiftMask, XK_y, setlayout, {.v = &layouts[1]}},
-    {MODKEY | ShiftMask, XK_u, setlayout, {.v = &layouts[2]}},
+    ////////////////////// layouts
+    {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},             /*tile */
+    {MODKEY | ShiftMask, XK_t, setlayout, {.v = &layouts[1]}}, /*bstack */
 
-    {MODKEY, XK_space, setlayout, {0}},
+    {MODKEY, XK_y, setlayout, {.v = &layouts[2]}},             /*spiral*/
+    {MODKEY | ShiftMask, XK_y, setlayout, {.v = &layouts[3]}}, /*dwindle*/
+
+    {MODKEY, XK_u, setlayout, {.v = &layouts[4]}}, /*center master*/
+    {MODKEY | ShiftMask,
+     XK_u,
+     setlayout,
+     {.v = &layouts[5]}}, /*center master float*/
+
+    {MODKEY, XK_i, setlayout, {.v = &layouts[6]}},             /*monocal*/
+    {MODKEY | ShiftMask, XK_i, setlayout, {.v = &layouts[7]}}, /*float*/
+
+    // cycle layouts
+    {MODKEY, XK_space, cyclelayout, {.i = -1}},
+    {MODKEY | ShiftMask, XK_space, cyclelayout, {.i = +1}},
 
     {MODKEY | ShiftMask, XK_F5, xrdb, {.v = NULL}},
 
