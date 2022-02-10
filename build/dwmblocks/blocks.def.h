@@ -7,7 +7,7 @@ static const Block blocks[] = {
     {"", "show_weather", 2 * 60 * 60 * 8, 1},
 
     // network
-    {"", "show_network", 2, 0},
+    {"", "show_network", 2, 20},
 
     {"", "input_method", 1, 2},
 

@@ -16,4 +16,4 @@ set_wallpaper() {
     esac
 }
 
-set_wallpaper ~/Pictures/wallpapers
+set_wallpaper /data/backgrounds/wallpapers

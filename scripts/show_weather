@@ -23,8 +23,8 @@ showweather() {
 }
 
 case $BUTTON in
-	1) setsid -f st -e less -Srf "$weatherreport" ;;
-	2) setsid -f st -e emacsclient -nc "/home/auii/.config/Scripts/show_weather" ;;
+	1) setsid st -e less -Srf "$weatherreport" ;;
+	2) setsid st -e emacsclient -nc "~/.config/Scripts/show_weather" ;;
 	3) getforecast && showweather ;;
 esac
 

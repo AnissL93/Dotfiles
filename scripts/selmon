@@ -62,7 +62,7 @@ sel_from_dmenu() {
     else
         notify-send "Monitor" "Single monitor does not need setting" -t 3000
     fi
-}
+
 
 
 main() {
@@ -78,6 +78,5 @@ main() {
         fi
     fi
 }
-
 
 main $@

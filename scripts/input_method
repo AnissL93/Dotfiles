@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-[ -z $BUTTON ] || notify-send "button" "not zero $BUTTON"
-
 case $BUTTON in
-    1) setsid -f fcitx-configtool ;;
-	2) setsid -f st -e emacsclient -nc "/home/auii/.config/Scripts/input_method" ;;
+    1) setsid  fcitx-configtool ;;
+	2) setsid st -e emacsclient -nc "~/.config/Scripts/input_method" ;;
 esac
 
 

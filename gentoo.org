@@ -516,6 +516,17 @@ currently used oh-my-bash, should change to customized and necessary configs
 ** Tools
 *** TODO o or open to automatically auto file according to the extension
 *** TODO build
+** Other
+*** Install libxft in ubuntu 18
+#+begin_src bash
+git clone https://github.com/Plommonsorbet/libxft-emoji-patch.git
+
+# this is required for missing xorg-macros
+sudo apt install  xutils-dev
+
+# libdir is the dir of libXft, default is $PREFIX/lib
+sh autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man --libdir=/usr/lib/x86_64-linux-gnu/
+#+end_src
 
 * Emacs usage
 ** Eshell

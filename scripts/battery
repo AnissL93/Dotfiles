@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 main() {
-    source ~/Projects/Dotfiles/scripts/color.sh
-    [[ $BUTTON = 2 ]] && setsid -t st -e e ~/Projects/Dotfiles/scripts/battery
+    source ~/.config/Scripts/color.sh
+    [[ $BUTTON = 2 ]] && setsid st -e e ~/.config/Scripts/battery
 
     local full_charged="fully-charged"
     local charging="charging"
@@ -11,7 +11,7 @@ main() {
     local full_power_status=$(upower -i $(upower -e | grep BAT) | grep --color=never state)
     local power_status=${full_power_status/state: /}
 
-    percentage=$(cat /sys/class/power_supply/BAT0/capacity)
+    [ -f "/sys/class/power_supply/BAT0/capacity" ] && percentage=$(cat /sys/class/power_supply/BAT0/capacity) || exit
 
     [ $power_status = $full_charged ] && printf "🔌 ${percentage}%s" %
     [ $power_status = $charging ] && echo "⚡ $percentage%"
