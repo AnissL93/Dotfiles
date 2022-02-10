@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
-a=$(cat ~/.local/share/emoji | dmenu)
+a=$(cut -d ';' -f1 ~/.local/share/emoji | dmenu -i -l 30 | sed "s/ .*//")
 # cut descriptions
-echo $a | xclip -sel clip
+
+[ -z "$a" ] && exit
+
+printf "$a" | xclip -sel clip
+notify-send "Emoji" "'$a' copied to clipboard" &

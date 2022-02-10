@@ -185,6 +185,7 @@ ResourcePref resources[] = {
 static Key keys[] = {
     /* modifier                     key        function        argument */
     {MODKEY, XK_d, spawn, {.v = dmenucmd}},
+    {MODKEY | ShiftMask, XK_d, spawn, SHCMD("show_emoji")},
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
     {MODKEY, XK_e, spawn, SHCMD("emacsclient -c -a \"''\"")},
 
