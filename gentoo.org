@@ -425,6 +425,7 @@ fcitx-remote
   chinese
 
 ** Dmenu
+*** fix color of the chozen item
 ** st
 ** Security
 *** use gpg + pass to generate and store password
@@ -460,6 +461,13 @@ torrent downloader
 **** TODO choose text by key binding
 *** pass word
 **** deploy less pass
+** Bash rc
+currently used oh-my-bash, should change to customized and necessary configs
+*** history
+*** fcd
+*** prompt
+*** show git branch
+*** show return code
 ** Tools
 *** TODO o or open to automatically auto file according to the extension
 *** TODO build

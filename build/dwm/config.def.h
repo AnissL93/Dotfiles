@@ -2,14 +2,14 @@
 
 /* appearance */
 #include <X11/X.h>
-static unsigned int borderpx = 1;      /* border pixel of windows */
-static const unsigned int snap = 32;   /* snap pixel */
-static const unsigned int gappih = 10; /* horiz inner gap between windows */
-static const unsigned int gappiv = 10; /* vert inner gap between windows */
+static unsigned int borderpx = 1;     /* border pixel of windows */
+static const unsigned int snap = 32;  /* snap pixel */
+static const unsigned int gappih = 5; /* horiz inner gap between windows */
+static const unsigned int gappiv = 5; /* vert inner gap between windows */
 static const unsigned int gappoh =
-    10; /* horiz outer gap between windows and screen edge */
+    5; /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov =
-    10; /* vert outer gap between windows and screen edge */
+    5; /* vert outer gap between windows and screen edge */
 static const int smartgaps =
     0; /* 1 means no outer gap when there is only one window */
 static const int swallowfloating =
@@ -78,21 +78,39 @@ static int resizehints = 1; /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen =
     1; /* 1 will force focus on the fullscreen window */
 
-#include "fibonacci.c"
+#define FORCE_VSPLIT                                                           \
+  1 /* nrowgrid layout: force two clients to always split vertically */
+
+#include "vanitygaps.c"
+
 static const Layout layouts[] = {
     /* symbol     arrange function */
+    // t
     {"[]=", tile},   /* first entry is default */
     {"TTT", bstack}, /*backstack*/
     //{"===", bstackhoriz}, /*back horizon*/
 
+    // y
     {"[@]", spiral},   /* fib  */
     {"[\\]", dwindle}, /* fib */
 
+    // u
     {"|M|", centeredmaster},         /*center master*/
     {"~M~", centeredfloatingmaster}, /*center float*/
 
+    // i
     {"[M]", monocle}, /* full screen */
-    {"><>", NULL},    /* no layout function means floating behavior */
+    {"H[]", deck},    /*dech*/
+
+    // [
+    {"HHH", grid},     /**/
+    {"###", nrowgrid}, /**/
+
+    // ]
+    {"---", horizgrid},   /**/
+    {":::", gaplessgrid}, /**/
+
+    {"><>", NULL}, /* no layout function means floating behavior */
     {NULL, NULL},
 };
 
@@ -158,6 +176,11 @@ ResourcePref resources[] = {
 
 #include <X11/XF86keysym.h>
 
+#define BIND_SET_LAYOUT(I, K)                                                  \
+  {MODKEY, XK_##K, setlayout, {.v = &layouts[I]}}, {                           \
+    MODKEY | ShiftMask, XK_##K, setlayout, { .v = &layouts[I + 1] }            \
+  }
+
 #include "keepfloatingposition.c"
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -185,20 +208,12 @@ static Key keys[] = {
     {MODKEY, XK_q, killclient, {0}},
 
     ////////////////////// layouts
-    {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},             /*tile */
-    {MODKEY | ShiftMask, XK_t, setlayout, {.v = &layouts[1]}}, /*bstack */
-
-    {MODKEY, XK_y, setlayout, {.v = &layouts[2]}},             /*spiral*/
-    {MODKEY | ShiftMask, XK_y, setlayout, {.v = &layouts[3]}}, /*dwindle*/
-
-    {MODKEY, XK_u, setlayout, {.v = &layouts[4]}}, /*center master*/
-    {MODKEY | ShiftMask,
-     XK_u,
-     setlayout,
-     {.v = &layouts[5]}}, /*center master float*/
-
-    {MODKEY, XK_i, setlayout, {.v = &layouts[6]}},             /*monocal*/
-    {MODKEY | ShiftMask, XK_i, setlayout, {.v = &layouts[7]}}, /*float*/
+    BIND_SET_LAYOUT(0, t),
+    BIND_SET_LAYOUT(2, y),
+    BIND_SET_LAYOUT(4, u),
+    BIND_SET_LAYOUT(6, i),
+    BIND_SET_LAYOUT(8, bracketleft),
+    BIND_SET_LAYOUT(10, bracketright),
 
     // cycle layouts
     {MODKEY, XK_space, cyclelayout, {.i = +1}},
