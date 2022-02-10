@@ -458,6 +458,20 @@ fcitx-remote
 ** Dmenu
 *** fix color of the chozen item
 ** st
+*** use luke's build
+*** install xcompmgr for transparency
+#+begin_src bash :results output
+eix xcompmgr
+#+end_src
+
+#+RESULTS:
+: [I] x11-misc/xcompmgr
+:      Available versions:  1.1.8
+:      Installed versions:  1.1.8(03:39:50 AM 02/10/2022)
+:      Homepage:            https://www.x.org/wiki/ https://gitlab.freedesktop.org/xorg/app/xcompmgr
+:      Description:         X Compositing manager
+:
+
 ** Security
 *** use gpg + pass to generate and store password
 **** set up a gpg key
