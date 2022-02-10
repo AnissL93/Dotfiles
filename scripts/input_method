@@ -9,6 +9,6 @@ esac
 
 
 case $(fcitx-remote) in
-    2) echo "🈴";;
+    2) echo "🀄";;
     *) echo "🇪"
 esac

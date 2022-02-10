@@ -24,13 +24,13 @@
 ;; JetBrains Mono
 ;; Liberation Mono
 ;; Hack NF
-(setq doom-font (font-spec :family "Hack NF" :size 16 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "Hack NF" :size 15))
+(setq doom-font (font-spec :family "RobotoMono NF" :size 16 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "RobotoMono NF" :size 15))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-horizon)
+(setq doom-theme 'wombat)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!

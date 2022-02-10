@@ -460,6 +460,9 @@ torrent downloader
 **** TODO choose text by key binding
 *** pass word
 **** deploy less pass
+** Tools
+*** TODO o or open to automatically auto file according to the extension
+*** TODO build
 
 * Emacs usage
 ** Eshell

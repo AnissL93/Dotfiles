@@ -2,7 +2,7 @@
 
 main() {
     source ~/Projects/Dotfiles/scripts/color.sh
-    [ $BUTTON = 2 ] && setsid -t st -e e ~/Projects/Dotfiles/scripts/battery
+    [[ $BUTTON = 2 ]] && setsid -t st -e e ~/Projects/Dotfiles/scripts/battery
 
     local full_charged="fully-charged"
     local charging="charging"
@@ -13,8 +13,8 @@ main() {
 
     percentage=$(cat /sys/class/power_supply/BAT0/capacity)
 
-    [ $power_status = $full_charged ] && printf "🔌 ${percentage}%s" %
-    [ $power_status = $charging ] && echo "🔌 $percentage%"
+    [ $power_status = $full_charged ] && printf "⚡ ${percentage}%s" %
+    [ $power_status = $charging ] && echo "⚡ $percentage%"
 
     if [ $power_status = $discharge ]; then
         [  $percentage -lt 10 ] && echo "🪫 $percentage%" && return
