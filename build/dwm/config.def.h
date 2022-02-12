@@ -45,7 +45,7 @@ static const unsigned int alphas[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "🌐"};
+static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "📹", "🌐"};
 
 /**
   const char *class;
@@ -68,6 +68,7 @@ static const Rule rules[] = {
     //{ "Gimp",     NULL,       NULL,       0,            0,           1, -1 },
     {"qutebrowser", NULL, NULL, 1 << 8, 0, 0, 0, 0, -1},
     {"st-256color", NULL, NULL, 0, 0, 0, 1, 0, -1},
+    {"St", "st", NULL, 0, 0, 0, 1, 0, -1},
     {NULL, NULL, "Event Tester", 0, 0, 0, 0, 1, -1}, /* xev */
 };
 

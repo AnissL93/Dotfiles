@@ -24,13 +24,15 @@
 ;; JetBrains Mono
 ;; Liberation Mono
 ;; Hack NF
-(setq doom-font (font-spec :family "RobotoMono NF" :size 16 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "RobotoMono NF" :size 15))
+;; FantasqueSansMono NF
+;; SauceCodePro  NF
+(setq doom-font (font-spec :family "Liberation Mono" :size 15 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "Hack NF" :size 15))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-badger)
+(setq doom-theme 'moe-dark)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -79,3 +81,24 @@
        )
       )
 
+;;;;;;;;;; shell ;;;;;;;;;;;;;;
+(defun sudo-shell-command (command)
+  (interactive "xShell command (root): ")
+  (shell-command (concat "echo " (shell-quote-argument (read-passwd "Password? "))
+                         (format " | sudo -S %s" command))))
+
+
+(use-package! org-roam
+  :ensure t
+  :custom
+  (setq org-roam-directory "~/Documents/RoamNotes")
+  :config
+  (org-roam-setup)
+  (map! :leader
+        (:prefix ("l" .  "Roam")
+         :desc "find node" "f" #'org-roam-node-find
+         :desc "insert node" "i" #'org-roam-node-insert
+         :desc "open node" "o" #'org-roam-node-open
+         )
+       )
+  )
