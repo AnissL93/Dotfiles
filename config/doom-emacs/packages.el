@@ -49,8 +49,18 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+;; themes
 (package! moe-theme)
-(package! org-roam)
+
+;; tools
 (package! rime
   :recipe
   (:host github :repo "DogLooksGood/emacs-rime" :files ("*.el" "Makefile" "lib.c")))
+
+;; org
+(package! deft)
+(package! org-roam)
+(package! org-roam-bibtex)
+(package! org-ref)
+(package! org-noter)
+(package! ivy-bibtex)

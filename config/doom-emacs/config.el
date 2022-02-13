@@ -26,8 +26,8 @@
 ;; Hack NF
 ;; FantasqueSansMono NF
 ;; SauceCodePro  NF
-(setq doom-font (font-spec :family "Hack NF" :size 15 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "Hack NF" :size 15))
+(setq doom-font (font-spec :family "Sarasa Mono CL" :size 16 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "Sarasa Mono CL" :size 15))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -98,12 +98,17 @@
          :desc "find node" "f" #'org-roam-node-find
          :desc "insert node" "i" #'org-roam-node-insert
          :desc "open node" "o" #'org-roam-open-node
+         :desc "open capture" "c" #'org-roam-capture
          )
         ))
 
+;; (use-package! rime
+;;   :init
+;;   (setq default-input-method "rime")
+;;   (rime-deploy)
+;;   :custom
+;;   (default-input-method "rime"))
+
 (use-package! rime
-  :init
-  (setq rime-user-data-dir "~/.config/fcitx/rime")
-  (rime-deploy)
-  :config
-  (set-input-method "rime"))
+  :custom
+  (default-input-method "rime"))
