@@ -541,7 +541,7 @@ emacsclient --eval "(emacs-everywhere)"
 *** TODO Issue
 C-c C-c not close the window and paste automatically
 ** Other stuff
-- show rgb:enable rainbow mode #000000
+- show rgb:enable rainbow mode #000a01
 * knowledge System
 ** reading wiki in terminal
 ** organizing bib in terminal

@@ -26,7 +26,7 @@
 ;; Hack NF
 ;; FantasqueSansMono NF
 ;; SauceCodePro  NF
-(setq doom-font (font-spec :family "Liberation Mono" :size 15 :weight 'semi-light)
+(setq doom-font (font-spec :family "Hack NF" :size 15 :weight 'semi-light)
        doom-variable-pitch-font (font-spec :family "Hack NF" :size 15))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -89,8 +89,7 @@
 
 
 (use-package! org-roam
-  :ensure t
-  :custom
+  :init
   (setq org-roam-directory "~/Documents/RoamNotes")
   :config
   (org-roam-setup)
@@ -98,7 +97,13 @@
         (:prefix ("l" .  "Roam")
          :desc "find node" "f" #'org-roam-node-find
          :desc "insert node" "i" #'org-roam-node-insert
-         :desc "open node" "o" #'org-roam-node-open
+         :desc "open node" "o" #'org-roam-open-node
          )
-       )
-  )
+        ))
+
+(use-package! rime
+  :init
+  (setq rime-user-data-dir "~/.config/fcitx/rime")
+  (rime-deploy)
+  :config
+  (set-input-method "rime"))

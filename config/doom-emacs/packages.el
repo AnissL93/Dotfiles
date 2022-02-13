@@ -51,3 +51,6 @@
 
 (package! moe-theme)
 (package! org-roam)
+(package! rime
+  :recipe
+  (:host github :repo "DogLooksGood/emacs-rime" :files ("*.el" "Makefile" "lib.c")))
