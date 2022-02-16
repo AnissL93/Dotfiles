@@ -66,7 +66,8 @@ static const Rule rules[] = {
     /* class      instance    title       tags mask     iscentered   isfloating
        isterminal  noswallow  monitor */
     //{ "Gimp",     NULL,       NULL,       0,            0,           1, -1 },
-    {"qutebrowser", NULL, NULL, 1 << 8, 0, 0, 0, 0, -1},
+    {"brave-browser", NULL, NULL, 1 << 8, 0, 0, 0, 0, -1},
+    {"youdu", NULL, NULL, 1 << 7, 0, 0, 0, 0, -1},
     {"st-256color", NULL, NULL, 0, 0, 0, 1, 0, -1},
     {"St", "st", NULL, 0, 0, 0, 1, 0, -1},
     {NULL, NULL, "Event Tester", 0, 0, 0, 0, 1, -1}, /* xev */
@@ -247,7 +248,7 @@ static Key keys[] = {
     {0, XF86XK_AudioLowerVolume, spawn, SHCMD("pulsemixer --change-volume -5")},
 
     // open apps
-    {MODKEY | ShiftMask, XK_w, spawn, SHCMD("qutebrowser")},
+    {MODKEY | ShiftMask, XK_w, spawn, SHCMD("brave-browser")},
     {Mod1Mask | ControlMask, XK_q, spawn, SHCMD("lock")},
     {MODKEY | ShiftMask, XK_e, spawn, SHCMD("everywhere")},
     // toggle client status

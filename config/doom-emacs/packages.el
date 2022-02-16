@@ -49,6 +49,14 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+
+(package! gitconfig-mode
+  :recipe (:host github :repo "magit/git-modes" :files ("gitconfig-mode.el")))
+(package! gitignore-mode
+  :recipe (:host github :repo "magit/git-modes" :files ("gitignore-mode.el")))
+
+(package! mu4e)
+
 ;; themes
 (package! moe-theme)
 (package! jazz-theme)
@@ -79,3 +87,4 @@
 
 (package! ledger-moe
   :recipe (:host github :repo "ledger/ledger-mode"))
+(package! ox-pandoc)

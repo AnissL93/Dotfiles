@@ -26,13 +26,13 @@
 ;; Hack NF
 ;; FantasqueSansMono NF
 ;; SauceCodePro  NF
-(setq doom-font (font-spec :family "Liberation Mono" :size 16 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 15))
+(setq doom-font (font-spec :family "Liberation Mono" :size 18 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'moe-dark)
+(setq doom-theme 'doom-snazzy)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -43,6 +43,8 @@
  deft-directory org_notes
  org-roam-directory org-directory
  org-agenda-files (list org_notes))
+
+;;(add-to-list org-agenda-files "~/Projects/RoamNotes/*.org")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -66,6 +68,7 @@
 
 (map! "C-/" #'comment-line)
 (map! "C-," #'toggle-input-method)
+
 
 (map! :leader
       (:prefix-map ("e" . "S-expression operations")
@@ -110,7 +113,7 @@
         org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
         org-roam-completion-system 'default)
   (map! :leader
-        (:prefix ("l" .  "Roam")
+        (:prefix-map ("l" .  "roam")
          :desc "find node" "f" #'org-roam-node-find
          :desc "insert node" "i" #'org-roam-node-insert
          :desc "open node" "o" #'org-roam-open-node
@@ -345,3 +348,40 @@
      :init
      (setq ledger-clear-whole-transactions 1)
      :mode "\\.dat\\'")
+;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(after! mu4e
+  (setq mu4e-maildir (expand-file-name "/data/mail/"))
+  (setq mu4e-get-mail-command "true")
+  ;; sync
+  (setq mu4e-get-mail-command "mbsync cambricon")
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-view-prefer-html t)
+  (setq mu4e-html2text-command "html2text -utf8 -width 150")
+  (setq
+   +mu4e-backend 'mbsync
+   sendmail-program (executable-find "msmtp")
+   send-mail-function #'smtpmail-send-it
+   message-sendmail-f-is-evil t
+   message-sendmail-extra-arguments '("--read-envelope-from")
+   message-send-mail-function #'message-send-mail-with-sendmail)
+  (set-email-account!
+   "cambricon"
+   '((mu4e-trash-folder      . "cambricon/Trash/")
+     (mu4e-refile-folder     . "cambricon/Inbox/")
+     (mu4e-sent-folder       . "cambricon/sent/")
+     (mu4e-drafts-folder     . "cambricon/drafts/")
+     (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
+     (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
+     )
+   t))
+
+(map! "C-/" #'comment-line)
+
+(defun insert-date-string ()
+  (interactive)
+  (insert
+   (current-time-string)))
+
+(map! "C-." #'insert-date-string)
