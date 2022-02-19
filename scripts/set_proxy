@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+main () {
+    action=$(echo -e "start\nstop\n" | dmenu)
+
+    if [[ $action = "start" ]]; then
+        killall xray
+        local config_path=$(realpath ~/.config/x2ray/v2ray_cli/config.json)
+        local addr=$(cat $config_path | grep address)
+        xray run -config=$config_path &
+        notify-send "Proxy" "✅ Start xray ✅ $addr"
+    elif [[ $action = "stop" ]]; then
+        killall xray
+        [ -z $(pstree | grep xray) ] && notify-send "Proxy" "❌ Stop xray ❌"
+    fi
+}
+
+main
