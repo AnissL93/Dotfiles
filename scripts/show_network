@@ -19,6 +19,10 @@ get_traffic() {
     fi
 }
 
+get_proxy() {
+    [ -z $(pstree | grep xray) ] && echo "⛓" || echo "🌍"
+}
+
 main () {
     local net_state="🚫"
     local uploading=0
@@ -45,7 +49,7 @@ main () {
 
     echo "$upload_byte $download_byte" > "$logfile"
 
-    printf "%s %s ${net_state}" "$(get_traffic $uploading ⬆)" "$(get_traffic $downloading ⬇)"
+    printf "%s %s ${net_state} $(get_proxy)" "$(get_traffic $uploading ⬆)" "$(get_traffic $downloading ⬇)"
 }
 
 main

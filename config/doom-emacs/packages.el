@@ -58,10 +58,20 @@
   (:host github :repo "DogLooksGood/emacs-rime" :files ("*.el" "Makefile" "lib.c")))
 
 ;; org
-(package! deft)
-(package! org-roam)
-(package! org-roam-bibtex)
+;; (package! deft)
+
 (package! org-ref)
 (package! org-noter)
 (package! ivy-bibtex)
 (package! org-board)
+(package! nov)
+(package! justify-kp
+  :recipe
+  (:host github :repo "Fuco1/justify-kp"))
+
+
+(package! org-roam-bibtex
+  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+
+;; When using org-roam via the `+roam` flag
+(unpin! org-roam)
