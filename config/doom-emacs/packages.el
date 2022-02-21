@@ -88,3 +88,7 @@
 (package! ledger-moe
   :recipe (:host github :repo "ledger/ledger-mode"))
 (package! ox-pandoc)
+(package! org-board)
+(package! ejira
+  :recipe
+  (:host github :repo "nyyManni/ejira"))

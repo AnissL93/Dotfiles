@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-snazzy)
+(setq doom-theme 'doom-Iosvkem)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -352,7 +352,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (after! mu4e
-  (setq mu4e-maildir (expand-file-name "/data/mail/"))
+  (setq mu4e-maildir (expand-file-name "/data/mail"))
   (setq mu4e-get-mail-command "true")
   ;; sync
   (setq mu4e-get-mail-command "mbsync cambricon")
@@ -368,10 +368,10 @@
    message-send-mail-function #'message-send-mail-with-sendmail)
   (set-email-account!
    "cambricon"
-   '((mu4e-trash-folder      . "cambricon/Trash/")
-     (mu4e-refile-folder     . "cambricon/Inbox/")
-     (mu4e-sent-folder       . "cambricon/sent/")
-     (mu4e-drafts-folder     . "cambricon/drafts/")
+   '((mu4e-trash-folder      . "/cambricon/Trash/")
+     (mu4e-refile-folder     . "/cambricon/Inbox/")
+     (mu4e-sent-folder       . "/cambricon/sent/")
+     (mu4e-drafts-folder     . "/cambricon/drafts/")
      (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
      (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
      )
@@ -385,3 +385,69 @@
    (current-time-string)))
 
 (map! "C-." #'insert-date-string)
+
+
+;;;;;;;;;;;;; org ;;;;;;;;;;;;;;;
+
+
+
+(defvar task-type-list (list "Review" "Meeting" "Bug"))
+
+(defun add-review-task ()
+  "Read text from clipboard, and add this as a todo"
+  (interactive)
+  ;; get clipboard content
+  (let* ((text (x-get-clipboard))
+         (org-f "/data/Projects/RoamNotes/20220217164749-review.org"))
+
+    ;; get mr id from text
+    ;; insert node to review file
+    ;; insert link to today
+    )
+  )
+
+(use-package ejira
+  :init
+  (setq jiralib2-url              "http://jira.cambricon.com"
+        jiralib2-auth             'basic
+        jiralib2-user-login-name  "lanhuiying"
+        jiralib2-token            nil
+
+        ejira-org-directory       "/data/Projects/Jira"
+        ejira-projects            '("MAG")
+
+        ejira-priorities-alist    '(("Highest" . ?A)
+                                    ("High"    . ?B)
+                                    ("Medium"  . ?C)
+                                    ("Low"     . ?D)
+                                    ("Lowest"  . ?E))
+        ejira-todo-states-alist   '(("To Do"       . 1)
+                                    ("In Progress" . 2)
+                                    ("Done"        . 3)))
+  :config
+  ;; Tries to auto-set custom fields by looking into /editmeta
+  ;; of an issue and an epic.
+  (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields)
+
+  ;; They can also be set manually if autoconfigure is not used.
+  ;; (setq ejira-sprint-field       'customfield_10001
+  ;;       ejira-epic-field         'customfield_10002
+  ;;       ejira-epic-summary-field 'customfield_10004)
+
+  (require 'ejira-agenda)
+
+  ;; Make the issues visisble in your agenda by adding `ejira-org-directory'
+  ;; into your `org-agenda-files'.
+  (add-to-list 'org-agenda-files ejira-org-directory)
+
+  ;; Add an agenda view to browse the issues that
+  (org-add-agenda-custom-command
+   '("j" "My JIRA issues"
+     ((ejira-jql "resolution = unresolved and assignee = currentUser()"
+                 ((org-agenda-overriding-header "Assigned to me")))))))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((plantuml . t))) ; this line activates plantuml
+
+(setq org-plantuml-jar-path "/data/app/plantuml-1.2022.1.jar")
