@@ -38,7 +38,7 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq
  org_notes (concat (getenv "HOME") "/Documents/RoamNotes")
- bib_file (concat (getenv "HOME") "/Documents/Resources/bibliography/ref.bib")
+ bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
  org-directory org_notes
  deft-directory org_notes
  org-roam-directory org-directory)
@@ -162,10 +162,10 @@
   :after org-protocol)
 
 
-(use-package company-org-roam
-  :after org-roam
-  :config
-  (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev)))
+;; (use-package company-org-roam
+;;   :after org-roam
+;;   :config
+;;   (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev)))
 
 
 (use-package! rime
@@ -180,8 +180,8 @@
   (setq
    org-ref-cite-completion-function 'org-ref-get-pdf-filename-bibtex-completion
 
-   bibtex-completion-bibliography '("~/Documents/Resources/bibliography/ref.bib")
-   bibtex-completion-library-path '("~/Documents/Resources/bibliography/bibtex-pdfs/")
+   bibtex-completion-bibliography '("~/Documents/RoamNotes//bibliography/ref.bib")
+   bibtex-completion-library-path '("~/Documents/RoamNotes//bibliography/bibtex-pdfs/")
    bibtex-completion-notes-path "~/Documents/RoamNotes/bibliography/notes/"
    ;; bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
    bibtex-completion-notes-template-multiple-files
@@ -233,7 +233,7 @@
           ;; bibliography note template
           ("r" "bibliography reference" plain "%?"
           :target
-          (file+head "references-${citekey}.org" "#+title: ${title}\n")
+          (file+head (concat org_notes "bibliography/notes/ref-${citekey}.org") "#+title: ${title}\n")
           :unnarrowed t)))
 
   ;; (setq org-roam-bibtex-preformat-keywords
@@ -335,3 +335,6 @@
                  :prepend t
                  :kill-buffer t))
 )
+
+;;;;;;;;;;;;;;;;;;;;;; elfeed ;;;;;;;;;;;;;;;;;;;;;
+(setq url-queue-timeout 30)
