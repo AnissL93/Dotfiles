@@ -20,7 +20,7 @@ get_traffic() {
 }
 
 get_proxy() {
-    [ -z $(pstree | grep xray) ] && echo "⛓" || echo "🌍"
+    [[ -z $(pstree | grep xray) ]] && echo "⛓" || echo "🌍"
 }
 
 main () {
@@ -44,12 +44,12 @@ main () {
     local download_byte="$(($(cat /sys/class/net/*/statistics/rx_bytes | paste -sd '+')))"
 
 
-    uploading=$(($upload_byte - ${prevdata%% *}))
-    downloading=$(($download_byte - ${prevdata##* }))
+    uploading=$(bc <<< "$upload_byte - ${prevdata%% *}")
+    downloading=$(bc <<< "$download_byte - ${prevdata##* }")
 
     echo "$upload_byte $download_byte" > "$logfile"
 
-    printf "%s %s ${net_state} $(get_proxy)" "$(get_traffic $uploading ⬆)" "$(get_traffic $downloading ⬇)"
+    printf "%s %s ${net_state} $(get_proxy)" "$(get_traffic $uploading ⬆️)" "$(get_traffic $downloading ⬇️)"
 }
 
 main
