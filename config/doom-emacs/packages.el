@@ -51,6 +51,7 @@
 
 ;; themes
 (package! moe-theme)
+(package! jazz-theme)
 
 ;; tools
 (package! rime
@@ -75,3 +76,6 @@
 
 ;; When using org-roam via the `+roam` flag
 (unpin! org-roam)
+
+(package! ledger-moe
+  :recipe (:host github :repo "ledger/ledger-mode"))

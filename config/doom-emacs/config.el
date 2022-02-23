@@ -37,11 +37,12 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq
- org_notes (concat (getenv "HOME") "/Documents/RoamNotes")
+ org_notes (concat (getenv "HOME") "/Documents/RoamNotes/")
  bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
  org-directory org_notes
  deft-directory org_notes
- org-roam-directory org-directory)
+ org-roam-directory org-directory
+ org-agenda-files (list org_notes))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -64,6 +65,7 @@
 ;; they are implemented.
 
 (map! "C-/" #'comment-line)
+(map! "C-," #'toggle-input-method)
 
 (map! :leader
       (:prefix-map ("e" . "S-expression operations")
@@ -338,3 +340,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;; elfeed ;;;;;;;;;;;;;;;;;;;;;
 (setq url-queue-timeout 30)
+
+(use-package! ledger-mode
+     :init
+     (setq ledger-clear-whole-transactions 1)
+     :mode "\\.dat\\'")
