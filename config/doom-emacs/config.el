@@ -26,13 +26,13 @@
 ;; Hack NF
 ;; FantasqueSansMono NF
 ;; SauceCodePro  NF
-(setq doom-font (font-spec :family "Liberation Mono" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "Sarasa Mono SC Nerd" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-Iosvkem)
+(setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -43,6 +43,7 @@
  deft-directory org_notes
  org-roam-directory org-directory
  org-agenda-files (list org_notes))
+
 
 ;;(add-to-list org-agenda-files "~/Projects/RoamNotes/*.org")
 
@@ -67,8 +68,7 @@
 ;; they are implemented.
 
 (map! "C-/" #'comment-line)
-(map! "C-," #'toggle-input-method)
-
+(map! "C-;" #'toggle-input-method)
 
 (map! :leader
       (:prefix-map ("e" . "S-expression operations")
@@ -119,20 +119,27 @@
          :desc "open node" "o" #'org-roam-open-node
          :desc "open capture" "c" #'org-roam-capture
          :desc "refile" "r" #'org-roam-refile
-         )
-        )
+         (:prefix ("d" . "daily")
+          :desc "open today" "d" #'org-roam-dailies-find-date
+          :desc "open today" "t" #'org-roam-dailies-find-today
+          ;; :desc "open today" "n" #'org-roam-dailies-find-next-note
+          ;; :desc "open today" "p" #'org-roam-dailies-find-previous-nore
+          :desc "open today" "Y" #'org-roam-dailies-goto-yesterday
+          :desc "open today" "T" #'org-roam-dailies-goto-tomorrow
+          )
+         ))
   ;; Normally, the org-roam buffer doesn't open until you explicitly call
   ;; `org-roam'. If `+org-roam-open-buffer-on-find-file' is non-nil, the
   ;; org-roam buffer will be opened for you when you use `org-roam-find-file'
   ;; (but not `find-file', to limit the scope of this behavior).
-  (add-hook 'find-file-hook
-    (defun +org-roam-open-buffer-maybe-h ()
-      (and +org-roam-open-buffer-on-find-file
-           (memq 'org-roam-buffer--update-maybe post-command-hook)
-           (not (window-parameter nil 'window-side)) ; don't proc for popups
-           (not (eq 'visible (org-roam-buffer--visibility)))
-           (with-current-buffer (window-buffer)
-             (org-roam-buffer--get-create)))))
+  ;; (add-hook 'find-file-hook
+  ;;   (defun +org-roam-open-buffer-maybe-h ()
+  ;;     (and +org-roam-open-buffer-on-find-file
+  ;;          (memq 'org-roam-buffer--update-maybe post-command-hook)
+  ;;          (not (window-parameter nil 'window-side)) ; don't proc for popups
+  ;;          (not (eq 'visible (org-roam-buffer--visibility)))
+  ;;          (with-current-buffer (window-buffer)
+  ;;            (org-roam-buffer--get-create)))))
 
   ;; Hide the mode line in the org-roam buffer, since it serves no purpose. This
   ;; makes it easier to distinguish among other org buffers.
@@ -166,7 +173,6 @@
 (use-package org-roam-protocol
   :after org-protocol)
 
-
 ;; (use-package company-org-roam
 ;;   :after org-roam
 ;;   :config
@@ -197,6 +203,7 @@
      ":PROPERTIES:\n"
      ":Custom_ID: ${=key=}\n"
      ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+
      ":AUTHOR: ${author-abbrev}\n"
      ":JOURNAL: ${journaltitle}\n"
      ":DATE: ${date}\n"
@@ -349,12 +356,12 @@
      (setq ledger-clear-whole-transactions 1)
      :mode "\\.dat\\'")
 ;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-(after! mu4e
+(use-package! mu4e
+  :load-path "/data/app/mu-1.6.10/mu4e/"
+  :init
   (setq mu4e-maildir (expand-file-name "/data/mail"))
   (setq mu4e-get-mail-command "true")
-  ;; sync
+  ;; ;; sync
   (setq mu4e-get-mail-command "mbsync cambricon")
   (setq mu4e-change-filenames-when-moving t)
   (setq mu4e-view-prefer-html t)
@@ -375,22 +382,47 @@
      (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
      (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
      )
-   t))
+   t)
+
+  ;; refile
+  (setq mu4e-refile-folder
+        (lambda (msg)
+          (cond
+           ;; message with Jira, goes to jira
+           (
+            (mu4e-message-contact-field-matches
+             msg
+             :to
+             "lanhuiying@cambricon.com")
+             "/cambricon/Jira"
+            )
+           )
+          )
+        )
+
+  ;;; capture and store link
+  (map!
+   :map mu4e-headers-mode-map
+   :desc "org-store-link-and-capture"
+   "C-c c"
+   #'mu4e-org-store-and-capture)
+)
 
 (map! "C-/" #'comment-line)
+(map! "C-," #'toggle-input-method)
 
 (defun insert-date-string ()
   (interactive)
   (insert
    (current-time-string)))
 
-(map! "C-." #'insert-date-string)
-
+(map!
+ :leader
+ (:prefix ("i" . insert)
+  :nv
+  :desc "Date" "d" #'insert-date-string))
 
 ;;;;;;;;;;;;; org ;;;;;;;;;;;;;;;
-
-
-
 (defvar task-type-list (list "Review" "Meeting" "Bug"))
 
 (defun add-review-task ()
@@ -451,3 +483,6 @@
  '((plantuml . t))) ; this line activates plantuml
 
 (setq org-plantuml-jar-path "/data/app/plantuml-1.2022.1.jar")
+
+(after! org-agenda
+  (add-to-list 'org-agenda-files org_notes))
