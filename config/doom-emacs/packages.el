@@ -60,6 +60,9 @@
 ;; themes
 (package! moe-theme)
 (package! jazz-theme)
+(package! melancholy-theme)
+(package! alect-themes)
+(package! gotham-theme)
 
 ;; tools
 (package! rime

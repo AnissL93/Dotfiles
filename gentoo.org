@@ -529,30 +529,6 @@ sh autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man --libdir=/
 #+end_src
 
 * Emacs usage
-** Eshell
-
-#+begin_src emacs-lisp :tangle test.el
-(setq a "this is a test another kind iii")
-(message a)
-#+end_src
-** remote developing (Tramp mode)
-*** Tramp mode
-#+begin_src emacs-lisp
-(find-file "/ssh:ngzh@192.168.3.49")
-#+end_src
-** everywhere
-to open emacs everywhere with command(key binding)
-#+begin_src bash
-emacsclient --eval "(emacs-everywhere)"
-#+end_src
-*** Depencency
-- xdotool
-- xwininfo
-- xprop
-*** TODO Issue
-C-c C-c not close the window and paste automatically
-** Other stuff
-- show rgb:enable rainbow mode #000a01
 * knowledge System
 ** reading wiki in terminal
 ** organizing bib in terminal

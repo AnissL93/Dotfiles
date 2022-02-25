@@ -26,13 +26,17 @@
 ;; Hack NF
 ;; FantasqueSansMono NF
 ;; SauceCodePro  NF
-(setq doom-font (font-spec :family "Sarasa Mono SC Nerd" :size 18 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 16))
+;; Sarasa Mono SC Nerd
+(setq doom-font (font-spec :family "Ubuntu Mono" :size 20 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 19))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dracula)
+(setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
+(add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
+(add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
+(setq doom-theme 'gotham)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -120,14 +124,13 @@
          :desc "open capture" "c" #'org-roam-capture
          :desc "refile" "r" #'org-roam-refile
          (:prefix ("d" . "daily")
-          :desc "open today" "d" #'org-roam-dailies-find-date
+          :desc "open date" "d" #'org-roam-dailies-find-date
           :desc "open today" "t" #'org-roam-dailies-find-today
           ;; :desc "open today" "n" #'org-roam-dailies-find-next-note
           ;; :desc "open today" "p" #'org-roam-dailies-find-previous-nore
-          :desc "open today" "Y" #'org-roam-dailies-goto-yesterday
-          :desc "open today" "T" #'org-roam-dailies-goto-tomorrow
-          )
-         ))
+          :desc "open yesterday" "Y" #'org-roam-dailies-goto-yesterday
+          :desc "open tomorrow" "T" #'org-roam-dailies-goto-tomorrow
+          )))
   ;; Normally, the org-roam buffer doesn't open until you explicitly call
   ;; `org-roam'. If `+org-roam-open-buffer-on-find-file' is non-nil, the
   ;; org-roam buffer will be opened for you when you use `org-roam-find-file'
@@ -143,9 +146,8 @@
 
   ;; Hide the mode line in the org-roam buffer, since it serves no purpose. This
   ;; makes it easier to distinguish among other org buffers.
-  (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
+  (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
 
-  )
 
 ;; (use-package org-roam
 ;;   :hook (org-load . org-roam-mode)
