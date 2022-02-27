@@ -5,7 +5,10 @@ bgloc="$HOME/.local/share/bg"
 set_wallpaper() {
     trueloc="$(readlink -f $1)" &&
     case "$(file --mime-type -b "$trueloc")" in
-	    image/* ) ln -sf "$(readlink -f "$1")" "$bgloc" && notify-send "Changing wallpaper" "$trueloc" -t 2000;;
+	    image/* )
+            ln -sf "$(readlink -f "$1")" "$bgloc" && xwallpaper --zoom $bgloc && notify-send "Changing wallpaper" "$trueloc" -t 2000
+            wal -i $bgloc --backend colorz
+            ;;
 	    inode/directory)
             true_pic="$(find "$trueloc" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)"
             ln -sf $true_pic "$bgloc" && xwallpaper --zoom "$bgloc" && notify-send "Random Wallpaper" "$true_pic" -t 2000
@@ -16,4 +19,4 @@ set_wallpaper() {
     esac
 }
 
-set_wallpaper /data/backgrounds/wallpapers
+[[ $# -eq 0 ]] && set_wallpaper ~/Pictures/wallpapers || set_wallpaper $1

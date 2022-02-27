@@ -72,24 +72,26 @@
 ;; org
 ;; (package! deft)
 
-(package! org-ref)
-(package! org-noter)
+(package! org-ref
+  :recipe (:host github :repo "jkitchin/org-ref"))
+(package! org-noter
+  :recipe (:host github :repo "weirdNox/org-noter"))
 (package! ivy-bibtex)
+(package! org-roam-bibtex
+  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+
 (package! org-board)
 (package! nov)
 (package! justify-kp
   :recipe
   (:host github :repo "Fuco1/justify-kp"))
 
-
-(package! org-roam-bibtex
-  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
-
 ;; When using org-roam via the `+roam` flag
-(unpin! org-roam)
+;; (unpin! org-roam)
 
 (package! ledger-moe
   :recipe (:host github :repo "ledger/ledger-mode"))
+
 (package! ox-pandoc)
 (package! org-board)
 (package! ejira
@@ -105,9 +107,5 @@
   (package! deferred :recipe (:host github :repo "kiwanami/emacs-deferred"))
   (package! epc :recipe (:host github :repo "kiwanami/emacs-epc")))
 
-(use-package! eaf
-  :commands (eaf-open-browser eaf-open find-file)
-  :config
-  (use-package! ctable)
-  (use-package! deferred)
-  (use-package! epc))
+(package! scihub
+  :recipe (:host github :repo "emacs-pe/scihub.el"))

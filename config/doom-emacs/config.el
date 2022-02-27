@@ -27,15 +27,17 @@
 ;; FantasqueSansMono NF
 ;; SauceCodePro  NF
 ;; Sarasa Mono SC Nerd
-(setq doom-font (font-spec :family "Ubuntu Mono" :size 20 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 19))
+;; UbuntuMono NF
+;; InconsolataLGC NF
+(setq doom-font (font-spec :family "Hasklug NF" :size 18 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
-(add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
-(add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
+;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
+;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
+;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
 (setq doom-theme 'gotham)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -187,94 +189,92 @@
   (default-input-method "rime"))
 
 ;;; config org ref
-
 (use-package! org-ref
   :init
   (setq
    org-ref-cite-completion-function 'org-ref-get-pdf-filename-bibtex-completion
 
    bibtex-completion-bibliography '("~/Documents/RoamNotes//bibliography/ref.bib")
-   bibtex-completion-library-path '("~/Documents/RoamNotes//bibliography/bibtex-pdfs/")
+   bibtex-completion-library-path '("~/Documents/Resources/" "~/Documents/Resources/Papers")
    bibtex-completion-notes-path "~/Documents/RoamNotes/bibliography/notes/"
-   ;; bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-   bibtex-completion-notes-template-multiple-files
-    (concat
-     "#+TITLE: ${title}\n"
-     "#+ROAM_KEY: cite:${=key=}\n"
-     "* TODO Notes\n"
-     ":PROPERTIES:\n"
-     ":Custom_ID: ${=key=}\n"
-     ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+   bibtex-completion-pdf-field "file"
 
-     ":AUTHOR: ${author-abbrev}\n"
-     ":JOURNAL: ${journaltitle}\n"
-     ":DATE: ${date}\n"
-     ":YEAR: ${year}\n"
-     ":DOI: ${doi}\n"
-     ":URL: ${url}\n"
-     ":END:\n\n"
-     ))
+   bibtex-completion-additional-search-fields '(keywords)
+   bibtex-completion-display-formats
+   '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+     (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+     (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+     (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+     (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
 
-   (require 'bibtex)
-   (setq bibtex-autokey-year-length 4
-         bibtex-autokey-name-year-separator "-"
-         bibtex-autokey-year-title-separator "-"
-         bibtex-autokey-titleword-separator "-"
-         bibtex-autokey-titlewords 2
-         bibtex-autokey-titlewords-stretch 1
-         bibtex-autokey-titleword-length 5
-         org-ref-bibtex-hydra-key-binding (kbd "H-b"))
 
-   (define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
+   ;; bibtex-completion-pdf-open-function 'find-file-other-window
+   ;; ** use other process to open pdf ** ;;
+   ;; bibtex-completion-pdf-open-function
+   ;; (lambda (fpath)
+   ;;   (call-process "open" nil 0 nil fpath))
+   )
 
-   (require 'org-ref-ivy)
+  (require 'bibtex)
+  (setq bibtex-autokey-year-length 4
+        bibtex-autokey-name-year-separator "-"
+        bibtex-autokey-year-title-separator "-"
+        bibtex-autokey-titleword-separator "-"
+        bibtex-autokey-titlewords 2
+        bibtex-autokey-titlewords-stretch 1
+        bibtex-autokey-titleword-length 5)
 
-   (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-         org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-         org-ref-insert-label-function 'org-ref-insert-label-link
-         org-ref-insert-ref-function 'org-ref-insert-ref-link
-         org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body))))
+  (define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
+  (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
 
-;;;;;;;;;; org roam bibtex ;;;;;;;;;;
+  (require 'org-ref-ivy)
+  (require 'org-ref-arxiv)
+  (require 'org-ref-scopus)
+  (require 'org-ref-wos))
+
+(use-package! org-ref-ivy
+  :init
+  (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+        org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+        org-ref-insert-label-function 'org-ref-insert-label-link
+        org-ref-insert-ref-function 'org-ref-insert-ref-link
+        org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body))))
+
+;; ;;;;;;;;;; org roam bibtex ;;;;;;;;;;
 (use-package! org-roam-bibtex
   :after org-roam
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :config
   (require 'org-ref)
+  (setq orb-preformat-keywords
+        '("citekey" "title" "url" "author-or-editor" "keywords" "file")
+        orb-process-file-keyword t
+        orb-attached-file-extensions '("pdf"))
 
+  (setq! orb-note-actions-interface 'hydra)
   (setq org-roam-capture-templates
-        '(;; ... other templates
-          ;; bibliography note template
+        '(
           ("r" "bibliography reference" plain "%?"
-          :target
-          (file+head (concat org_notes "bibliography/notes/ref-${citekey}.org") "#+title: ${title}\n")
-          :unnarrowed t)))
-
-  ;; (setq org-roam-bibtex-preformat-keywords
-  ;;  '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
-
-  (setq orb-preformat-keywords '("citekey" "author" "date"))
-  (setq org-roam-capture-templates
-        '(("r" "bibliography reference" plain
-           "%?
-  %^{author} published %^{entry-type} in %^{date}: fullcite:%\\1."
            :target
-           (file+head "bibliography/${citekey}.org" "#+title: ${title}\n")
-           :unnarrowed t)))
+           (file+head "bibliography/notes/${citekey}.org"
+                      (concat
+                       "#+TITLE: ${title}\n"
+                       "#+ROAM_KEY: cite:${=key=}\n"
+                       "#+CREATED: ${date}\n"))
+           :unnarrowed t)
+          ("n" "bibliography reference + notes" plain
+           (file "~/.doom.d/capture_tmpl/ref_notes.org")
+           :target
+           (file+head "bibliography/notes/${citekey}.org" "#+TITLE: ${title}\n")
+           :unnarrowed t)
 
-;;   (setq org-roam-capture-templates
-;;         '(("r" "ref" plain (function org-roam-capture--get-point)
-;;            ""
-;;            :file-name "${slug}"
-;;            :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
 
-;; - tags ::
-;; - keywords :: ${keywords}
-
-;; \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
-
-;;            :unnarrowed t)))
+          ("d" "default" plain "%?" :target
+           (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ))
   )
+
 
 (use-package! org-noter
   :after (:any org pdf-view)
@@ -285,12 +285,11 @@
    ;; Please stop opening frames
    org-noter-always-create-frame nil
    ;; I want to see the whole file
-   org-noter-hide-other nil
+   org-noter-hide-other t
    ;; Everything is relative to the main notes file
    org-noter-notes-search-path (list org_notes)
    )
   )
-
 
 (after! nov
   (defun my-nov-font-setup ()
@@ -348,67 +347,67 @@
                  "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
                  :prepend t
                  :kill-buffer t))
-)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;; elfeed ;;;;;;;;;;;;;;;;;;;;;
 (setq url-queue-timeout 30)
 
 (use-package! ledger-mode
-     :init
-     (setq ledger-clear-whole-transactions 1)
-     :mode "\\.dat\\'")
-;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
-(use-package! mu4e
-  :load-path "/data/app/mu-1.6.10/mu4e/"
   :init
-  (setq mu4e-maildir (expand-file-name "/data/mail"))
-  (setq mu4e-get-mail-command "true")
-  ;; ;; sync
-  (setq mu4e-get-mail-command "mbsync cambricon")
-  (setq mu4e-change-filenames-when-moving t)
-  (setq mu4e-view-prefer-html t)
-  (setq mu4e-html2text-command "html2text -utf8 -width 150")
-  (setq
-   +mu4e-backend 'mbsync
-   sendmail-program (executable-find "msmtp")
-   send-mail-function #'smtpmail-send-it
-   message-sendmail-f-is-evil t
-   message-sendmail-extra-arguments '("--read-envelope-from")
-   message-send-mail-function #'message-send-mail-with-sendmail)
-  (set-email-account!
-   "cambricon"
-   '((mu4e-trash-folder      . "/cambricon/Trash/")
-     (mu4e-refile-folder     . "/cambricon/Inbox/")
-     (mu4e-sent-folder       . "/cambricon/sent/")
-     (mu4e-drafts-folder     . "/cambricon/drafts/")
-     (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
-     (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
-     )
-   t)
-
-  ;; refile
-  (setq mu4e-refile-folder
-        (lambda (msg)
-          (cond
-           ;; message with Jira, goes to jira
-           (
-            (mu4e-message-contact-field-matches
-             msg
-             :to
-             "lanhuiying@cambricon.com")
-             "/cambricon/Jira"
-            )
-           )
-          )
-        )
-
-  ;;; capture and store link
-  (map!
-   :map mu4e-headers-mode-map
-   :desc "org-store-link-and-capture"
-   "C-c c"
-   #'mu4e-org-store-and-capture)
-)
+  (setq ledger-clear-whole-transactions 1)
+  :mode "\\.dat\\'")
+;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
+;;(use-package! mu4e
+;;  :load-path "/data/app/mu-1.6.10/mu4e/"
+;;  :init
+;;  (setq mu4e-maildir (expand-file-name "/data/mail"))
+;;  (setq mu4e-get-mail-command "true")
+;;  ;; ;; sync
+;;  (setq mu4e-get-mail-command "mbsync cambricon")
+;;  (setq mu4e-change-filenames-when-moving t)
+;;  (setq mu4e-view-prefer-html t)
+;;  (setq mu4e-html2text-command "html2text -utf8 -width 150")
+;;  (setq
+;;   +mu4e-backend 'mbsync
+;;   sendmail-program (executable-find "msmtp")
+;;   send-mail-function #'smtpmail-send-it
+;;   message-sendmail-f-is-evil t
+;;   message-sendmail-extra-arguments '("--read-envelope-from")
+;;   message-send-mail-function #'message-send-mail-with-sendmail)
+;;  (set-email-account!
+;;   "cambricon"
+;;   '((mu4e-trash-folder      . "/cambricon/Trash/")
+;;     (mu4e-refile-folder     . "/cambricon/Inbox/")
+;;     (mu4e-sent-folder       . "/cambricon/sent/")
+;;     (mu4e-drafts-folder     . "/cambricon/drafts/")
+;;     (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
+;;     (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
+;;     )
+;;   t)
+;;
+;;  ;; refile
+;;  (setq mu4e-refile-folder
+;;        (lambda (msg)
+;;          (cond
+;;           ;; message with Jira, goes to jira
+;;           (
+;;            (mu4e-message-contact-field-matches
+;;             msg
+;;             :to
+;;             "lanhuiying@cambricon.com")
+;;             "/cambricon/Jira"
+;;            )
+;;           )
+;;          )
+;;        )
+;;
+;;  ;;; capture and store link
+;;  (map!
+;;   :map mu4e-headers-mode-map
+;;   :desc "org-store-link-and-capture"
+;;   "C-c c"
+;;   #'mu4e-org-store-and-capture)
+;;)
 
 (map! "C-/" #'comment-line)
 (map! "C-," #'toggle-input-method)
@@ -488,3 +487,16 @@
 
 (after! org-agenda
   (add-to-list 'org-agenda-files org_notes))
+
+(use-package! eaf
+  :commands (eaf-open-browser eaf-open find-file)
+  :config
+  (use-package! ctable)
+  (use-package! deferred)
+  (use-package! epc))
+
+(use-package! scihub
+  :init
+  (setq scihub-download-directory "~/Documents/Resources/Papers"
+        scihub-open-after-download t
+        scihub-fetch-domain 'scihub-fetch-domains-lovescihub))
