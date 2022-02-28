@@ -19,4 +19,4 @@ set_wallpaper() {
     esac
 }
 
-[[ $# -eq 0 ]] && set_wallpaper ~/Pictures/wallpapers || set_wallpaper $1
+[[ $# -eq 0 ]] && set_wallpaper ~/Documents/Pictures/wallpapers || set_wallpaper $1
