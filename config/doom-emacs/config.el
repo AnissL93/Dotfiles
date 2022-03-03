@@ -29,7 +29,7 @@
 ;; Sarasa Mono SC Nerd
 ;; UbuntuMono NF
 ;; InconsolataLGC NF
-(setq doom-font (font-spec :family "Hasklug NF" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "Sarasa Mono SC Nerd" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -182,6 +182,21 @@
 ;;   :config
 ;;   (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev)))
 
+(after! org
+  (require 'ox-latex)
+  ;;(setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
+  (unless (boundp 'org-latex-classes)
+    (setq org-latex-classes nil))
+  (setq org-latex-compiler "xelatex")
+  (add-to-list 'org-latex-classes
+               '("article"
+                 "\\documentclass{article}"
+;;\\usepackage{xeCJK}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 (use-package! rime
   :custom
@@ -357,57 +372,57 @@
   (setq ledger-clear-whole-transactions 1)
   :mode "\\.dat\\'")
 ;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
-;;(use-package! mu4e
-;;  :load-path "/data/app/mu-1.6.10/mu4e/"
-;;  :init
-;;  (setq mu4e-maildir (expand-file-name "/data/mail"))
-;;  (setq mu4e-get-mail-command "true")
-;;  ;; ;; sync
-;;  (setq mu4e-get-mail-command "mbsync cambricon")
-;;  (setq mu4e-change-filenames-when-moving t)
-;;  (setq mu4e-view-prefer-html t)
-;;  (setq mu4e-html2text-command "html2text -utf8 -width 150")
-;;  (setq
-;;   +mu4e-backend 'mbsync
-;;   sendmail-program (executable-find "msmtp")
-;;   send-mail-function #'smtpmail-send-it
-;;   message-sendmail-f-is-evil t
-;;   message-sendmail-extra-arguments '("--read-envelope-from")
-;;   message-send-mail-function #'message-send-mail-with-sendmail)
-;;  (set-email-account!
-;;   "cambricon"
-;;   '((mu4e-trash-folder      . "/cambricon/Trash/")
-;;     (mu4e-refile-folder     . "/cambricon/Inbox/")
-;;     (mu4e-sent-folder       . "/cambricon/sent/")
-;;     (mu4e-drafts-folder     . "/cambricon/drafts/")
-;;     (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
-;;     (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
-;;     )
-;;   t)
-;;
-;;  ;; refile
-;;  (setq mu4e-refile-folder
-;;        (lambda (msg)
-;;          (cond
-;;           ;; message with Jira, goes to jira
-;;           (
-;;            (mu4e-message-contact-field-matches
-;;             msg
-;;             :to
-;;             "lanhuiying@cambricon.com")
-;;             "/cambricon/Jira"
-;;            )
-;;           )
-;;          )
-;;        )
-;;
-;;  ;;; capture and store link
-;;  (map!
-;;   :map mu4e-headers-mode-map
-;;   :desc "org-store-link-and-capture"
-;;   "C-c c"
-;;   #'mu4e-org-store-and-capture)
-;;)
+(use-package! mu4e
+ :load-path "/data/app/mu-1.6.10/mu4e/"
+ :init
+ (setq mu4e-maildir (expand-file-name "/data/mail"))
+ (setq mu4e-get-mail-command "true")
+ ;; ;; sync
+ (setq mu4e-get-mail-command "mbsync cambricon")
+ (setq mu4e-change-filenames-when-moving t)
+ (setq mu4e-view-prefer-html t)
+ (setq mu4e-html2text-command "html2text -utf8 -width 150")
+ (setq
+  +mu4e-backend 'mbsync
+  sendmail-program (executable-find "msmtp")
+  send-mail-function #'smtpmail-send-it
+  message-sendmail-f-is-evil t
+  message-sendmail-extra-arguments '("--read-envelope-from")
+  message-send-mail-function #'message-send-mail-with-sendmail)
+ (set-email-account!
+  "cambricon"
+  '((mu4e-trash-folder      . "/cambricon/Trash/")
+    (mu4e-refile-folder     . "/cambricon/Inbox/")
+    (mu4e-sent-folder       . "/cambricon/sent/")
+    (mu4e-drafts-folder     . "/cambricon/drafts/")
+    (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
+    (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
+    )
+  t)
+
+ ;; refile
+ (setq mu4e-refile-folder
+       (lambda (msg)
+         (cond
+          ;; message with Jira, goes to jira
+          (
+           (mu4e-message-contact-field-matches
+            msg
+            :to
+            "lanhuiying@cambricon.com")
+            "/cambricon/Jira"
+           )
+          )
+         )
+       )
+
+ ;;; capture and store link
+ (map!
+  :map mu4e-headers-mode-map
+  :desc "org-store-link-and-capture"
+  "C-c c"
+  #'mu4e-org-store-and-capture)
+)
 
 (map! "C-/" #'comment-line)
 (map! "C-," #'toggle-input-method)
@@ -485,8 +500,10 @@
 
 (setq org-plantuml-jar-path "/data/app/plantuml-1.2022.1.jar")
 
-(after! org-agenda
-  (add-to-list 'org-agenda-files org_notes))
+(use-package! org-agenda
+  :config
+  (add-to-list 'org-agenda-files org_notes)
+  (setq org-agenda-start-with-log-mode t))
 
 (use-package! eaf
   :commands (eaf-open-browser eaf-open find-file)
@@ -500,3 +517,7 @@
   (setq scihub-download-directory "~/Documents/Resources/Papers"
         scihub-open-after-download t
         scihub-fetch-domain 'scihub-fetch-domains-lovescihub))
+
+(use-package! beacon
+  :init
+  (setq beacon-mode t))

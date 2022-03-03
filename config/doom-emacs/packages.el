@@ -109,3 +109,6 @@
 
 (package! scihub
   :recipe (:host github :repo "emacs-pe/scihub.el"))
+
+(package! beacon)
+(package! minimap)
