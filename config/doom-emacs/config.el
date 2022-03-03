@@ -533,7 +533,7 @@
 (setq org-plantuml-jar-path "/data/app/plantuml-1.2022.1.jar")
 
 (use-package! org-agenda
-  :config
+  :init
   (add-to-list 'org-agenda-files org_notes)
   (setq org-agenda-start-with-log-mode t))
 
