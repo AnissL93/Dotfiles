@@ -196,7 +196,9 @@
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  )
 
 (use-package! rime
   :custom
@@ -400,6 +402,13 @@
     )
   t)
 
+  (require 'org-contacts)
+  (setq org-contacts-files '("~/Documents/RoamNotes/20220304154932-contacts.org"))
+  ;;(setq mu4e-org-contacts-file  "~/Documents/RoamNotes/20220304154932-contacts.org")
+  ;;(add-to-list 'mu4e-headers-actions
+  ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
+  ;;(add-to-list 'mu4e-view-actions
+  ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
  ;; refile
  (setq mu4e-refile-folder
        (lambda (msg)
