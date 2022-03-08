@@ -38,7 +38,7 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
-(setq doom-theme 'gotham)
+(setq doom-theme 'alect-black-alt)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -352,20 +352,35 @@
 ;; Actually start using templates
 (after! org-capture
   ;; Firefox and Chrome
-  (add-to-list 'org-capture-templates
-               '("P" "Protocol" entry ; key, name, type
-                 (file+headline +org-capture-notes-file "Inbox") ; target
-                 "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
-                 :prepend t ; properties
-                 :kill-buffer t))
-  (add-to-list 'org-capture-templates
-               '("L" "Protocol Link" entry
-                 (file+headline +org-capture-notes-file "Inbox")
-                 "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
-                 :prepend t
-                 :kill-buffer t))
-  )
+   (add-to-list 'org-capture-templates
+                '("P" "Protocol" entry ; key, name, type
+                  (file+headline +org-capture-notes-file "Inbox") ; target
+                  "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
+                  :prepend t ; properties
+                  :kill-buffer t))
+   (add-to-list 'org-capture-templates
+                '("L" "Protocol Link" entry
+                  (file+headline +org-capture-notes-file "Inbox")
+                  "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
+                  :prepend t
+                  :kill-buffer t
+                  ))
 
+;;  (add-to-list 'org-capture-templates
+;;               '("c" "Contact" entry
+;;                 (file+headline "~/Documents/RoamNotes/20220304154932-contacts.org" "Friends")
+;;"* %(org-contacts-template-name)
+;;:PROPERTIES:
+;;:ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+;;:BIRTHDAY: %^{yyyy-mm-dd}
+;;:EMAIL: %(org-contacts-template-email)
+;;:NOTE: %^{NOTE}
+;;:END:" "Template for org-contacts."
+;;:empty-lines 1
+;;;; :prepend t
+;;;; :kill-buffer t
+;;                ))
+  )
 ;;;;;;;;;;;;;;;;;;;;;; elfeed ;;;;;;;;;;;;;;;;;;;;;
 (setq url-queue-timeout 30)
 
@@ -390,7 +405,15 @@
   send-mail-function #'smtpmail-send-it
   message-sendmail-f-is-evil t
   message-sendmail-extra-arguments '("--read-envelope-from")
-  message-send-mail-function #'message-send-mail-with-sendmail)
+  message-send-mail-function #'message-send-mail-with-sendmail
+
+  )
+
+ ;; these are required for sending email
+ (setq
+  (smtpmail-default-smtp-server  "mail.cambricon.com")
+  (smtpmail-query-smtp-server "mail.cambricon.com"))
+
  (set-email-account!
   "cambricon"
   '((mu4e-trash-folder      . "/cambricon/Trash/")
