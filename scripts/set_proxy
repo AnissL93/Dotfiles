@@ -5,7 +5,8 @@ main () {
 
     if [[ $action = "start" ]]; then
         killall xray
-        local config_path=$(realpath ~/.config/x2ray/v2ray_cli/config.json)
+        local sel_config=$(ls ~/.config/x2ray | grep ".json" | dmenu -p "select config?")
+        local config_path="$HOME/.config/x2ray/$sel_config"
         local addr=$(cat $config_path | grep address)
         xray run -config=$config_path &
         notify-send "Proxy" "✅ Start xray ✅ $addr"

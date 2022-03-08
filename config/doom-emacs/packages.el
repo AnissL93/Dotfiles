@@ -63,6 +63,7 @@
 (package! melancholy-theme)
 (package! alect-themes)
 (package! gotham-theme)
+(package! darktooth-theme)
 
 ;; tools
 (package! rime
