@@ -23,7 +23,7 @@ get_traffic() {
 }
 
 get_proxy() {
-    [[ -z $(pstree | grep xray) ]] && echo "⛓" || echo "🌍"
+    [[ -z $(pstree | grep xray) ]] && echo "⛓" || echo "P"
 }
 
 main () {

@@ -29,7 +29,7 @@
 ;; Sarasa Mono SC Nerd
 ;; UbuntuMono NF
 ;; InconsolataLGC NF
-(setq doom-font (font-spec :family "Sarasa Mono SC Nerd" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "SauceCodePro NF" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -190,15 +190,26 @@
   (setq org-latex-compiler "xelatex")
   (add-to-list 'org-latex-classes
                '("article"
-                 "\\documentclass{article}"
-;;\\usepackage{xeCJK}"
+                 "\\documentclass{article}
+\\usepackage{ctex}"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
   )
+;;;; org babel
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((R . t)
+   (dot . t)
+   (emacs-lisp . t)
+   (gnuplot . t)
+   (latex . t)
+   (ledger . t)         ;this is the important one for this tutorial
+   (python . t)
+   (sh . t)
+))
 
 (use-package! rime
   :custom
@@ -387,7 +398,7 @@
 (use-package! ledger-mode
   :init
   (setq ledger-clear-whole-transactions 1)
-  :mode "\\.dat\\'")
+  :mode "\\.ledger\\'")
 ;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
 (use-package! mu4e
  :load-path "/data/app/mu-1.6.10/mu4e/"

@@ -18,13 +18,15 @@ config.load_autoconfig(False)
 # Aliases for commands. The keys of the given dictionary are the
 # aliases, while the values are the commands they map to.
 # Type: Dict
-c.aliases = {'q': 'quit', 'w': 'session-save', 'wq': 'quit --save'}
+c.aliases = {"q": "quit", "w": "session-save", "wq": "quit --save"}
 
 # Setting dark mode
 config.set("colors.webpage.darkmode.enabled", True)
 
 # LHY: set proxy to localhost
-config.set('content.proxy', 'http://localhost:10809')
+# config.set("content.proxy", "http://localhost:10809")
+
+config.bind("<Ctrl-v>", "spawn mpv {url}")
 
 # Which cookies to accept. With QtWebEngine, this setting also controls
 # other features with tracking capabilities similar to those of cookies;
@@ -39,7 +41,7 @@ config.set('content.proxy', 'http://localhost:10809')
 #   - no-3rdparty: Accept cookies from the same origin only. This is known to break some sites, such as GMail.
 #   - no-unknown-3rdparty: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
 #   - never: Don't accept cookies at all.
-config.set('content.cookies.accept', 'all', 'chrome-devtools://*')
+config.set("content.cookies.accept", "all", "chrome-devtools://*")
 
 # Which cookies to accept. With QtWebEngine, this setting also controls
 # other features with tracking capabilities similar to those of cookies;
@@ -54,7 +56,7 @@ config.set('content.cookies.accept', 'all', 'chrome-devtools://*')
 #   - no-3rdparty: Accept cookies from the same origin only. This is known to break some sites, such as GMail.
 #   - no-unknown-3rdparty: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
 #   - never: Don't accept cookies at all.
-config.set('content.cookies.accept', 'all', 'devtools://*')
+config.set("content.cookies.accept", "all", "devtools://*")
 
 # User agent to send.  The following placeholders are defined:  *
 # `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
@@ -70,7 +72,11 @@ config.set('content.cookies.accept', 'all', 'devtools://*')
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}', 'https://web.whatsapp.com/')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}",
+    "https://web.whatsapp.com/",
+)
 
 # User agent to send.  The following placeholders are defined:  *
 # `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
@@ -86,7 +92,11 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/{w
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0', 'https://accounts.google.com/*')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0",
+    "https://accounts.google.com/*",
+)
 
 # User agent to send.  The following placeholders are defined:  *
 # `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
@@ -102,7 +112,11 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36', 'https://*.slack.com/*')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36",
+    "https://*.slack.com/*",
+)
 
 # User agent to send.  The following placeholders are defined:  *
 # `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
@@ -118,7 +132,11 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/53
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0', 'https://docs.google.com/*')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0",
+    "https://docs.google.com/*",
+)
 
 # User agent to send.  The following placeholders are defined:  *
 # `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
@@ -134,31 +152,35 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0', 'https://drive.google.com/*')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0",
+    "https://drive.google.com/*",
+)
 
 # Load images automatically in web pages.
 # Type: Bool
-config.set('content.images', True, 'chrome-devtools://*')
+config.set("content.images", True, "chrome-devtools://*")
 
 # Load images automatically in web pages.
 # Type: Bool
-config.set('content.images', True, 'devtools://*')
+config.set("content.images", True, "devtools://*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'chrome-devtools://*')
+config.set("content.javascript.enabled", True, "chrome-devtools://*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'devtools://*')
+config.set("content.javascript.enabled", True, "devtools://*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'chrome://*/*')
+config.set("content.javascript.enabled", True, "chrome://*/*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'qute://*/*')
+config.set("content.javascript.enabled", True, "qute://*/*")
 
 # Allow websites to show notifications.
 # Type: BoolAsk
@@ -166,7 +188,7 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 #   - true
 #   - false
 #   - ask
-config.set('content.notifications.enabled', True, 'https://www.reddit.com')
+config.set("content.notifications.enabled", True, "https://www.reddit.com")
 
 # Allow websites to show notifications.
 # Type: BoolAsk
@@ -174,12 +196,12 @@ config.set('content.notifications.enabled', True, 'https://www.reddit.com')
 #   - true
 #   - false
 #   - ask
-config.set('content.notifications.enabled', True, 'https://www.youtube.com')
+config.set("content.notifications.enabled", True, "https://www.youtube.com")
 
 # Directory to save downloads to. If unset, a sensible OS-specific
 # default is used.
 # Type: Directory
-c.downloads.location.directory = '~/Downloads'
+c.downloads.location.directory = "~/Downloads"
 
 # When to show the tab bar.
 # Type: String
@@ -188,11 +210,11 @@ c.downloads.location.directory = '~/Downloads'
 #   - never: Always hide the tab bar.
 #   - multiple: Hide the tab bar if only one tab is open.
 #   - switching: Show the tab bar when switching tabs.
-c.tabs.show = 'always'
+c.tabs.show = "always"
 
 # Setting default page for when opening new tabs or new windows with
 # commands like :open -t and :open -w .
-c.url.default_page = 'file://~/.surf/html/homepage.html'
+c.url.default_page = "file://~/.surf/html/homepage.html"
 
 # Search engines which can be used via the address bar.  Maps a search
 # engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
@@ -212,136 +234,148 @@ c.url.default_page = 'file://~/.surf/html/homepage.html'
 # the search engine name to the search term, e.g. `:open google
 # qutebrowser`.
 # Type: Dict
-c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}', 'am': 'https://www.amazon.com/s?k={}', 'aw': 'https://wiki.archlinux.org/?search={}', 'goog': 'https://www.google.com/search?q={}', 'hoog': 'https://hoogle.haskell.org/?hoogle={}', 're': 'https://www.reddit.com/r/{}', 'ub': 'https://www.urbandictionary.com/define.php?term={}', 'wiki': 'https://en.wikipedia.org/wiki/{}', 'yt': 'https://www.youtube.com/results?search_query={}'}
+c.url.searchengines = {
+    "DEFAULT": "https://duckduckgo.com/?q={}",
+    "am": "https://www.amazon.com/s?k={}",
+    "aw": "https://wiki.archlinux.org/?search={}",
+    "goog": "https://www.google.com/search?q={}",
+    "hoog": "https://hoogle.haskell.org/?hoogle={}",
+    "re": "https://www.reddit.com/r/{}",
+    "ub": "https://www.urbandictionary.com/define.php?term={}",
+    "wiki": "https://en.wikipedia.org/wiki/{}",
+    "yt": "https://www.youtube.com/results?search_query={}",
+}
 
 # Text color of the completion widget. May be a single color to use for
 # all columns or a list of three colors, one for each column.
 # Type: List of QtColor, or QtColor
-c.colors.completion.fg = ['#9cc4ff', 'white', 'white']
+c.colors.completion.fg = ["#9cc4ff", "white", "white"]
 
 # Background color of the completion widget for odd rows.
 # Type: QssColor
-c.colors.completion.odd.bg = '#1c1f24'
+c.colors.completion.odd.bg = "#1c1f24"
 
 # Background color of the completion widget for even rows.
 # Type: QssColor
-c.colors.completion.even.bg = '#232429'
+c.colors.completion.even.bg = "#232429"
 
 # Foreground color of completion widget category headers.
 # Type: QtColor
-c.colors.completion.category.fg = '#e1acff'
+c.colors.completion.category.fg = "#e1acff"
 
 # Background color of the completion widget category headers.
 # Type: QssColor
-c.colors.completion.category.bg = 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #000000, stop:1 #232429)'
+c.colors.completion.category.bg = (
+    "qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #000000, stop:1 #232429)"
+)
 
 # Top border color of the completion widget category headers.
 # Type: QssColor
-c.colors.completion.category.border.top = '#3f4147'
+c.colors.completion.category.border.top = "#3f4147"
 
 # Bottom border color of the completion widget category headers.
 # Type: QssColor
-c.colors.completion.category.border.bottom = '#3f4147'
+c.colors.completion.category.border.bottom = "#3f4147"
 
 # Foreground color of the selected completion item.
 # Type: QtColor
-c.colors.completion.item.selected.fg = '#282c34'
+c.colors.completion.item.selected.fg = "#282c34"
 
 # Background color of the selected completion item.
 # Type: QssColor
-c.colors.completion.item.selected.bg = '#ecbe7b'
+c.colors.completion.item.selected.bg = "#ecbe7b"
 
 # Foreground color of the matched text in the selected completion item.
 # Type: QtColor
-c.colors.completion.item.selected.match.fg = '#c678dd'
+c.colors.completion.item.selected.match.fg = "#c678dd"
 
 # Foreground color of the matched text in the completion.
 # Type: QtColor
-c.colors.completion.match.fg = '#c678dd'
+c.colors.completion.match.fg = "#c678dd"
 
 # Color of the scrollbar handle in the completion view.
 # Type: QssColor
-c.colors.completion.scrollbar.fg = 'white'
+c.colors.completion.scrollbar.fg = "white"
 
 # Background color for the download bar.
 # Type: QssColor
-c.colors.downloads.bar.bg = '#282c34'
+c.colors.downloads.bar.bg = "#282c34"
 
 # Background color for downloads with errors.
 # Type: QtColor
-c.colors.downloads.error.bg = '#ff6c6b'
+c.colors.downloads.error.bg = "#ff6c6b"
 
 # Font color for hints.
 # Type: QssColor
-c.colors.hints.fg = '#282c34'
+c.colors.hints.fg = "#282c34"
 
 # Font color for the matched part of hints.
 # Type: QtColor
-c.colors.hints.match.fg = '#98be65'
+c.colors.hints.match.fg = "#98be65"
 
 # Background color of an info message.
 # Type: QssColor
-c.colors.messages.info.bg = '#282c34'
+c.colors.messages.info.bg = "#282c34"
 
 # Background color of the statusbar.
 # Type: QssColor
-c.colors.statusbar.normal.bg = '#282c34'
+c.colors.statusbar.normal.bg = "#282c34"
 
 # Foreground color of the statusbar in insert mode.
 # Type: QssColor
-c.colors.statusbar.insert.fg = 'white'
+c.colors.statusbar.insert.fg = "white"
 
 # Background color of the statusbar in insert mode.
 # Type: QssColor
-c.colors.statusbar.insert.bg = '#497920'
+c.colors.statusbar.insert.bg = "#497920"
 
 # Background color of the statusbar in passthrough mode.
 # Type: QssColor
-c.colors.statusbar.passthrough.bg = '#34426f'
+c.colors.statusbar.passthrough.bg = "#34426f"
 
 # Background color of the statusbar in command mode.
 # Type: QssColor
-c.colors.statusbar.command.bg = '#282c34'
+c.colors.statusbar.command.bg = "#282c34"
 
 # Foreground color of the URL in the statusbar when there's a warning.
 # Type: QssColor
-c.colors.statusbar.url.warn.fg = 'yellow'
+c.colors.statusbar.url.warn.fg = "yellow"
 
 # Background color of the tab bar.
 # Type: QssColor
-c.colors.tabs.bar.bg = '#1c1f34'
+c.colors.tabs.bar.bg = "#1c1f34"
 
 # Background color of unselected odd tabs.
 # Type: QtColor
-c.colors.tabs.odd.bg = '#282c34'
+c.colors.tabs.odd.bg = "#282c34"
 
 # Background color of unselected even tabs.
 # Type: QtColor
-c.colors.tabs.even.bg = '#282c34'
+c.colors.tabs.even.bg = "#282c34"
 
 # Background color of selected odd tabs.
 # Type: QtColor
-c.colors.tabs.selected.odd.bg = '#282c34'
+c.colors.tabs.selected.odd.bg = "#282c34"
 
 # Background color of selected even tabs.
 # Type: QtColor
-c.colors.tabs.selected.even.bg = '#282c34'
+c.colors.tabs.selected.even.bg = "#282c34"
 
 # Background color of pinned unselected odd tabs.
 # Type: QtColor
-c.colors.tabs.pinned.odd.bg = 'seagreen'
+c.colors.tabs.pinned.odd.bg = "seagreen"
 
 # Background color of pinned unselected even tabs.
 # Type: QtColor
-c.colors.tabs.pinned.even.bg = 'darkseagreen'
+c.colors.tabs.pinned.even.bg = "darkseagreen"
 
 # Background color of pinned selected odd tabs.
 # Type: QtColor
-c.colors.tabs.pinned.selected.odd.bg = '#282c34'
+c.colors.tabs.pinned.selected.odd.bg = "#282c34"
 
 # Background color of pinned selected even tabs.
 # Type: QtColor
-c.colors.tabs.pinned.selected.even.bg = '#282c34'
+c.colors.tabs.pinned.selected.even.bg = "#282c34"
 
 # Default font families to use. Whenever "default_family" is used in a
 # font setting, it's replaced with the fonts listed here. If set to an
@@ -354,7 +388,7 @@ c.fonts.default_family = '"SauceCodePro Nerd Font"'
 # either a float value with a "pt" suffix, or an integer value with a
 # "px" suffix.
 # Type: String
-c.fonts.default_size = '11pt'
+c.fonts.default_size = "11pt"
 
 # Font used in the completion widget.
 # Type: Font
@@ -366,31 +400,54 @@ c.fonts.debug_console = '11pt "SauceCodePro Nerd Font"'
 
 # Font used for prompts.
 # Type: Font
-c.fonts.prompts = 'default_size sans-serif'
+c.fonts.prompts = "default_size sans-serif"
 
 # Font used in the statusbar.
 # Type: Font
 c.fonts.statusbar = '11pt "SauceCodePro Nerd Font"'
 
 # Bindings to use dmenu rather than qutebrowser's builtin search.
-#config.bind('o', 'spawn --userscript dmenu-open')
-#config.bind('O', 'spawn --userscript dmenu-open --tab')
+# config.bind('o', 'spawn --userscript dmenu-open')
+# config.bind('O', 'spawn --userscript dmenu-open --tab')
 
 # Bindings for normal mode
-config.bind('M', 'hint links spawn mpv {hint-url}')
-config.bind('Z', 'hint links spawn st -e youtube-dl {hint-url}')
-config.bind('t', 'set-cmd-text -s :open -t')
-config.bind('xb', 'config-cycle statusbar.show always never')
-config.bind('xt', 'config-cycle tabs.show always never')
-config.bind('xx', 'config-cycle statusbar.show always never;; config-cycle tabs.show always never')
+config.bind("M", "hint links spawn mpv {hint-url}")
+config.bind("Z", "hint links spawn st -e youtube-dl {hint-url}")
+config.bind("t", "set-cmd-text -s :open -t")
+config.bind("xb", "config-cycle statusbar.show always never")
+config.bind("xt", "config-cycle tabs.show always never")
+config.bind(
+    "xx",
+    "config-cycle statusbar.show always never;; config-cycle tabs.show always never",
+)
 
 # Bindings for cycling through CSS stylesheets from Solarized Everything CSS:
 # https://github.com/alphapapa/solarized-everything-css
-config.bind(',ap', 'config-cycle content.user_stylesheets ~/solarized-everything-css/css/apprentice/apprentice-all-sites.css ""')
-config.bind(',dr', 'config-cycle content.user_stylesheets ~/solarized-everything-css/css/darculized/darculized-all-sites.css ""')
-config.bind(',gr', 'config-cycle content.user_stylesheets ~/solarized-everything-css/css/gruvbox/gruvbox-all-sites.css ""')
-config.bind(',sd', 'config-cycle content.user_stylesheets ~/solarized-everything-css/css/solarized-dark/solarized-dark-all-sites.css ""')
-config.bind(',sl', 'config-cycle content.user_stylesheets ~/solarized-everything-css/css/solarized-light/solarized-light-all-sites.css ""')
+config.bind(
+    ",ap",
+    'config-cycle content.user_stylesheets ~/solarized-everything-css/css/apprentice/apprentice-all-sites.css ""',
+)
+config.bind(
+    ",dr",
+    'config-cycle content.user_stylesheets ~/solarized-everything-css/css/darculized/darculized-all-sites.css ""',
+)
+config.bind(
+    ",gr",
+    'config-cycle content.user_stylesheets ~/solarized-everything-css/css/gruvbox/gruvbox-all-sites.css ""',
+)
+config.bind(
+    ",sd",
+    'config-cycle content.user_stylesheets ~/solarized-everything-css/css/solarized-dark/solarized-dark-all-sites.css ""',
+)
+config.bind(
+    ",sl",
+    'config-cycle content.user_stylesheets ~/solarized-everything-css/css/solarized-light/solarized-light-all-sites.css ""',
+)
+
+config.unbind("<Ctrl-p>", mode="normal")
+
+config.bind("<Ctrl-p>", "set content.proxy none")
+config.bind("<Ctrl-Shift-p>", "set content.proxy system")
 
 
 ## Which algorithm to use for modifying how colors are rendered with
@@ -401,7 +458,7 @@ config.bind(',sl', 'config-cycle content.user_stylesheets ~/solarized-everything
 ##   - lightness-cielab: Modify colors by converting them to CIELAB color space and inverting the L value. Not available with Qt < 5.14.
 ##   - lightness-hsl: Modify colors by converting them to the HSL color space and inverting the lightness (i.e. the "L" in HSL).
 ##   - brightness-rgb: Modify colors by subtracting each of r, g, and b from their maximum value.
-c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
+c.colors.webpage.darkmode.algorithm = "lightness-cielab"
 
 ## Contrast for dark mode. This only has an effect when
 ## `colors.webpage.darkmode.algorithm` is set to `lightness-hsl` or
@@ -442,7 +499,7 @@ c.colors.webpage.darkmode.grayscale.images = 0.1
 ##   - always: Apply dark mode filter to all images.
 ##   - never: Never apply dark mode filter to any images.
 ##   - smart: Apply dark mode based on image content. Not available with Qt 5.15.0.
-c.colors.webpage.darkmode.policy.images = 'smart'
+c.colors.webpage.darkmode.policy.images = "smart"
 
 ## Which pages to apply dark mode to. The underlying Chromium setting has
 ## been removed in QtWebEngine 5.15.3, thus this setting is ignored
@@ -451,7 +508,7 @@ c.colors.webpage.darkmode.policy.images = 'smart'
 ## Valid values:
 ##   - always: Apply dark mode filter to all frames, regardless of content.
 ##   - smart: Apply dark mode filter to frames based on background color.
-c.colors.webpage.darkmode.policy.page = 'smart'
+c.colors.webpage.darkmode.policy.page = "smart"
 
 ## Threshold for inverting background elements with dark mode. Background
 ## elements with brightness above this threshold will be inverted, and
@@ -478,6 +535,6 @@ c.colors.webpage.darkmode.threshold.text = 256
 ##   - auto: Use the system-wide color scheme setting.
 ##   - light: Force a light theme.
 ##   - dark: Force a dark theme.
-c.colors.webpage.preferred_color_scheme = 'auto'
+c.colors.webpage.preferred_color_scheme = "auto"
 
 config.source("nord-qutebrowser.py")
