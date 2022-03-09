@@ -24,7 +24,7 @@ c.aliases = {"q": "quit", "w": "session-save", "wq": "quit --save"}
 config.set("colors.webpage.darkmode.enabled", True)
 
 # LHY: set proxy to localhost
-# config.set("content.proxy", "http://localhost:10809")
+config.set("content.proxy", "socks5://localhost:10800")
 
 config.bind("<Ctrl-v>", "spawn mpv {url}")
 
@@ -447,8 +447,7 @@ config.bind(
 config.unbind("<Ctrl-p>", mode="normal")
 
 config.bind("<Ctrl-p>", "set content.proxy none")
-config.bind("<Ctrl-Shift-p>", "set content.proxy system")
-
+config.bind("<Ctrl-Shift-p>", "set content.proxy socks5://localhost:10800")
 
 ## Which algorithm to use for modifying how colors are rendered with
 ## darkmode. The `lightness-cielab` value was added with QtWebEngine 5.14
