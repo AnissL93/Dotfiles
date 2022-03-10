@@ -29,7 +29,7 @@
 ;; Sarasa Mono SC Nerd
 ;; UbuntuMono NF
 ;; InconsolataLGC NF
-(setq doom-font (font-spec :family "Sarasa Mono CL" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "Liberation Mono" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
