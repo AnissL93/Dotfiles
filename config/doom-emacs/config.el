@@ -38,7 +38,7 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
-(setq doom-theme 'alect-black-alt)
+(setq doom-theme 'darktooth)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -360,37 +360,32 @@
   (add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook)
   )
 
+
 ;; Actually start using templates
 (after! org-capture
+  (require 'org-contacts)
+  (setq org-contacts-files '("~/Documents/RoamNotes/20220304154932-contacts.org"))
   ;; Firefox and Chrome
-   (add-to-list 'org-capture-templates
-                '("P" "Protocol" entry ; key, name, type
-                  (file+headline +org-capture-notes-file "Inbox") ; target
-                  "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
-                  :prepend t ; properties
-                  :kill-buffer t))
-   (add-to-list 'org-capture-templates
-                '("L" "Protocol Link" entry
-                  (file+headline +org-capture-notes-file "Inbox")
-                  "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
-                  :prepend t
-                  :kill-buffer t
-                  ))
-
-;;  (add-to-list 'org-capture-templates
-;;               '("c" "Contact" entry
-;;                 (file+headline "~/Documents/RoamNotes/20220304154932-contacts.org" "Friends")
-;;"* %(org-contacts-template-name)
-;;:PROPERTIES:
-;;:ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
-;;:BIRTHDAY: %^{yyyy-mm-dd}
-;;:EMAIL: %(org-contacts-template-email)
-;;:NOTE: %^{NOTE}
-;;:END:" "Template for org-contacts."
-;;:empty-lines 1
-;;;; :prepend t
-;;;; :kill-buffer t
-;;                ))
+  (add-to-list 'org-capture-templates
+               '("P" "Protocol" entry ; key, name, type
+                 (file+headline +org-capture-notes-file "Inbox") ; target
+                 "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
+                 :prepend t ; properties
+                 :kill-buffer t))
+  (add-to-list 'org-capture-templates
+               '("L" "Protocol Link" entry
+                 (file+headline +org-capture-notes-file "Inbox")
+                 "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
+                 :prepend t
+                 :kill-buffer t
+                 ))
+  (add-to-list 'org-capture-templates
+               '("c" "Contact" entry
+                 (file+headline "~/Documents/RoamNotes/20220304154932-contacts.org" "Cambricon")
+                 "* %(org-contacts-template-name)\n :PROPERTIES:\n :BIRTHDAY: %^{yyyy-mm-dd}\n :EMAIL: %(org-contacts-template-email)\n :NOTE: %^{NOTE}\n :END:"
+                 :empty-lines 1
+                 :prepend t
+                 :kill-buffer t))
   )
 ;;;;;;;;;;;;;;;;;;;;;; elfeed ;;;;;;;;;;;;;;;;;;;;;
 (setq url-queue-timeout 30)
@@ -401,71 +396,68 @@
   :mode "\\.ledger\\'")
 ;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
 (use-package! mu4e
- :load-path "/data/app/mu-1.6.10/mu4e/"
- :init
- (setq mu4e-maildir (expand-file-name "/data/mail"))
- (setq mu4e-get-mail-command "true")
- ;; ;; sync
- (setq mu4e-get-mail-command "mbsync cambricon")
- (setq mu4e-change-filenames-when-moving t)
- (setq mu4e-view-prefer-html t)
- (setq mu4e-html2text-command "html2text -utf8 -width 150")
- (setq
-  +mu4e-backend 'mbsync
-  sendmail-program (executable-find "msmtp")
-  send-mail-function #'smtpmail-send-it
-  message-sendmail-f-is-evil t
-  message-sendmail-extra-arguments '("--read-envelope-from")
-  message-send-mail-function #'message-send-mail-with-sendmail
+  :load-path "/data/app/mu-1.6.10/mu4e/"
+  :init
+  (setq mu4e-mu-binary "/data/app/mu-1.6.10/mu/mu")
+  (setq mu4e-maildir (expand-file-name "/data/mail"))
+  (setq mu4e-get-mail-command "true")
+  ;; ;; sync
+  (setq mu4e-get-mail-command "mbsync cambricon")
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-view-prefer-html t)
+  (setq mu4e-html2text-command "html2text -utf8 -width 150")
+  (setq
+   +mu4e-backend 'mbsync
+   sendmail-program (executable-find "msmtp")
+   send-mail-function #'smtpmail-send-it
+   message-sendmail-f-is-evil t
+   message-sendmail-extra-arguments '("--read-envelope-from")
+   message-send-mail-function #'message-send-mail-with-sendmail)
 
-  )
+  ;; these are required for sending email
+  (setq smtpmail-default-smtp-server  "mail.cambricon.com")
+  (setq smtpmail-smtp-server "mail.cambricon.com")
 
- ;; these are required for sending email
- (setq
-  (smtpmail-default-smtp-server  "mail.cambricon.com")
-  (smtpmail-query-smtp-server "mail.cambricon.com"))
+  (set-email-account!
+   "cambricon"
+   '((mu4e-trash-folder      . "/cambricon/Trash/")
+     (mu4e-refile-folder     . "/cambricon/Inbox/")
+     (mu4e-sent-folder       . "/cambricon/sent/")
+     (mu4e-drafts-folder     . "/cambricon/drafts/")
+     (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
+     (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
+     )
+   t)
 
- (set-email-account!
-  "cambricon"
-  '((mu4e-trash-folder      . "/cambricon/Trash/")
-    (mu4e-refile-folder     . "/cambricon/Inbox/")
-    (mu4e-sent-folder       . "/cambricon/sent/")
-    (mu4e-drafts-folder     . "/cambricon/drafts/")
-    (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
-    (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
-    )
-  t)
+  (setq mu4e-org-contacts-file  "~/Documents/RoamNotes/20220304154932-contacts.org")
 
-  (require 'org-contacts)
-  (setq org-contacts-files '("~/Documents/RoamNotes/20220304154932-contacts.org"))
-  ;;(setq mu4e-org-contacts-file  "~/Documents/RoamNotes/20220304154932-contacts.org")
   ;;(add-to-list 'mu4e-headers-actions
   ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
   ;;(add-to-list 'mu4e-view-actions
   ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
- ;; refile
- (setq mu4e-refile-folder
-       (lambda (msg)
-         (cond
-          ;; message with Jira, goes to jira
-          (
-           (mu4e-message-contact-field-matches
-            msg
-            :to
-            "lanhuiying@cambricon.com")
+  ;; refile
+  (setq mu4e-refile-folder
+        (lambda (msg)
+          (cond
+           ;; message with Jira, goes to jira
+           (
+            (mu4e-message-contact-field-matches
+             msg
+             :to
+             "lanhuiying@cambricon.com")
             "/cambricon/Jira"
+            )
            )
           )
-         )
-       )
+        )
 
  ;;; capture and store link
- (map!
-  :map mu4e-headers-mode-map
-  :desc "org-store-link-and-capture"
-  "C-c c"
-  #'mu4e-org-store-and-capture)
-)
+  (map!
+   :map mu4e-headers-mode-map
+   :desc "org-store-link-and-capture"
+   "C-c c"
+   #'mu4e-org-store-and-capture)
+  )
 
 (map! "C-/" #'comment-line)
 (map! "C-," #'toggle-input-method)
@@ -497,45 +489,45 @@
     )
   )
 
-(use-package ejira
-  :init
-  (setq jiralib2-url              "http://jira.cambricon.com"
-        jiralib2-auth             'basic
-        jiralib2-user-login-name  "lanhuiying"
-        jiralib2-token            nil
+;; (use-package ejira
+;;   :init
+;;   (setq jiralib2-url              "http://jira.cambricon.com"
+;;         jiralib2-auth             'basic
+;;         jiralib2-user-login-name  "lanhuiying"
+;;         jiralib2-token            nil
 
-        ejira-org-directory       "/data/Projects/Jira"
-        ejira-projects            '("MAG")
+;;         ejira-org-directory       "/data/Projects/Jira"
+;;         ejira-projects            '("MAG")
 
-        ejira-priorities-alist    '(("Highest" . ?A)
-                                    ("High"    . ?B)
-                                    ("Medium"  . ?C)
-                                    ("Low"     . ?D)
-                                    ("Lowest"  . ?E))
-        ejira-todo-states-alist   '(("To Do"       . 1)
-                                    ("In Progress" . 2)
-                                    ("Done"        . 3)))
-  :config
-  ;; Tries to auto-set custom fields by looking into /editmeta
-  ;; of an issue and an epic.
-  (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields)
+;;         ejira-priorities-alist    '(("Highest" . ?A)
+;;                                     ("High"    . ?B)
+;;                                     ("Medium"  . ?C)
+;;                                     ("Low"     . ?D)
+;;                                     ("Lowest"  . ?E))
+;;         ejira-todo-states-alist   '(("To Do"       . 1)
+;;                                     ("In Progress" . 2)
+;;                                     ("Done"        . 3)))
+;;   :config
+;;   ;; Tries to auto-set custom fields by looking into /editmeta
+;;   ;; of an issue and an epic.
+;;   (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields)
 
-  ;; They can also be set manually if autoconfigure is not used.
-  ;; (setq ejira-sprint-field       'customfield_10001
-  ;;       ejira-epic-field         'customfield_10002
-  ;;       ejira-epic-summary-field 'customfield_10004)
+;;   ;; They can also be set manually if autoconfigure is not used.
+;;   ;; (setq ejira-sprint-field       'customfield_10001
+;;   ;;       ejira-epic-field         'customfield_10002
+;;   ;;       ejira-epic-summary-field 'customfield_10004)
 
-  (require 'ejira-agenda)
+;;   (require 'ejira-agenda)
 
-  ;; Make the issues visisble in your agenda by adding `ejira-org-directory'
-  ;; into your `org-agenda-files'.
-  (add-to-list 'org-agenda-files ejira-org-directory)
+;;   ;; Make the issues visisble in your agenda by adding `ejira-org-directory'
+;;   ;; into your `org-agenda-files'.
+;;   (add-to-list 'org-agenda-files ejira-org-directory)
 
-  ;; Add an agenda view to browse the issues that
-  (org-add-agenda-custom-command
-   '("j" "My JIRA issues"
-     ((ejira-jql "resolution = unresolved and assignee = currentUser()"
-                 ((org-agenda-overriding-header "Assigned to me")))))))
+;;   ;; Add an agenda view to browse the issues that
+;;   (org-add-agenda-custom-command
+;;    '("j" "My JIRA issues"
+;;      ((ejira-jql "resolution = unresolved and assignee = currentUser()"
+;;                  ((org-agenda-overriding-header "Assigned to me")))))))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -548,13 +540,6 @@
   (add-to-list 'org-agenda-files org_notes)
   (setq org-agenda-start-with-log-mode t))
 
-(use-package! eaf
-  :commands (eaf-open-browser eaf-open find-file)
-  :config
-  (use-package! ctable)
-  (use-package! deferred)
-  (use-package! epc))
-
 (use-package! scihub
   :init
   (setq scihub-download-directory "~/Documents/Resources/Papers"
@@ -564,3 +549,62 @@
 (use-package! beacon
   :init
   (setq beacon-mode t))
+
+(use-package! eaf
+ :load-path "~/.doom.d/packages/emacs-application-framework"
+ :custom
+ ; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
+ (eaf-browser-continue-where-left-off t)
+ (eaf-browser-enable-adblocker t)
+ (browse-url-browser-function 'eaf-open-browser)
+ :config
+ (require 'eaf-airshare)
+ (require 'eaf-jupyter)
+ ;;(require 'eaf-mermaid)
+ (require 'eaf-org-previewer)
+ (require 'eaf-markdown-previewer)
+ (require 'eaf-browser)
+ (require 'eaf-mindmap)
+ (require 'eaf-file-manager)
+ (require 'eaf-file-browser)
+ (require 'eaf-demo)
+ (require 'eaf-image-viewer)
+ (require 'eaf-terminal)
+ (require 'eaf-vue-demo)
+ (require 'eaf-file-sender)
+ (require 'eaf-pdf-viewer)
+ (require 'eaf-system-monitor)
+
+
+ (defalias 'browse-web #'eaf-open-browser)
+
+
+ ;;(define-key key-translation-map (kbd "SPC")
+ ;;    (lambda (prompt)
+ ;;      (if (derived-mode-p 'eaf-mode)
+ ;;          (pcase eaf--buffer-app-name
+ ;;            ("browser" (if  (string= (eaf-call-sync "call_function" eaf--buffer-id "is_focus") "True")
+ ;;                           (kbd "SPC")
+ ;;                         (kbd eaf-evil-leader-key)))
+ ;;            ("pdf-viewer" (kbd eaf-evil-leader-key))
+ ;;            ("image-viewer" (kbd eaf-evil-leader-key))
+ ;;            (_  (kbd "SPC")))
+ ;;        (kbd "SPC"))))
+ ) ;; unbind, see more in the Wiki
+
+
+(use-package! org-jira
+  :init
+  (setq jiralib-url "http://jira.cambricon.com")
+  (setq org-jira-working-dir "/data/Projects/Jira")
+  (setq org-jira-custom-jqls
+        '(
+          (:jql
+          "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
+          :limit 50
+          :filename "tfu-v0.10")
+          (:jql
+           "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
+           :limit 50
+           :filename "my-issues")
+          )))

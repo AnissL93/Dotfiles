@@ -528,6 +528,8 @@ sudo apt install  xutils-dev
 sh autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man --libdir=/usr/lib/x86_64-linux-gnu/
 #+end_src
 
+#+RESULTS:
+
 * Emacs usage
 * knowledge System
 ** reading wiki in terminal
