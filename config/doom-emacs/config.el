@@ -29,7 +29,7 @@
 ;; Sarasa Mono SC Nerd
 ;; UbuntuMono NF
 ;; InconsolataLGC NF
-(setq doom-font (font-spec :family "SauceCodePro NF" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "CodeNewRoman NF" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -74,7 +74,15 @@
 ;; they are implemented.
 
 (map! "C-/" #'comment-line)
-(map! "C-;" #'toggle-input-method)
+
+
+(defun set-input-method-to-rime ()
+  (interactive)
+  (if (string-equal "rime" default-input-method)
+    (toggle-input-method)
+    (set-input-method "rime")))
+
+(map! "C-;" #'set-input-method-to-rime)
 
 (map! :leader
       (:prefix-map ("e" . "S-expression operations")
@@ -185,18 +193,95 @@
 (after! org
   (require 'ox-latex)
   ;;(setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
+  (setq org-latex-compiler "xelatex")
+
   (unless (boundp 'org-latex-classes)
     (setq org-latex-classes nil))
-  (setq org-latex-compiler "xelatex")
+
   (add-to-list 'org-latex-classes
-               '("article"
-                 "\\documentclass{article}
-\\usepackage{ctex}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+                 '("ethz"
+                   "\\documentclass[a4paper,11pt,titlepage]{memoir}
+    \\usepackage[utf8]{inputenc}
+    \\usepackage[T1]{fontenc}
+    \\usepackage{fixltx2e}
+    \\usepackage{graphicx}
+    \\usepackage{longtable}
+    \\usepackage{float}
+    \\usepackage{wrapfig}
+    \\usepackage{rotating}
+    \\usepackage[normalem]{ulem}
+    \\usepackage{amsmath}
+    \\usepackage{textcomp}
+    \\usepackage{marvosym}
+    \\usepackage{wasysym}
+    \\usepackage{amssymb}
+    \\usepackage{hyperref}
+    \\usepackage{mathpazo}
+    \\usepackage{color}
+    \\usepackage{enumerate}
+    \\definecolor{bg}{rgb}{0.95,0.95,0.95}
+    \\tolerance=1000
+          [NO-DEFAULT-PACKAGES]
+          [PACKAGES]
+          [EXTRA]
+    \\linespread{1.1}
+    \\hypersetup{pdfborder=0 0 0}"
+                   ("\\chapter{%s}" . "\\chapter*{%s}")
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+
+    (add-to-list 'org-latex-classes
+                 '("article"
+                   "\\documentclass[11pt,a4paper]{article}
+    \\usepackage[utf8]{inputenc}
+    \\usepackage[T1]{fontenc}
+    \\usepackage{fixltx2e}
+    \\usepackage{graphicx}
+    \\usepackage{longtable}
+    \\usepackage{float}
+    \\usepackage{wrapfig}
+    \\usepackage{rotating}
+    \\usepackage[normalem]{ulem}
+    \\usepackage{amsmath}
+    \\usepackage{textcomp}
+    \\usepackage{marvosym}
+    \\usepackage{wasysym}
+    \\usepackage{amssymb}
+    \\usepackage{hyperref}
+    \\usepackage{mathpazo}
+    \\usepackage{color}
+    \\usepackage{enumerate}
+    \\usepackage{ctex}
+    \\definecolor{bg}{rgb}{0.95,0.95,0.95}
+    \\tolerance=1000
+          [NO-DEFAULT-PACKAGES]
+          [PACKAGES]
+          [EXTRA]
+    \\linespread{1.1}
+    \\hypersetup{pdfborder=0 0 0}"
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")))
+
+
+    (add-to-list 'org-latex-classes '("ebook"
+                                      "\\documentclass[11pt, oneside]{memoir}
+    \\setstocksize{9in}{6in}
+    \\settrimmedsize{\\stockheight}{\\stockwidth}{*}
+    \\setlrmarginsandblock{2cm}{2cm}{*} % Left and right margin
+    \\setulmarginsandblock{2cm}{2cm}{*} % Upper and lower margin
+    \\checkandfixthelayout
+    % Much more laTeX code omitted
+    "
+                                      ("\\chapter{%s}" . "\\chapter*{%s}")
+                                      ("\\section{%s}" . "\\section*{%s}")
+                                      ("\\subsection{%s}" . "\\subsection*{%s}")))
+
   )
 ;;;; org babel
 (org-babel-do-load-languages
@@ -296,10 +381,16 @@
            (file+head "bibliography/notes/${citekey}.org" "#+TITLE: ${title}\n")
            :unnarrowed t)
 
-
           ("d" "default" plain "%?" :target
            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
+
+          ("p" "project" plain
+           (file "~/.doom.d/capture_tmpl/proj.org")
+           :target
+           (file+head "projs/${slug}.org" "#+TITLE: ${slug}\n")
+           :unnarrowed t)
+
           ))
   )
 
@@ -572,7 +663,7 @@
  (require 'eaf-terminal)
  (require 'eaf-vue-demo)
  (require 'eaf-file-sender)
- (require 'eaf-pdf-viewer)
+ ;;(require 'eaf-pdf-viewer)
  (require 'eaf-system-monitor)
 
 
@@ -600,6 +691,22 @@
   (setq org-jira-custom-jqls
         '(
           (:jql
+          "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+          :filename "tfu-bug")
+          (:jql
+          "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+          :filename "tfu-feature")
+          (:jql
+          "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (e2e_perf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+          :filename "e2e-perf-bug")
+          (:jql
+          "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+          :filename "e2e-perf-feature")
+          (:jql
+          "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
+          :limit 50
+          :filename "tfu-v0.9")
+          (:jql
           "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
           :limit 50
           :filename "tfu-v0.10")
@@ -608,3 +715,12 @@
            :limit 50
            :filename "my-issues")
           )))
+
+(use-package! ox-hugo
+  :config
+  (setq org-hugo-base-dir "/data/DataBase/hugo")
+  :after ox)
+
+(with-eval-after-load 'ox
+  (require 'ox-pandoc))
+

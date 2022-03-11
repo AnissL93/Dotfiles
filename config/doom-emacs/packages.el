@@ -109,3 +109,6 @@
 ;;            :repo "emacs-eaf/emacs-application-framework"
 ;;            :files ("*")
 ;;            :pre-build (("python3" "install-eaf.py" "--install" "pdf-viewer" "--ignore-sys-deps"))))
+
+
+(package! ox-hugo)
