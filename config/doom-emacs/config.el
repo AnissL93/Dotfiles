@@ -29,7 +29,7 @@
 ;; Sarasa Mono SC Nerd
 ;; UbuntuMono NF
 ;; InconsolataLGC NF
-(setq doom-font (font-spec :family "Liberation Mono" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "CodeNewRoman NF" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -257,14 +257,14 @@
           [EXTRA]
     \\linespread{1.1}
     \\hypersetup{pdfborder=0 0 0}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")))
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")))
 
 
-  (add-to-list 'org-latex-classes '("ebook"
-                                    "\\documentclass[11pt, oneside]{memoir}
+    (add-to-list 'org-latex-classes '("ebook"
+                                      "\\documentclass[11pt, oneside]{memoir}
     \\setstocksize{9in}{6in}
     \\settrimmedsize{\\stockheight}{\\stockwidth}{*}
     \\setlrmarginsandblock{2cm}{2cm}{*} % Left and right margin
