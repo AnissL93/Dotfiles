@@ -64,6 +64,9 @@
 (package! alect-themes)
 (package! gotham-theme)
 (package! darktooth-theme)
+(package! color-theme-modern)
+(package! avk-emacs-themes)
+(package! sublime-themes)
 
 ;; tools
 (package! rime

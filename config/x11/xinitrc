@@ -11,7 +11,7 @@ redshift &
 
 xmodmap ~/.config/x11/xmodmap
 
-~/.config/x2ray/bin/xray run --config ~/.config/x2ray/v2ray_cli/config.json &
+~/.config/x2ray/bin/xray run --config ~/.config/x2ray/vless_tcp_xtls.json &
 
 xbacklight -set $(cat ~/.config/X11/xbacklight)
 

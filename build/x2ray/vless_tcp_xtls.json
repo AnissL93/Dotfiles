@@ -22,7 +22,7 @@
                         "port": 443,
                         "users": [
                             {
-                                "id": "216bcf5f-1234-42fb-8dda-f28568a5eab6", // 填写你的 UUID
+                                "id": "8f5fa7a0-d1ac-4aab-9847-fb9ddee93895", // 填写你的 UUID
                                 "flow": "xtls-rprx-direct",
                                 "encryption": "none",
                                 "level": 0
@@ -35,7 +35,7 @@
                 "network": "tcp",
                 "security": "xtls", // 需要使用 XTLS
                 "xtlsSettings": {
-                    "serverName": "www.beyissi.top" // 换成你的域名
+                    "serverName": "wallpaper.beyissi.top" // 换成你的域名
                 }
             }
         }
