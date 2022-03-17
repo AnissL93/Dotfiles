@@ -38,7 +38,7 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
-(setq doom-theme 'doom-snazzy)
+(setq doom-theme 'gotham)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -452,19 +452,6 @@
   (setq org-contacts-files '("~/Documents/RoamNotes/20220304154932-contacts.org"))
   ;; Firefox and Chrome
   (add-to-list 'org-capture-templates
-               '("P" "Protocol" entry ; key, name, type
-                 (file+headline +org-capture-notes-file "Inbox") ; target
-                 "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
-                 :prepend t ; properties
-                 :kill-buffer t))
-  (add-to-list 'org-capture-templates
-               '("L" "Protocol Link" entry
-                 (file+headline +org-capture-notes-file "Inbox")
-                 "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
-                 :prepend t
-                 :kill-buffer t
-                 ))
-  (add-to-list 'org-capture-templates
                '("c" "Contact" entry
                  (file+headline "~/Documents/RoamNotes/20220304154932-contacts.org" "Cambricon")
                  "* %(org-contacts-template-name)\n :PROPERTIES:\n :BIRTHDAY: %^{yyyy-mm-dd}\n :EMAIL: %(org-contacts-template-email)\n :NOTE: %^{NOTE}\n :END:"
@@ -564,22 +551,22 @@ With a prefix argument, insert only the non-directory part."
     (setq org-jira-working-dir "/data/Projects/Jira")
     (setq org-jira-custom-jqls
           '(
-            (:jql
-             "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
-             :filename "tfu-bug")
-            (:jql
-             "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
-             :filename "tfu-feature")
-            (:jql
-             "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (e2e_perf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
-             :filename "e2e-perf-bug")
-            (:jql
-             "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
-             :filename "e2e-perf-feature")
-            (:jql
-             "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
-             :limit 50
-             :filename "tfu-v0.9")
+            ;; (:jql
+            ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+            ;; :filename "tfu-bug")
+            ;; (:jql
+            ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+            ;; :filename "tfu-feature")
+            ;; (:jql
+            ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (e2e_perf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+            ;; :filename "e2e-perf-bug")
+            ;; (:jql
+            ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+            ;; :filename "e2e-perf-feature")
+            ;; (:jql
+            ;; "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
+            ;; :limit 50
+            ;; :filename "tfu-v0.9")
             (:jql
              "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
              :limit 50
@@ -588,16 +575,14 @@ With a prefix argument, insert only the non-directory part."
              "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
              :limit 50
              :filename "my-issues")
-            )))
-
-  (use-package! ox-hugo
-    :config
-    (setq org-hugo-base-dir "/data/DataBase/hugo")
-    :after ox)
-
-  (with-eval-after-load 'ox
-    (require 'ox-pandoc))
-
+            (:jql
+             "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
+             :filename "tfu-v0.9-bugs")
+            (:jql
+             "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status ASC, priority DESC, updated DESC"
+             :filename "tfu-v0.10-bugs")
+            )
+          ))
 
   (use-package! mu4e
     :load-path "/data/app/mu-1.6.10/mu4e/"
@@ -655,13 +640,25 @@ With a prefix argument, insert only the non-directory part."
             )
           )
 
-;;; capture and store link
     (map!
      :map mu4e-headers-mode-map
      :desc "org-store-link-and-capture"
      "C-c c"
      #'mu4e-org-store-and-capture)
     )
+
+  (use-package! eaf
+    :load-path "~/.doom.d/packages/emacs-application-framework"
+    :config
+    (require 'eaf-mindmap))
+
+  (use-package! ox-hugo
+    :config
+    (setq org-hugo-base-dir "/data/DataBase/hugo")
+    :after ox)
+
+  (with-eval-after-load 'ox
+    (require 'ox-pandoc))
   )
 
 (when (equal "personal" (getenv "DIST"))
