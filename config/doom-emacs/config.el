@@ -29,7 +29,7 @@
 ;; Sarasa Mono SC Nerd
 ;; UbuntuMono NF
 ;; InconsolataLGC NF
-(setq doom-font (font-spec :family "CodeNewRoman NF" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "SauceCodePro NF" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -79,7 +79,7 @@
 (defun set-input-method-to-rime ()
   (interactive)
   (if (string-equal "rime" default-input-method)
-    (toggle-input-method)
+      (toggle-input-method)
     (set-input-method "rime")))
 
 (map! "C-;" #'set-input-method-to-rime)
@@ -199,8 +199,8 @@
     (setq org-latex-classes nil))
 
   (add-to-list 'org-latex-classes
-                 '("ethz"
-                   "\\documentclass[a4paper,11pt,titlepage]{memoir}
+               '("ethz"
+                 "\\documentclass[a4paper,11pt,titlepage]{memoir}
     \\usepackage[utf8]{inputenc}
     \\usepackage[T1]{fontenc}
     \\usepackage{fixltx2e}
@@ -226,17 +226,17 @@
           [EXTRA]
     \\linespread{1.1}
     \\hypersetup{pdfborder=0 0 0}"
-                   ("\\chapter{%s}" . "\\chapter*{%s}")
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 
-    (add-to-list 'org-latex-classes
-                 '("article"
-                   "\\documentclass[11pt,a4paper]{article}
+  (add-to-list 'org-latex-classes
+               '("article"
+                 "\\documentclass[11pt,a4paper]{article}
     \\usepackage[utf8]{inputenc}
     \\usepackage[T1]{fontenc}
     \\usepackage{fixltx2e}
@@ -263,14 +263,14 @@
           [EXTRA]
     \\linespread{1.1}
     \\hypersetup{pdfborder=0 0 0}"
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\paragraph{%s}" . "\\paragraph*{%s}")))
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")))
 
 
-    (add-to-list 'org-latex-classes '("ebook"
-                                      "\\documentclass[11pt, oneside]{memoir}
+  (add-to-list 'org-latex-classes '("ebook"
+                                    "\\documentclass[11pt, oneside]{memoir}
     \\setstocksize{9in}{6in}
     \\settrimmedsize{\\stockheight}{\\stockwidth}{*}
     \\setlrmarginsandblock{2cm}{2cm}{*} % Left and right margin
@@ -278,9 +278,9 @@
     \\checkandfixthelayout
     % Much more laTeX code omitted
     "
-                                      ("\\chapter{%s}" . "\\chapter*{%s}")
-                                      ("\\section{%s}" . "\\section*{%s}")
-                                      ("\\subsection{%s}" . "\\subsection*{%s}")))
+                                    ("\\chapter{%s}" . "\\chapter*{%s}")
+                                    ("\\section{%s}" . "\\section*{%s}")
+                                    ("\\subsection{%s}" . "\\subsection*{%s}")))
 
   )
 ;;;; org babel
@@ -294,7 +294,7 @@
    (ledger . t)         ;this is the important one for this tutorial
    (python . t)
    (sh . t)
-))
+   ))
 
 (use-package! rime
   :custom
@@ -486,69 +486,6 @@
   (setq ledger-clear-whole-transactions 1)
   :mode "\\.ledger\\'")
 ;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
-(use-package! mu4e
-  :load-path "/data/app/mu-1.6.10/mu4e/"
-  :init
-  (setq mu4e-mu-binary "/data/app/mu-1.6.10/mu/mu")
-  (setq mu4e-maildir (expand-file-name "/data/mail"))
-  (setq mu4e-get-mail-command "true")
-  ;; ;; sync
-  (setq mu4e-get-mail-command "mbsync cambricon")
-  (setq mu4e-change-filenames-when-moving t)
-  (setq mu4e-view-prefer-html t)
-  (setq mu4e-html2text-command "html2text -utf8 -width 150")
-  (setq
-   +mu4e-backend 'mbsync
-   sendmail-program (executable-find "msmtp")
-   send-mail-function #'smtpmail-send-it
-   message-sendmail-f-is-evil t
-   message-sendmail-extra-arguments '("--read-envelope-from")
-   message-send-mail-function #'message-send-mail-with-sendmail)
-
-  ;; these are required for sending email
-  (setq smtpmail-default-smtp-server  "mail.cambricon.com")
-  (setq smtpmail-smtp-server "mail.cambricon.com")
-
-  (set-email-account!
-   "cambricon"
-   '((mu4e-trash-folder      . "/cambricon/Trash/")
-     (mu4e-refile-folder     . "/cambricon/Inbox/")
-     (mu4e-sent-folder       . "/cambricon/sent/")
-     (mu4e-drafts-folder     . "/cambricon/drafts/")
-     (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
-     (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
-     )
-   t)
-
-  (setq mu4e-org-contacts-file  "~/Documents/RoamNotes/20220304154932-contacts.org")
-
-  ;;(add-to-list 'mu4e-headers-actions
-  ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
-  ;;(add-to-list 'mu4e-view-actions
-  ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
-  ;; refile
-  (setq mu4e-refile-folder
-        (lambda (msg)
-          (cond
-           ;; message with Jira, goes to jira
-           (
-            (mu4e-message-contact-field-matches
-             msg
-             :to
-             "lanhuiying@cambricon.com")
-            "/cambricon/Jira"
-            )
-           )
-          )
-        )
-
- ;;; capture and store link
-  (map!
-   :map mu4e-headers-mode-map
-   :desc "org-store-link-and-capture"
-   "C-c c"
-   #'mu4e-org-store-and-capture)
-  )
 
 (map! "C-/" #'comment-line)
 (map! "C-," #'toggle-input-method)
@@ -565,66 +502,12 @@
   :desc "Date" "d" #'insert-date-string))
 
 ;;;;;;;;;;;;; org ;;;;;;;;;;;;;;;
-(defvar task-type-list (list "Review" "Meeting" "Bug"))
-
-(defun add-review-task ()
-  "Read text from clipboard, and add this as a todo"
-  (interactive)
-  ;; get clipboard content
-  (let* ((text (x-get-clipboard))
-         (org-f "/data/Projects/RoamNotes/20220217164749-review.org"))
-
-    ;; get mr id from text
-    ;; insert node to review file
-    ;; insert link to today
-    )
-  )
-
-;; (use-package ejira
-;;   :init
-;;   (setq jiralib2-url              "http://jira.cambricon.com"
-;;         jiralib2-auth             'basic
-;;         jiralib2-user-login-name  "lanhuiying"
-;;         jiralib2-token            nil
-
-;;         ejira-org-directory       "/data/Projects/Jira"
-;;         ejira-projects            '("MAG")
-
-;;         ejira-priorities-alist    '(("Highest" . ?A)
-;;                                     ("High"    . ?B)
-;;                                     ("Medium"  . ?C)
-;;                                     ("Low"     . ?D)
-;;                                     ("Lowest"  . ?E))
-;;         ejira-todo-states-alist   '(("To Do"       . 1)
-;;                                     ("In Progress" . 2)
-;;                                     ("Done"        . 3)))
-;;   :config
-;;   ;; Tries to auto-set custom fields by looking into /editmeta
-;;   ;; of an issue and an epic.
-;;   (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields)
-
-;;   ;; They can also be set manually if autoconfigure is not used.
-;;   ;; (setq ejira-sprint-field       'customfield_10001
-;;   ;;       ejira-epic-field         'customfield_10002
-;;   ;;       ejira-epic-summary-field 'customfield_10004)
-
-;;   (require 'ejira-agenda)
-
-;;   ;; Make the issues visisble in your agenda by adding `ejira-org-directory'
-;;   ;; into your `org-agenda-files'.
-;;   (add-to-list 'org-agenda-files ejira-org-directory)
-
-;;   ;; Add an agenda view to browse the issues that
-;;   (org-add-agenda-custom-command
-;;    '("j" "My JIRA issues"
-;;      ((ejira-jql "resolution = unresolved and assignee = currentUser()"
-;;                  ((org-agenda-overriding-header "Assigned to me")))))))
-
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((plantuml . t))) ; this line activates plantuml
 
 (setq org-plantuml-jar-path "/data/app/plantuml-1.2022.1.jar")
+
 
 (use-package! org-agenda
   :init
@@ -641,86 +524,109 @@
   :init
   (setq beacon-mode t))
 
-(use-package! eaf
- :load-path "~/.doom.d/packages/emacs-application-framework"
- :custom
- ; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
- (eaf-browser-continue-where-left-off t)
- (eaf-browser-enable-adblocker t)
- (browse-url-browser-function 'eaf-open-browser)
- :config
- (require 'eaf-airshare)
- (require 'eaf-jupyter)
- ;;(require 'eaf-mermaid)
- (require 'eaf-org-previewer)
- (require 'eaf-markdown-previewer)
- (require 'eaf-browser)
- (require 'eaf-mindmap)
- (require 'eaf-file-manager)
- (require 'eaf-file-browser)
- (require 'eaf-demo)
- (require 'eaf-image-viewer)
- (require 'eaf-terminal)
- (require 'eaf-vue-demo)
- (require 'eaf-file-sender)
- ;;(require 'eaf-pdf-viewer)
- (require 'eaf-system-monitor)
+(when (equal "work" (getenv "DIST"))
+  (use-package! org-jira
+    :init
+    (setq jiralib-url "http://jira.cambricon.com")
+    (setq org-jira-working-dir "/data/Projects/Jira")
+    (setq org-jira-custom-jqls
+          '(
+            (:jql
+             "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+             :filename "tfu-bug")
+            (:jql
+             "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+             :filename "tfu-feature")
+            (:jql
+             "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (e2e_perf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+             :filename "e2e-perf-bug")
+            (:jql
+             "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+             :filename "e2e-perf-feature")
+            (:jql
+             "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
+             :limit 50
+             :filename "tfu-v0.9")
+            (:jql
+             "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
+             :limit 50
+             :filename "tfu-v0.10")
+            (:jql
+             "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
+             :limit 50
+             :filename "my-issues")
+            )))
+
+  (use-package! ox-hugo
+    :config
+    (setq org-hugo-base-dir "/data/DataBase/hugo")
+    :after ox)
+
+  (with-eval-after-load 'ox
+    (require 'ox-pandoc))
 
 
- (defalias 'browse-web #'eaf-open-browser)
+  (use-package! mu4e
+    :load-path "/data/app/mu-1.6.10/mu4e/"
+    :init
+    (setq mu4e-mu-binary "/data/app/mu-1.6.10/mu/mu")
+    (setq mu4e-maildir (expand-file-name "/data/mail"))
+    (setq mu4e-get-mail-command "true")
+    ;; ;; sync
+    (setq mu4e-get-mail-command "mbsync cambricon")
+    (setq mu4e-change-filenames-when-moving t)
+    (setq mu4e-view-prefer-html t)
+    (setq mu4e-html2text-command "html2text -utf8 -width 150")
+    (setq
+     +mu4e-backend 'mbsync
+     sendmail-program (executable-find "msmtp")
+     send-mail-function #'smtpmail-send-it
+     message-sendmail-f-is-evil t
+     message-sendmail-extra-arguments '("--read-envelope-from")
+     message-send-mail-function #'message-send-mail-with-sendmail)
 
+    ;; these are required for sending email
+    (setq smtpmail-default-smtp-server  "mail.cambricon.com")
+    (setq smtpmail-smtp-server "mail.cambricon.com")
 
- ;;(define-key key-translation-map (kbd "SPC")
- ;;    (lambda (prompt)
- ;;      (if (derived-mode-p 'eaf-mode)
- ;;          (pcase eaf--buffer-app-name
- ;;            ("browser" (if  (string= (eaf-call-sync "call_function" eaf--buffer-id "is_focus") "True")
- ;;                           (kbd "SPC")
- ;;                         (kbd eaf-evil-leader-key)))
- ;;            ("pdf-viewer" (kbd eaf-evil-leader-key))
- ;;            ("image-viewer" (kbd eaf-evil-leader-key))
- ;;            (_  (kbd "SPC")))
- ;;        (kbd "SPC"))))
- ) ;; unbind, see more in the Wiki
+    (set-email-account!
+     "cambricon"
+     '((mu4e-trash-folder      . "/cambricon/Trash/")
+       (mu4e-refile-folder     . "/cambricon/Inbox/")
+       (mu4e-sent-folder       . "/cambricon/sent/")
+       (mu4e-drafts-folder     . "/cambricon/drafts/")
+       (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
+       (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
+       )
+     t)
 
+    (setq mu4e-org-contacts-file  "~/Documents/RoamNotes/20220304154932-contacts.org")
 
-(use-package! org-jira
-  :init
-  (setq jiralib-url "http://jira.cambricon.com")
-  (setq org-jira-working-dir "/data/Projects/Jira")
-  (setq org-jira-custom-jqls
-        '(
-          (:jql
-          "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
-          :filename "tfu-bug")
-          (:jql
-          "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
-          :filename "tfu-feature")
-          (:jql
-          "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (e2e_perf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
-          :filename "e2e-perf-bug")
-          (:jql
-          "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
-          :filename "e2e-perf-feature")
-          (:jql
-          "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
-          :limit 50
-          :filename "tfu-v0.9")
-          (:jql
-          "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
-          :limit 50
-          :filename "tfu-v0.10")
-          (:jql
-           "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
-           :limit 50
-           :filename "my-issues")
-          )))
+    ;;(add-to-list 'mu4e-headers-actions
+    ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
+    ;;(add-to-list 'mu4e-view-actions
+    ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
+    ;; refile
+    (setq mu4e-refile-folder
+          (lambda (msg)
+            (cond
+             ;; message with Jira, goes to jira
+             (
+              (mu4e-message-contact-field-matches
+               msg
+               :to
+               "lanhuiying@cambricon.com")
+              "/cambricon/Jira"
+              )
+             )
+            )
+          )
 
-(use-package! ox-hugo
-  :config
-  (setq org-hugo-base-dir "/data/DataBase/hugo")
-  :after ox)
-
-(with-eval-after-load 'ox
-  (require 'ox-pandoc))
-
+;;; capture and store link
+    (map!
+     :map mu4e-headers-mode-map
+     :desc "org-store-link-and-capture"
+     "C-c c"
+     #'mu4e-org-store-and-capture)
+    )
+  )
