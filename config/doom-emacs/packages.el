@@ -109,3 +109,4 @@
 (package! ox-hugo)
 (package! arduino-mode)
 (package! org-super-agenda)
+(package! ox-wk)

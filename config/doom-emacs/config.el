@@ -38,13 +38,14 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
-(setq doom-theme 'gotham)
+(setq doom-theme 'avk-darkblue-white)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq
  gtd_files (concat (getenv "HOME") "/Documents/RoamNotes/gtd/")
  org_notes (concat (getenv "HOME") "/Documents/RoamNotes/")
+ work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
  bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
  org-directory org_notes
  deft-directory org_notes
@@ -658,8 +659,9 @@ With a prefix argument, insert only the non-directory part."
     :after ox)
 
   (with-eval-after-load 'ox
-    (require 'ox-pandoc))
-  )
+    (require 'ox-pandoc)
+    (require 'ox-jira)
+    (require 'ox-wk)))
 
 (when (equal "personal" (getenv "DIST"))
   ;;
@@ -673,4 +675,3 @@ With a prefix argument, insert only the non-directory part."
   (setenv "https_proxy" "socks5://127.0.0.1:10800")
   (setq reftex-default-bibliography '("~/Documents/RoamNotes/bibliography/ref.bib"))
   )
-
