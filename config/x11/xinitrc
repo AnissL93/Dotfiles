@@ -23,6 +23,10 @@ xwallpaper --zoom "$HOME/.local/share/bg"
 wal -i $(realpath "$HOME/.local/share/bg") --backend colorz
 xrdb -merge ~/.Xresources
 
+xset -dpms
+xset s off
+
 emacs --daemon
 dwmblocks &
 exec dwm
+

@@ -29,7 +29,7 @@
 ;; Sarasa Mono SC Nerd
 ;; UbuntuMono NF
 ;; InconsolataLGC NF
-(setq doom-font (font-spec :family "SauceCodePro NF" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "Sarasa Mono CL" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -38,17 +38,17 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
-(setq doom-theme 'darktooth)
+(setq doom-theme 'doom-snazzy)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq
+ gtd_files (concat (getenv "HOME") "/Documents/RoamNotes/gtd/")
  org_notes (concat (getenv "HOME") "/Documents/RoamNotes/")
  bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
  org-directory org_notes
  deft-directory org_notes
- org-roam-directory org-directory
- org-agenda-files (list org_notes))
+ org-roam-directory org-directory)
 
 
 ;;(add-to-list org-agenda-files "~/Projects/RoamNotes/*.org")
@@ -86,19 +86,13 @@
 
 (map! :leader
       (:prefix-map ("e" . "S-expression operations")
-       (:prefix ("s" . "S-expression slurp")
-        :desc "slurp-forward" "f" #'sp-forward-slurp-sexp
-        :desc "slurp-backward" "b" #'sp-backward-slurp-sexp
-        )
-       (:prefix ("b" . "barf S-expression")
-        :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
-        :desc "move the last sexp out" "f" #'sp-forward-barf-sexp
-        ))
+       :desc "slurp-forward" "s" #'sp-forward-slurp-sexp
+       :desc "slurp-backward" "S" #'sp-backward-slurp-sexp
+       :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
+       :desc "move the last sexp out" "B" #'sp-forward-barf-sexp)
       (:prefix-map ("j" . "Easy motion movement")
-       (:prefix ("l" . "Jump to line")
-        :desc "jump goto line above" "b" #'avy-goto-line-above
-        :desc "jump goto line below" "f" #'avy-goto-line-below
-        )
+       :desc "jump goto line above" "l" #'avy-goto-line-above
+       :desc "jump goto line below" "L" #'avy-goto-line-below
        :desc "goto char" "j" #'evil-avy-goto-char
        :desc "goto word" "w" #'evil-avy-goto-word-0
        )
@@ -477,6 +471,14 @@
                  :empty-lines 1
                  :prepend t
                  :kill-buffer t))
+  ;;; gtd
+  (add-to-list 'org-capture-templates
+               '("i" "Inbox" entry
+                 (file+headline "~/Documents/RoamNotes/gtd/inbox.org" "Inbox")
+                 "* TODO %?\n"
+                 :empty-lines 1
+                 :prepend t
+                 :kill-buffer t))
   )
 ;;;;;;;;;;;;;;;;;;;;;; elfeed ;;;;;;;;;;;;;;;;;;;;;
 (setq url-queue-timeout 30)
@@ -495,11 +497,19 @@
   (insert
    (current-time-string)))
 
+(defun insert-file-path (file &optional relativep)
+  "Read file name and insert it at point.
+With a prefix argument, insert only the non-directory part."
+  (interactive "fFile: \nP")
+  (when relativep (setq file (file-name-nondirectory file)))
+  (insert (replace-regexp-in-string (getenv "HOME") "~" file)))
+
 (map!
  :leader
  (:prefix ("i" . insert)
   :nv
-  :desc "Date" "d" #'insert-date-string))
+  :desc "Date" "d" #'insert-date-string
+  :desc "File path" "P" #'insert-file-path))
 
 ;;;;;;;;;;;;; org ;;;;;;;;;;;;;;;
 (org-babel-do-load-languages
@@ -511,8 +521,31 @@
 
 (use-package! org-agenda
   :init
-  (add-to-list 'org-agenda-files org_notes)
+  (setq org-agenda-files
+               (directory-files-recursively gtd_files "\.org$"))
   (setq org-agenda-start-with-log-mode t))
+
+
+(use-package! org-super-agenda
+  :init
+  ;; (let ((org-agenda-span 'day)
+  ;;       (org-super-agenda-groups
+  ;;        '((:name "Time grid items in all-uppercase with RosyBrown1 foreground"
+  ;;                 :time-grid t
+  ;;                 :transformer (--> it
+  ;;                                   (upcase it)
+  ;;                                   (propertize it 'face '(:foreground "RosyBrown1"))))
+  ;;          (:name "Priority >= C items underlined, on black background"
+  ;;                 :face (:background "black" :underline t)
+  ;;                 :not (:priority>= "C")
+  ;;                 :order 100))))
+  ;;   (org-agenda nil "a")
+
+  (let ((org-super-agenda-groups
+         '((:auto-group t))
+         ))
+    (org-agenda-list))
+  )
 
 (use-package! scihub
   :init
@@ -630,3 +663,17 @@
      #'mu4e-org-store-and-capture)
     )
   )
+
+(when (equal "personal" (getenv "DIST"))
+  ;;
+  (use-package! arduino-mode
+    :init
+    (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
+    (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t))
+
+  ;;; set proxy
+  (setenv "http_proxy" "socks5://127.0.0.1:10800")
+  (setenv "https_proxy" "socks5://127.0.0.1:10800")
+  (setq reftex-default-bibliography '("~/Documents/RoamNotes/bibliography/ref.bib"))
+  )
+

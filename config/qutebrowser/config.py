@@ -448,6 +448,7 @@ config.unbind("<Ctrl-p>", mode="normal")
 
 config.bind("<Ctrl-p>", "set content.proxy none")
 config.bind("<Ctrl-Shift-p>", "set content.proxy socks5://localhost:10800")
+config.bind("<Alt-p>", "set content.proxy http://localhost:10809")
 
 ## Which algorithm to use for modifying how colors are rendered with
 ## darkmode. The `lightness-cielab` value was added with QtWebEngine 5.14
@@ -475,7 +476,7 @@ c.colors.webpage.darkmode.contrast = 0.0
 ## `colors.webpage.darkmode.threshold.background` to 205.  - "With
 ## selective inversion of everything": Combines the two variants   above.
 ## Type: Bool
-c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.enabled = False
 
 ## Render all colors as grayscale. This only has an effect when
 ## `colors.webpage.darkmode.algorithm` is set to `lightness-hsl` or
