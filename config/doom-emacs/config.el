@@ -29,7 +29,8 @@
 ;; Sarasa Mono SC Nerd
 ;; UbuntuMono NF
 ;; InconsolataLGC NF
-(setq doom-font (font-spec :family "CodeNewRoman NF" :size 18 :weight 'semi-light)
+;; VictorMono NF
+(setq doom-font (font-spec :family "VictorMono NF" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -513,6 +514,10 @@ With a prefix argument, insert only the non-directory part."
                (directory-files-recursively gtd_files "\.org$"))
   (setq org-agenda-start-with-log-mode t))
 
+(defun insert-now-timestamp()
+  "Insert org mode timestamp at point with current date and time."
+  (interactive)
+  (org-insert-time-stamp (current-time) t))
 
 (use-package! org-super-agenda
   :init
@@ -568,18 +573,18 @@ With a prefix argument, insert only the non-directory part."
             ;; "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
             ;; :limit 50
             ;; :filename "tfu-v0.9")
-            (:jql
-             "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
-             :limit 50
-             :filename "tfu-v0.10")
-            (:jql
-             "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
-             :limit 50
-             :filename "my-issues")
-            (:jql
-             "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
-             :filename "tfu-v0.9-bugs")
-            (:jql
+            ;; (:jql
+            ;;  "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
+            ;;  :limit 50
+            ;;  :filename "tfu-v0.10")
+            ;; (:jql
+            ;;  "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
+            ;;  :limit 50
+            ;;  :filename "my-issues")
+            ;; (:jql
+            ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
+            ;;  :filename "tfu-v0.9-bugs")
+            ;; (:jql
              "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status ASC, priority DESC, updated DESC"
              :filename "tfu-v0.10-bugs")
             )
