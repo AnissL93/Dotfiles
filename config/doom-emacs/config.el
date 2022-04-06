@@ -584,7 +584,7 @@ With a prefix argument, insert only the non-directory part."
             ;; (:jql
             ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
             ;;  :filename "tfu-v0.9-bugs")
-            ;; (:jql
+            (:jql
              "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status ASC, priority DESC, updated DESC"
              :filename "tfu-v0.10-bugs")
             )
