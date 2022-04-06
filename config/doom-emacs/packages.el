@@ -67,14 +67,12 @@
 (package! color-theme-modern)
 (package! avk-emacs-themes)
 (package! sublime-themes)
+(package! humanoid-themes)
 
 ;; tools
 (package! rime
   :recipe
   (:host github :repo "DogLooksGood/emacs-rime" :files ("*.el" "Makefile" "lib.c")))
-
-;; org
-;; (package! deft)
 
 (package! org-ref
   :recipe (:host github :repo "jkitchin/org-ref"))
@@ -107,6 +105,9 @@
 
 (package! org-jira)
 (package! ox-hugo)
-(package! arduino-mode)
 (package! org-super-agenda)
 (package! ox-wk)
+(package! ox-jira)
+
+(while (equal "work" (getenv "DIST"))
+  (package! arduino-mode))
