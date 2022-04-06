@@ -447,6 +447,11 @@ config.bind(
 config.unbind("<Ctrl-p>", mode="normal")
 
 config.bind("<Ctrl-p>", "set content.proxy none")
+config.bind("<Ctrl-Shift-p>", "set content.proxy system")
+
+config.unbind("<Ctrl-p>", mode="normal")
+
+config.bind("<Ctrl-p>", "set content.proxy none")
 config.bind("<Ctrl-Shift-p>", "set content.proxy socks5://localhost:10800")
 config.bind("<Alt-p>", "set content.proxy http://localhost:10809")
 
