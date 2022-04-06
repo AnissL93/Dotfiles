@@ -1,2 +1,7 @@
+- tags ::
+- keywords :: %^{keywords}
 
-#PRPK
+* %^{title}
+** Inbox
+** Tasks
+** Plan
