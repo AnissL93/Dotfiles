@@ -76,8 +76,8 @@
 
 (package! org-ref
   :recipe (:host github :repo "jkitchin/org-ref"))
-(package! org-noter
-  :recipe (:host github :repo "weirdNox/org-noter"))
+;; (package! org-noter
+;;   :recipe (:host github :repo "weirdNox/org-noter"))
 (package! ivy-bibtex)
 (package! org-roam-bibtex
   :recipe (:host github :repo "org-roam/org-roam-bibtex"))
@@ -104,7 +104,7 @@
 (package! minimap)
 
 (package! org-jira)
-(package! ox-hugo)
+;; (package! ox-hugo)
 (package! org-super-agenda)
 (package! ox-wk)
 (package! ox-jira)

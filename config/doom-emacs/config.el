@@ -30,7 +30,7 @@
 ;; UbuntuMono NF
 ;; InconsolataLGC NF
 ;; VictorMono NF
-(setq doom-font (font-spec :family "mononoki" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "mononoki NF" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 17))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and

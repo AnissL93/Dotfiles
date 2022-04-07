@@ -318,7 +318,7 @@
     (map! :leader
           (:prefix-map ("m")
            (:prefix ("d" . "+data/deadline")
-           :desc "org-timestamp-now" "n" #'aniss/set-timestamp-to-headline
+            :desc "org-timestamp-now" "n" #'aniss/set-timestamp-to-headline
             )))
 
     (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
@@ -334,4 +334,59 @@
 
   (setq org-after-todo-state-change-hook 'aniss/add-timestamp-to-headline)
 
+  (defun insert-now-timestamp()
+    "Insert org mode timestamp at point with current date and time."
+    (interactive)
+    (org-insert-time-stamp (current-time) t))
+
+  ;;; jira
+  (when (equal "work" (getenv "DIST"))
+    (use-package! org-jira
+      :init
+      (setq jiralib-url "http://jira.cambricon.com")
+      (setq org-jira-working-dir "/data/Projects/Jira")
+      (setq org-jira-custom-jqls
+            '(
+              ;; (:jql
+              ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+              ;; :filename "tfu-bug")
+              ;; (:jql
+              ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+              ;; :filename "tfu-feature")
+              ;; (:jql
+              ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (e2e_perf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+              ;; :filename "e2e-perf-bug")
+              ;; (:jql
+              ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+              ;; :filename "e2e-perf-feature")
+              ;; (:jql
+              ;; "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
+              ;; :limit 50
+              ;; :filename "tfu-v0.9")
+              ;; (:jql
+              ;;  "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
+              ;;  :limit 50
+              ;;  :filename "tfu-v0.10")
+              ;; (:jql
+              ;;  "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
+              ;;  :limit 50
+              ;;  :filename "my-issues")
+              ;; (:jql
+              ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
+              ;;  :filename "tfu-v0.9-bugs")
+              (:jql
+               "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status ASC, priority DESC, updated DESC"
+               :filename "tfu-v0.10-bugs")
+              )
+            ))
+
+    ;; (use-package! ox-hugo
+    ;;   :config
+    ;;   (setq org-hugo-base-dir "/data/DataBase/hugo")
+    ;;   :after ox)
+
+    (with-eval-after-load 'ox
+      (require 'ox-pandoc)
+      (require 'ox-jira)
+      (require 'ox-wk)))
   )
