@@ -108,6 +108,4 @@
 (package! org-super-agenda)
 (package! ox-wk)
 (package! ox-jira)
-
-(while (equal "personal" (getenv "DIST"))
-  (package! arduino-mode))
+(package! arduino-mode)

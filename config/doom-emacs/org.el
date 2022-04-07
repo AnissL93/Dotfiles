@@ -1,5 +1,4 @@
 ;;; org.el -*- lexical-binding: t; -*-
-
 (after! org
   (setq gtd_files (concat (getenv "HOME") "/Documents/RoamNotes/gtd/")
         org_notes (concat (getenv "HOME") "/Documents/RoamNotes/")
@@ -252,7 +251,6 @@
                    :kill-buffer t)
                  )
     ;;; gtd
- SCHEDULED: <2022-04-07 Thu>
     (add-to-list 'org-capture-templates
                  '("i" "Inbox" entry
                    (file+headline "~/Documents/RoamNotes/gtd/inbox.org" "Inbox")
@@ -335,6 +333,5 @@
     (insert-now-timestamp))
 
   (setq org-after-todo-state-change-hook 'aniss/add-timestamp-to-headline)
-
 
   )
