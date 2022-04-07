@@ -179,7 +179,7 @@ With a prefix argument, insert only the non-directory part."
   :desc "File path" "P" #'insert-file-path))
 
 ;;;;;;;;;;;;; org ;;;;;;;;;;;;;;;
-
+;;;;;;;;;;;;;
 (defun insert-now-timestamp()
   "Insert org mode timestamp at point with current date and time."
   (interactive)

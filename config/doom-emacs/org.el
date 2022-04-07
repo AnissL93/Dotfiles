@@ -9,22 +9,45 @@
         deft-directory org_notes
         org-roam-directory org_notes
         org-agenda-files (list gtd_files)
+
+        org-log-done-with-time t
+        org-agenda-ndays 3
+        org-agenda-start-day "+0d"
+
+        org-journal-dir "~/Documents/RoamNotes/"
+        org-journal-enable-agenda-integration t
+        org-journal-file-format "%Y%m%d"
+        org-journal-date-format "%A, %d/%m/%Y"
         )
 
+
   (when (equal (getenv "DIST") "work")
-        ;; other agenda files
+    ;; other agenda files
     (add-to-list 'org-agenda-files "~/Documents/RoamNotes/works/20220217102159-meetings.org")
     (add-to-list 'org-agenda-files "~/Documents/RoamNotes/works/20220214120016-tfu.org"))
 
-  ;;;;; super agenda ;;;;;;
-  (use-package! org-super-agenda
-    :hook (org-agenda-mode . org-super-agenda-mode)
-    :init
-    (let ((org-super-agenda-groups
-           '((:auto-group t))
-           ))
-      (org-agenda-list))
-    )
+  (setq org-agenda-custom-commands
+        '(
+          ("u" "Super view"
+           ((agenda "" ((org-agenda-span 'day)
+                        (org-agenda-use-tag-inheritance t)
+                        (org-agenda-overriding-header "Agenda")
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                            :time-grid t)
+                           (:name "Important"
+                            :priority "A")
+                           (:priority<= "B" :scheduled future :order 1)
+                           ))))
+            (todo "" ((org-agenda-overriding-header "Grouped")
+                      (org-super-agenda-groups
+                       '((:auto-group t)))))
+            (todo "" ((org-agenda-overriding-header "Other")
+                      (org-super-agenda-groups
+                       '((:auto-category t))                     )))
+            ))
+          )
+        )
 
 
   ;;;;; latex format ;;;;;;
@@ -229,6 +252,7 @@
                    :kill-buffer t)
                  )
     ;;; gtd
+ SCHEDULED: <2022-04-07 Thu>
     (add-to-list 'org-capture-templates
                  '("i" "Inbox" entry
                    (file+headline "~/Documents/RoamNotes/gtd/inbox.org" "Inbox")
@@ -276,6 +300,7 @@
           org-roam-verbose nil  ; https://youtu.be/fn4jIlFwuLU
           org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
           org-roam-completion-system 'default)
+
     (map! :leader
           (:prefix-map ("l" .  "roam")
            :desc "find node" "f" #'org-roam-node-find
@@ -284,17 +309,32 @@
            :desc "open capture" "c" #'org-roam-capture
            :desc "refile" "r" #'org-roam-refile
            (:prefix ("d" . "daily")
-            :desc "open date" "d" #'org-roam-dailies-find-date
-            :desc "open today" "t" #'org-roam-dailies-find-today
-            ;; :desc "open today" "n" #'org-roam-dailies-find-next-note
-            ;; :desc "open today" "p" #'org-roam-dailies-find-previous-nore
+            :desc "open date" "d" #'org-roam-dailies-goto-date
+            :desc "open today" "t" #'org-roam-dailies-goto-today
+            :desc "open today" "n" #'org-roam-dailies-find-next-note
+            :desc "open today" "p" #'org-roam-dailies-find-previous-nore
             :desc "open yesterday" "Y" #'org-roam-dailies-goto-yesterday
             :desc "open tomorrow" "T" #'org-roam-dailies-goto-tomorrow
             )))
-    (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
 
+    (map! :leader
+          (:prefix-map ("m")
+           (:prefix ("d" . "+data/deadline")
+           :desc "org-timestamp-now" "n" #'aniss/set-timestamp-to-headline
+            )))
+
+    (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
 
   (use-package! org-roam-protocol
     :after org-protocol)
+
+  (defun aniss/add-timestamp-to-headline ()
+    "Set time stamp to current headline"
+    (interactive)
+    (evil-open-below 1)
+    (insert-now-timestamp))
+
+  (setq org-after-todo-state-change-hook 'aniss/add-timestamp-to-headline)
+
 
   )

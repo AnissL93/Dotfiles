@@ -109,5 +109,5 @@
 (package! ox-wk)
 (package! ox-jira)
 
-(while (equal "work" (getenv "DIST"))
+(while (equal "personal" (getenv "DIST"))
   (package! arduino-mode))
