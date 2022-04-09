@@ -8,12 +8,14 @@ set_wallpaper() {
 	    image/* )
             ln -sf "$(readlink -f "$1")" "$bgloc" && xwallpaper --zoom $bgloc && notify-send "Changing wallpaper" "$trueloc" -t 2000
             wal -i $bgloc --backend colorz
+            dwmc xrdb
             ;;
 	    inode/directory)
             true_pic="$(find "$trueloc" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)"
             ln -sf $true_pic "$bgloc" && xwallpaper --zoom "$bgloc" && notify-send "Random Wallpaper" "$true_pic" -t 2000
             # also change xresource
             wal -i $true_pic --backend colorz
+            dwmc xrdb
             ;;
 	    *) notify-send "Error" "Not a valid image." -t 2000 ; exit 1;;
     esac
