@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 
 screenshot_path=$HOME/Documents/Pictures/screenshots/
-action=$(echo -e "gui\nfull" | dmenu)
+action=$(echo -e "gui\nfull\ncur" | dmenu)
 case $action in
     "gui")
         flameshot gui -p $(realpath $screenshot_path)
         ;;
     "full")
-        flameshot full -c -p $screen_path
+        flameshot full -p $(realpath $screenshot_path)
+        ;;
+    "cur")
+        flameshot screen -p $(realpath $screenshot_path)
         ;;
     *)
         ;;
