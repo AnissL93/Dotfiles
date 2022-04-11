@@ -7,16 +7,17 @@
         org-directory org_notes
         deft-directory org_notes
         org-roam-directory org_notes
-        org-agenda-files (list gtd_files)
+        org-agenda-files (append (list gtd_files) (list work_org_notes))
 
         org-log-done-with-time t
         org-agenda-ndays 3
         org-agenda-start-day "+0d"
 
-        org-journal-dir "~/Documents/RoamNotes/"
-        org-journal-enable-agenda-integration t
-        org-journal-file-format "%Y%m%d"
-        org-journal-date-format "%A, %d/%m/%Y"
+        ;; org-journal-dir "~/Documents/RoamNotes/"
+        ;; org-journal-enable-agenda-integration t
+        ;; org-journal-file-format "%Y%m%d"
+        ;; org-journal-date-format "%A, %d/%m/%Y"
+        +org-capture-journal-file (concat org_notes "journal.org")
         )
 
 
@@ -38,6 +39,13 @@
                             :priority "A")
                            (:priority<= "B" :scheduled future :order 1)
                            ))))
+            ;; (todo "" ((org-agenda-overriding-header "Important")
+            ;;           (org-super-ageda-group
+            ;;            '((:name "Important"
+            ;;               :priority "A")
+            ;;              )
+            ;;            )
+            ;;           ))
             (todo "" ((org-agenda-overriding-header "Grouped")
                       (org-super-agenda-groups
                        '((:auto-group t)))))

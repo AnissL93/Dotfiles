@@ -88,10 +88,7 @@
   :recipe
   (:host github :repo "Fuco1/justify-kp"))
 
-;; When using org-roam via the `+roam` flag
-;; (unpin! org-roam)
-
-(package! ledger-moe
+(package! ledger-mode
   :recipe (:host github :repo "ledger/ledger-mode"))
 
 (package! ox-pandoc)
@@ -101,7 +98,6 @@
   :recipe (:host github :repo "emacs-pe/scihub.el"))
 
 (package! beacon)
-(package! minimap)
 
 (package! org-jira)
 ;; (package! ox-hugo)
