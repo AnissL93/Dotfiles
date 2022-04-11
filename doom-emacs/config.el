@@ -28,7 +28,8 @@
 ;; Azeret Mono
 ;; mononoki NF
 ;; Red Hat Mono
-(setq cur-font "VictorMono NF")
+;; B612 Mono
+(setq cur-font "NanumGothicCoding")
 (setq doom-font (font-spec :family cur-font :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family cur-font :size 17)
       doom-big-font cur-font)
@@ -39,7 +40,8 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
-(setq doom-theme 'humanoid-dark)
+;;(setq doom-theme 'humanoid-dark)
+(setq doom-theme 'doom-manegarm)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -283,7 +285,5 @@ With a prefix argument, insert only the non-directory part."
     (setenv "https_proxy" ""))
 
   )
-
-
 
 (load! "org.el")

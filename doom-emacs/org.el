@@ -326,7 +326,8 @@
     (map! :leader
           (:prefix-map ("m")
            (:prefix ("d" . "+data/deadline")
-            :desc "org-timestamp-now" "n" #'aniss/set-timestamp-to-headline
+            :desc "org-timestamp-now" "N" #'aniss/set-timestamp-to-headline
+            :desc "org-timestamp-now" "n" #'insert-now-timestamp
             )))
 
     (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
@@ -340,7 +341,7 @@
     (evil-open-below 1)
     (insert-now-timestamp))
 
-  (setq org-after-todo-state-change-hook 'aniss/add-timestamp-to-headline)
+  (setq org-after-todo-state-change-hook nil)
 
   (defun insert-now-timestamp()
     "Insert org mode timestamp at point with current date and time."
