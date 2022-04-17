@@ -27,6 +27,10 @@ config.set("colors.webpage.darkmode.enabled", True)
 config.set("content.proxy", "socks5://localhost:10800")
 
 config.bind("<Ctrl-v>", "spawn mpv {url}")
+# download video
+config.bind("<Ctrl-Shift-v>", "spawn yt-dlp {url} -P ~/Documents/Videos")
+# download audio
+config.bind("<Ctrl-m>", "spawn yt-dlp -f 251 {url} -P ~/Documents/Music")
 
 # Which cookies to accept. With QtWebEngine, this setting also controls
 # other features with tracking capabilities similar to those of cookies;

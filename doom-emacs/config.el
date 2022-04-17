@@ -29,7 +29,7 @@
 ;; mononoki NF
 ;; Red Hat Mono
 ;; B612 Mono
-(setq cur-font "NanumGothicCoding")
+(setq cur-font "VictorMono NF")
 (setq doom-font (font-spec :family cur-font :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family cur-font :size 17)
       doom-big-font cur-font)
@@ -40,8 +40,7 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
-;;(setq doom-theme 'humanoid-dark)
-(setq doom-theme 'doom-manegarm)
+(setq doom-theme 'humanoid-dark)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -150,7 +149,37 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;; elfeed ;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+(use-package! elfeed
+  :config
+  (defun my-search-print-fn (entry)
+    "Print ENTRY to the buffer."
+    (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+           (title (or (elfeed-meta entry :title)
+                      (elfeed-entry-title entry) ""))
+           (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+           (entry-authors (concatenate-authors
+                           (elfeed-meta entry :authors)))
+           (title-width (- (window-width) 10
+                           elfeed-search-trailing-width))
+           (title-column (elfeed-format-column
+                          title 100
+                          :left))
+           (entry-score (elfeed-format-column (number-to-string (elfeed-score-scoring-get-score-from-entry entry)) 10 :left))
+           (authors-column (elfeed-format-column entry-authors 40 :left)))
+      (insert (propertize date 'face 'elfeed-search-date-face) " ")
+
+      (insert (propertize title-column
+                          'face title-faces 'kbd-help title) " ")
+      (insert (propertize authors-column
+                          'kbd-help entry-authors) " ")
+      (insert entry-score " ")))
+  ;; (setq elfeed-search-print-entry-function #'my-search-print-fn)
+  )
 (setq url-queue-timeout 30)
+
+(require 'elfeed-goodies)
+(setq elfeed-goodies/entry-pane-size 0.5)
 
 (use-package! ledger-mode
   :init
@@ -275,15 +304,17 @@ With a prefix argument, insert only the non-directory part."
     (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t))
 
   ;;; set proxy
-  (setenv "http_proxy" "socks5://127.0.0.1:10800")
-  (setenv "https_proxy" "socks5://127.0.0.1:10800")
-  (setq reftex-default-bibliography '("~/Documents/RoamNotes/bibliography/ref.bib"))
-
   (defun auii/unset_proxy ()
     (interactive)
     (setenv "http_proxy" "")
     (setenv "https_proxy" ""))
 
+  (defun auii/set_proxy ()
+    (interactive)
+    (setenv "http_proxy" "socks5://127.0.0.1:10800")
+    (setenv "https_proxy" "socks5://127.0.0.1:10800"))
+
+  (auii/set_proxy)
   )
 
 (load! "org.el")

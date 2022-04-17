@@ -1,13 +1,13 @@
 ;;; org.el -*- lexical-binding: t; -*-
 (after! org
-  (setq gtd_files (concat (getenv "HOME") "/Documents/RoamNotes/gtd/")
-        org_notes (concat (getenv "HOME") "/Documents/RoamNotes/")
+  (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/")
         work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
-        bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
+        ;; bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
+        bib_file (concat (getenv "HOME") "/Projects/ustcthesis/bib/ref.bib")
         org-directory org_notes
         deft-directory org_notes
         org-roam-directory org_notes
-        org-agenda-files (append (list gtd_files) (list work_org_notes))
+        org-agenda-files (append (list org_notes) (list work_org_notes))
 
         org-log-done-with-time t
         org-agenda-ndays 3
@@ -17,8 +17,13 @@
         ;; org-journal-enable-agenda-integration t
         ;; org-journal-file-format "%Y%m%d"
         ;; org-journal-date-format "%A, %d/%m/%Y"
-        +org-capture-journal-file (concat org_notes "journal.org")
-        )
+        +org-capture-journal-file (concat org_notes "journal.org"))
+
+  (setq reftex-default-bibliography '("~/Documents/RoamNotes/bibliography/ref.bib"))
+
+  (defun auii/open-bib-file ()
+    (interactive)
+    (find-file (car reftex-default-bibliography)))
 
 
   (when (equal (getenv "DIST") "work")
@@ -235,9 +240,9 @@
     :config
     (setq
      ;; The WM can handle splits
-     org-noter-notes-window-location 'other-frame
+     org-noter-notes-window-location 'horizontal-split
      ;; Please stop opening frames
-     org-noter-always-create-frame t
+     org-noter-always-create-frame nil
      ;; I want to see the whole file
      org-noter-hide-other nil
      ;; Everything is relative to the main notes file
