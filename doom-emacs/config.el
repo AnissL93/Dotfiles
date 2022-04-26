@@ -29,7 +29,7 @@
 ;; mononoki NF
 ;; Red Hat Mono
 ;; B612 Mono
-(setq cur-font "VictorMono NF")
+(setq cur-font "Comic Mono")
 (setq doom-font (font-spec :family cur-font :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family cur-font :size 17)
       doom-big-font cur-font)
@@ -104,7 +104,6 @@
   (default-input-method "rime"))
 
 ;;; config org ref
-
 
 (after! nov
   (defun my-nov-font-setup ()
@@ -317,4 +316,8 @@ With a prefix argument, insert only the non-directory part."
   (auii/set_proxy)
   )
 
+
 (load! "org.el")
+(load! "packages/mlir-mode.el")
+(load! "packages/llvm-mode.el")
+(load! "packages/tablegen-mode.el")

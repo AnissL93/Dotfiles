@@ -303,7 +303,12 @@
              (file+head "projs/${slug}.org" "#+TITLE: ${slug}\n")
              :unnarrowed t)
 
-            ))
+            ("t" "todo" entry
+             "* %?\n %a"
+            :target
+             (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+             :unnarrowed t)
+          ))
 
 
     (setq org-roam-directory (expand-file-name (or org-roam-directory org_notes)
