@@ -363,7 +363,7 @@
       (setq org-jira-custom-jqls
             '(
               ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+              ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND status in (Open, \"In Progress\", Reopened, 已确认, 暂不处理, 暂停) AND component in (tfu, ngpf, e2e_perf) ORDER BY priority DESC, updated DESC"
               ;; :filename "tfu-bug")
               ;; (:jql
               ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
@@ -389,9 +389,19 @@
               ;; (:jql
               ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
               ;;  :filename "tfu-v0.9-bugs")
-              (:jql
-               "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status ASC, priority DESC, updated DESC"
-               :filename "tfu-v0.10-bugs")
+              ;; (:jql
+              ;;  ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status ASC, priority DESC, updated DESC"
+              ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
+              ;;  :filename "tfu-v0.10-closed-bugs")
+             ;; (:jql
+              ;;  "labels = tfu-compile"
+              ;;  :filename "tfu-compile")
+              (:jql "labels = tfu-perf"
+               :filename "tfu-perf")
+              (:jql "labels = tfu-precision"
+               :filename "tfu-precision")
+              (:jql "labels = tfu-log"
+               :filename "tfu-log")
               )
             ))
 
