@@ -1,5 +1,4 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
 (setq user-full-name "Huiying Lan"
       user-mail-address "lan_huiying@outlook.com")
 
@@ -29,10 +28,19 @@
 ;; mononoki NF
 ;; Red Hat Mono
 ;; B612 Mono
-(setq cur-font "Comic Mono")
+;; Comic Mono
+;; CaskaydiaCove NF
+;; Consola Mono
+;; Jozsika
+;; Acevedo (regular only)
+;; TT2020Base
+;; Office Code Pro
+;; Cascadia Mono
+(setq cur-font "FantasqueSansMono NF")
 (setq doom-font (font-spec :family cur-font :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family cur-font :size 17)
       doom-big-font cur-font)
+
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -83,8 +91,7 @@
        :desc "jump goto line below" "L" #'avy-goto-line-below
        :desc "goto char" "j" #'evil-avy-goto-char
        :desc "goto word" "w" #'evil-avy-goto-word-0
-       )
-      )
+       ))
 
 ;;;;;;;;;; shell ;;;;;;;;;;;;;;
 (defun sudo-shell-command (command)
@@ -316,6 +323,32 @@ With a prefix argument, insert only the non-directory part."
   (auii/set_proxy)
   )
 
+
+;; set ligature
+(use-package! ligature
+  :config
+  ;; Enable the "www" ligature in every possible major mode
+  (ligature-set-ligatures 't '("www"))
+  ;; Enable traditional ligature support in eww-mode, if the
+  ;; `variable-pitch' face supports it
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  ;; Enable all Cascadia Code ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                       "\\\\" "://"))
+  ;; Enables ligature checks globally in all buffers. You can also do it
+  ;; per mode with `ligature-mode'.
+  (global-ligature-mode t))
 
 (load! "org.el")
 (load! "packages/mlir-mode.el")

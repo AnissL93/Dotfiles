@@ -318,22 +318,6 @@
           org-roam-completion-system 'default)
 
     (map! :leader
-          (:prefix-map ("l" .  "roam")
-           :desc "find node" "f" #'org-roam-node-find
-           :desc "insert node" "i" #'org-roam-node-insert
-           :desc "open node" "o" #'org-roam-open-node
-           :desc "open capture" "c" #'org-roam-capture
-           :desc "refile" "r" #'org-roam-refile
-           (:prefix ("d" . "daily")
-            :desc "open date" "d" #'org-roam-dailies-goto-date
-            :desc "open today" "t" #'org-roam-dailies-goto-today
-            :desc "open today" "n" #'org-roam-dailies-find-next-note
-            :desc "open today" "p" #'org-roam-dailies-find-previous-nore
-            :desc "open yesterday" "Y" #'org-roam-dailies-goto-yesterday
-            :desc "open tomorrow" "T" #'org-roam-dailies-goto-tomorrow
-            )))
-
-    (map! :leader
           (:prefix-map ("m")
            (:prefix ("d" . "+data/deadline")
             :desc "org-timestamp-now" "N" #'aniss/set-timestamp-to-headline

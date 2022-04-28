@@ -105,3 +105,6 @@
 (package! ox-wk)
 (package! ox-jira)
 (package! arduino-mode)
+
+(package! ligature
+  :recipe (:host github :repo "mickeynp/ligature.el"))
