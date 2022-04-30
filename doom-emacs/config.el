@@ -359,6 +359,7 @@ With a prefix argument, insert only the non-directory part."
 
 (solaire-global-mode +1)
 
+;; download dict from http://download.huzheng.org/
 (use-package! sdcv
   :config
   (setq sdcv-dictionary-data-dir (concat (getenv "HOME") "/.local/share/stardict/dic/"))
