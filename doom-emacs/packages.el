@@ -108,3 +108,16 @@
 
 (package! ligature
   :recipe (:host github :repo "mickeynp/ligature.el"))
+
+(package! kaolin-themes)
+
+(package! xresources-theme
+  :recipe (:host github :repo "martenlienen/xresources-theme"))
+
+(package! nimbus-theme)
+
+(package! apropospriate-theme)
+
+;; https://github.com/manateelazycat/sdcv
+(package! sdcv
+  :recipe (:host github :repo "manateelazycat/sdcv"))

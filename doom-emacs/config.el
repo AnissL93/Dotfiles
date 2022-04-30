@@ -48,7 +48,9 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
-(setq doom-theme 'humanoid-dark)
+
+;; (setq doom-theme 'kaolin-temple)
+(setq doom-theme 'kaolin-shiva)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -79,6 +81,7 @@
     (set-input-method "rime")))
 
 (map! "C-;" #'set-input-method-to-rime)
+
 
 (map! :leader
       (:prefix-map ("e" . "S-expression operations")
@@ -320,9 +323,7 @@ With a prefix argument, insert only the non-directory part."
     (setenv "http_proxy" "socks5://127.0.0.1:10800")
     (setenv "https_proxy" "socks5://127.0.0.1:10800"))
 
-  (auii/set_proxy)
-  )
-
+  (auii/set_proxy))
 
 ;; set ligature
 (use-package! ligature
@@ -349,6 +350,27 @@ With a prefix argument, insert only the non-directory part."
   ;; Enables ligature checks globally in all buffers. You can also do it
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
+
+;;; M-d select next
+;;; M-D select prev
+(use-package! evil-multiedit
+  :config
+  (evil-multiedit-default-keybinds))
+
+(solaire-global-mode +1)
+
+(use-package! sdcv
+  :config
+  (setq sdcv-dictionary-data-dir (concat (getenv "HOME") "/.local/share/stardict/dic/"))
+  (setq sdcv-dictionary-simple-list
+        '("朗道汉英字典5.0"
+          "朗道英汉字典5.0"))
+  (setq sdcv-dictionary-complete-list '(
+          "牛津英汉双解美化版"
+          "朗道汉英字典5.0"
+          "朗道英汉字典5.0"))
+  (setq sdcv-tooltip-timeout 50))
+
 
 (load! "org.el")
 (load! "packages/mlir-mode.el")
