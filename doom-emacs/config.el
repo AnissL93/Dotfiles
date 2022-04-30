@@ -370,7 +370,16 @@ With a prefix argument, insert only the non-directory part."
           "牛津英汉双解美化版"
           "朗道汉英字典5.0"
           "朗道英汉字典5.0"))
-  (setq sdcv-tooltip-timeout 50))
+  (setq sdcv-tooltip-timeout 50)
+
+  (map!
+   :leader
+   (:prefix ("d" . "translate")
+    :desc "word at point in prompt" "p" #'sdcv-search-pointer+
+    :desc "word at point in buffer" "P" #'sdcv-search-pointer+
+    :desc "input word at in prompt" "i" #'sdcv-search-input+
+    :desc "input word at in buffer" "I" #'sdcv-search-input)
+   ))
 
 
 (load! "org.el")
