@@ -32,6 +32,9 @@ config.bind("<Ctrl-Shift-v>", "spawn yt-dlp {url} -P ~/Documents/Videos")
 # download audio
 config.bind("<Ctrl-m>", "spawn yt-dlp -f 251 {url} -P ~/Documents/Music")
 
+# download repo
+config.bind("<Ctrl-g>", "spawn git-clone {url}")
+
 # Which cookies to accept. With QtWebEngine, this setting also controls
 # other features with tracking capabilities similar to those of cookies;
 # including IndexedDB, DOM storage, filesystem API, service workers, and
