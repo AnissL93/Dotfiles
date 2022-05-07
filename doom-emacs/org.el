@@ -305,10 +305,10 @@
 
             ("t" "todo" entry
              "* %?\n %a"
-            :target
+             :target
              (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
              :unnarrowed t)
-          ))
+            ))
 
 
     (setq org-roam-directory (expand-file-name (or org-roam-directory org_notes)
@@ -320,7 +320,7 @@
     (map! :leader
           (:prefix-map ("m")
            (:prefix ("d" . "+data/deadline")
-            :desc "org-timestamp-now" "N" #'aniss/set-timestamp-to-headline
+            :desc "org-timestamp-now" "N" #'auii/set-timestamp-to-headline
             :desc "org-timestamp-now" "n" #'insert-now-timestamp
             )))
 
@@ -329,7 +329,7 @@
   (use-package! org-roam-protocol
     :after org-protocol)
 
-  (defun aniss/add-timestamp-to-headline ()
+  (defun auii/add-timestamp-to-headline ()
     "Set time stamp to current headline"
     (interactive)
     (evil-open-below 1)
@@ -392,4 +392,21 @@
       (require 'ox-pandoc)
       (require 'ox-jira)
       (require 'ox-wk)))
+
+
+  (defun auii/archive-link-and-open ()
+    (interactive)
+    (auii/unset_proxy)
+    (org-set-property "URL" (x-get-clipboard))
+    (org-board-archive)
+    (auii/set_proxy)
+    (org-board-open))
+
+  (use-package! org-board
+    :config
+    (map! :leader
+          (:prefix-map ("m")
+           (:prefix ("l" . "+link")
+            :desc "org-board-archive" "a" #'auii/org-set-url-property-and-archive))))
+
   )

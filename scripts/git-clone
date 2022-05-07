@@ -11,5 +11,7 @@ done
 repo_name=${array[-1]}
 repo_path="~/Projects/${repo_name}"
 notify-send "⭐ Start clone repo ${url} to ${repo_path}"
-git clone "${url}.git" ${repo_path}
+pushd "$HOME/Projects"
+git clone "${url}.git" ${repo_nam}
+popd
 notify-send "Clone finished ☀️"
