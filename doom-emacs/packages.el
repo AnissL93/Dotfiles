@@ -106,9 +106,6 @@
 (package! ox-jira)
 (package! arduino-mode)
 
-(package! ligature
-  :recipe (:host github :repo "mickeynp/ligature.el"))
-
 (package! kaolin-themes)
 
 (package! xresources-theme
@@ -118,6 +115,7 @@
 
 (package! apropospriate-theme)
 
-;; https://github.com/manateelazycat/sdcv
 (package! sdcv
   :recipe (:host github :repo "manateelazycat/sdcv"))
+
+(package! cnfonts)

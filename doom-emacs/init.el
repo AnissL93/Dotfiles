@@ -15,7 +15,7 @@
 ;;      directory (for easy access to its source code).
 
 (doom! :input
-       chinese
+       (chinese :variables chinese-enable-fcitx t)
        ;;japanese
 
        :completion
@@ -50,6 +50,7 @@
        (window-select +switch-window +number)     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        zen               ; distraction-free coding or writing
+       ligatures
 
        :editor
        (evil +everywhere); come to the dark side, we have cookies

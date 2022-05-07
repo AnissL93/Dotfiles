@@ -36,10 +36,11 @@
 ;; TT2020Base
 ;; Office Code Pro
 ;; Cascadia Mono
-(setq cur-font "FantasqueSansMono NF")
-(setq doom-font (font-spec :family cur-font :size 18 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family cur-font :size 17)
-      doom-big-font cur-font)
+(setq cur-font "LXGW WenKai Mono")
+(setq doom-font (font-spec :family cur-font :size 15 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family cur-font :size 17.5)
+      doom-big-font cur-font
+      doom-unicode-font (font-spec :family "LXGW WenKai Mono" :size 17))
 
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -80,8 +81,7 @@
       (toggle-input-method)
     (set-input-method "rime")))
 
-(map! "C-;" #'set-input-method-to-rime)
-
+(map! "C-:" #'set-input-method-to-rime)
 
 (map! :leader
       (:prefix-map ("e" . "S-expression operations")
@@ -322,34 +322,7 @@ With a prefix argument, insert only the non-directory part."
     (interactive)
     (setenv "http_proxy" "socks5://127.0.0.1:10800")
     (setenv "https_proxy" "socks5://127.0.0.1:10800"))
-
   (auii/set_proxy))
-
-;; set ligature
-(use-package! ligature
-  :config
-  ;; Enable the "www" ligature in every possible major mode
-  (ligature-set-ligatures 't '("www"))
-  ;; Enable traditional ligature support in eww-mode, if the
-  ;; `variable-pitch' face supports it
-  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-  ;; Enable all Cascadia Code ligatures in programming modes
-  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-                                       "\\\\" "://"))
-  ;; Enables ligature checks globally in all buffers. You can also do it
-  ;; per mode with `ligature-mode'.
-  (global-ligature-mode t))
 
 ;;; M-d select next
 ;;; M-D select prev
@@ -381,8 +354,16 @@ With a prefix argument, insert only the non-directory part."
     :desc "input word at in buffer" "I" #'sdcv-search-input)
    ))
 
+;;;;;;; chinese fonts
+(use-package! cnfonts
+  :config
+  (setq cnfonts-mode 1))
 
 (load! "org.el")
 (load! "packages/mlir-mode.el")
 (load! "packages/llvm-mode.el")
 (load! "packages/tablegen-mode.el")
+
+;;; enable input method switch on macos
+(when (string-equal system-type "darwin")
+  (load! "input.el"))
