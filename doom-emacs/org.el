@@ -250,9 +250,13 @@
      )
     )
 
+  (server-start)
+  (require 'org-protocol)
   ;; Actually start using templates
   (after! org-capture
     (require 'org-contacts)
+    (require 'org-protocol)
+    (setq org-protocol-default-template-key nil)
     (setq org-contacts-files '("~/Documents/RoamNotes/20220304154932-contacts.org"))
     ;; Firefox and Chrome
     (add-to-list 'org-capture-templates
@@ -271,7 +275,12 @@
                    :empty-lines 1
                    :prepend t
                    :kill-buffer t))
-    )
+    (add-to-list 'org-capture-templates
+                 '("b" "Protocol" entry (file+headline "~/Documents/RoamNotes/20220315122852-bookmarks.org" "Inbox")
+                   "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"))
+    (add-to-list 'org-capture-templates
+	         '("l" "Protocol Link" entry (file+headline "~/Documents/RoamNotes/20220315122852-bookmarks.org" "Inbox")
+                   "* %? [[%:link][%:description]] \nCaptured On: %U")))
 
   (use-package! org-roam
     :preface
@@ -407,6 +416,6 @@
     (map! :leader
           (:prefix-map ("m")
            (:prefix ("l" . "+link")
-            :desc "org-board-archive" "a" #'auii/org-set-url-property-and-archive))))
+            :desc "org-board-archive" "a" #'auii/archive-link-and-open))))
 
   )

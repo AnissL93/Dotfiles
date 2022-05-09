@@ -36,11 +36,12 @@
 ;; TT2020Base
 ;; Office Code Pro
 ;; Cascadia Mono
-(setq cur-font "LXGW WenKai Mono")
-(setq doom-font (font-spec :family cur-font :size 15 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family cur-font :size 17.5)
+(setq cur-font "Comic Code Ligatures")
+(setq en-font-size 17)
+(setq doom-font (font-spec :family cur-font :size en-font-size :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family cur-font :size en-font-size)
       doom-big-font cur-font
-      doom-unicode-font (font-spec :family "LXGW WenKai Mono" :size 17))
+      doom-unicode-font (font-spec :family "LXGW WenKai Mono" :size (+ en-font-size 2)))
 
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -51,7 +52,7 @@
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
 
 ;; (setq doom-theme 'kaolin-temple)
-(setq doom-theme 'kaolin-shiva)
+(setq doom-theme 'kaolin-galaxy)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -153,8 +154,7 @@
                 'my-nov-window-configuration-change-hook
                 nil t)))
 
-  (add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook)
-  )
+  (add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook))
 
 
 ;;;;;;;;;;;;;;;;;;;;;; elfeed ;;;;;;;;;;;;;;;;;;;;;
