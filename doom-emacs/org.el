@@ -250,37 +250,40 @@
      )
     )
 
-  (server-start)
-  (require 'org-protocol)
   ;; Actually start using templates
   (after! org-capture
     (require 'org-contacts)
     (require 'org-protocol)
     (setq org-protocol-default-template-key nil)
+    (setq org-html-validation-link nil)
+    (setq enable-local-variables :safe)
+
     (setq org-contacts-files '("~/Documents/RoamNotes/20220304154932-contacts.org"))
     ;; Firefox and Chrome
-    (add-to-list 'org-capture-templates
-                 '("c" "Contact" entry
-                   (file+headline "~/Documents/RoamNotes/20220304154932-contacts.org" "Cambricon")
-                   "* %(org-contacts-template-name)\n :PROPERTIES:\n :BIRTHDAY: %^{yyyy-mm-dd}\n :EMAIL: %(org-contacts-template-email)\n :NOTE: %^{NOTE}\n :END:"
-                   :empty-lines 1
-                   :prepend t
-                   :kill-buffer t)
-                 )
-    ;;; gtd
-    (add-to-list 'org-capture-templates
-                 '("i" "Inbox" entry
-                   (file+headline "~/Documents/RoamNotes/gtd/inbox.org" "Inbox")
-                   "* TODO %?\n"
-                   :empty-lines 1
-                   :prepend t
-                   :kill-buffer t))
-    (add-to-list 'org-capture-templates
-                 '("b" "Protocol" entry (file+headline "~/Documents/RoamNotes/20220315122852-bookmarks.org" "Inbox")
-                   "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"))
-    (add-to-list 'org-capture-templates
-	         '("l" "Protocol Link" entry (file+headline "~/Documents/RoamNotes/20220315122852-bookmarks.org" "Inbox")
-                   "* %? [[%:link][%:description]] \nCaptured On: %U")))
+    (setq org-capture-templates
+          '(("c" "Contact" entry
+             (file+headline "~/Documents/RoamNotes/20220304154932-contacts.org" "Cambricon")
+             "* %(org-contacts-template-name)\n :PROPERTIES:\n :BIRTHDAY: %^{yyyy-mm-dd}\n :EMAIL: %(org-contacts-template-email)\n :NOTE: %^{NOTE}\n :END:"
+             :empty-lines 1
+             :prepend t
+             :kill-buffer t)
+            ("i" "Inbox" entry
+             (file+headline "~/Documents/RoamNotes/gtd/inbox.org" "Inbox")
+             "* TODO %?\n"
+             :empty-lines 1
+             :prepend t
+             :kill-buffer t)
+
+            ("b" "Protocol" entry
+             (file+headline "~/Documents/RoamNotes/20220213034655-inbox.org" "WebCapture")
+             "* %:description\nSource: %t\n[[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+
+            ;; link for linkz
+            ("o" "Link capture" entry
+             (file+headline "~/Documents/RoamNotes/org-linkz/Linkz.org" "INBOX")
+             "* %a %U"
+             :immediate-finish t)
+            )))
 
   (use-package! org-roam
     :preface
