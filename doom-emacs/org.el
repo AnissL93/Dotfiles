@@ -1,7 +1,7 @@
 ;;; org.el -*- lexical-binding: t; -*-
 (after! org
   (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/")
-        work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
+        work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/working/")
         ;; bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
         bib_file (concat (getenv "HOME") "/Projects/ustcthesis/bib/ref.bib")
         org-directory org_notes
@@ -28,8 +28,8 @@
 
   (when (equal (getenv "DIST") "work")
     ;; other agenda files
-    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/works/20220217102159-meetings.org")
-    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/works/20220214120016-tfu.org"))
+    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/working/20220217102159-meetings.org")
+    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/working/20220214120016-tfu.org"))
 
   (setq org-agenda-custom-commands
         '(

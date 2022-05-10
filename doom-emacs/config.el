@@ -52,7 +52,7 @@
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
 
 ;; (setq doom-theme 'kaolin-temple)
-(setq doom-theme 'kaolin-galaxy)
+(setq doom-theme 'avk-daylight)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -76,13 +76,17 @@
 
 (map! "C-/" #'comment-line)
 
-(defun set-input-method-to-rime ()
-  (interactive)
-  (if (string-equal "rime" default-input-method)
-      (toggle-input-method)
-    (set-input-method "rime")))
+(use-package! rime
+  :config
+  (defun set-input-method-to-rime ()
+    (interactive)
+    (if (string-equal "rime" default-input-method)
+        (toggle-input-method)
+      (set-input-method "rime")))
 
-(map! "C-:" #'set-input-method-to-rime)
+  (set-input-method-to-rime)
+  (map! "C-'" #'toggle-input-method ))
+
 
 (map! :leader
       (:prefix-map ("e" . "S-expression operations")
@@ -113,8 +117,6 @@
   :custom
   (rime-show-candidate 'posframe)
   (default-input-method "rime"))
-
-;;; config org ref
 
 (after! nov
   (defun my-nov-font-setup ()
@@ -197,7 +199,6 @@
 ;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
 
 (map! "C-/" #'comment-line)
-(map! "C-," #'toggle-input-method)
 
 (defun insert-date-string ()
   (interactive)
