@@ -58,4 +58,8 @@ main () {
     printf "%s %s ${net_state} $(get_proxy)" "$(get_traffic $uploading ⬆️)" "$(get_traffic $downloading ⬇️)"
 }
 
+case $BUTTON in
+	2) setsid st -e emacsclient -nc "~/.config/Scripts/show_network" ;;
+esac
+
 main

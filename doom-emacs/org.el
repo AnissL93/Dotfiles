@@ -250,13 +250,14 @@
      )
     )
 
+(require 'org-protocol-capture-html)
   ;; Actually start using templates
   (after! org-capture
     (require 'org-contacts)
     (require 'org-protocol)
     (setq org-protocol-default-template-key nil)
     (setq org-html-validation-link nil)
-    (setq enable-local-variables :safe)
+    (setq enable-local-variables t)
 
     (setq org-contacts-files '("~/Documents/RoamNotes/20220304154932-contacts.org"))
     ;; Firefox and Chrome
@@ -283,6 +284,10 @@
              (file+headline "~/Documents/RoamNotes/org-linkz/Linkz.org" "INBOX")
              "* %a %U"
              :immediate-finish t)
+
+            ("w" "Web site" entry
+             (file "~/Documents/RoamNotes/gtd/inbox.org")
+             "* [[%:link][%:description]] \n %U \n %:initial \n")
             )))
 
   (use-package! org-roam

@@ -36,7 +36,9 @@
 ;; TT2020Base
 ;; Office Code Pro
 ;; Cascadia Mono
-(setq cur-font "Comic Code Ligatures")
+;; (setq cur-font "Comic Code Ligatures")
+(setq cur-font "Azeret Mono")
+;; (setq cur-font "Cascadia Mono")
 (setq en-font-size 17)
 (setq doom-font (font-spec :family cur-font :size en-font-size :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family cur-font :size en-font-size)
@@ -52,7 +54,7 @@
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
 
 ;; (setq doom-theme 'kaolin-temple)
-(setq doom-theme 'kaolin-galaxy)
+(setq doom-theme 'apropospriate-light)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -361,8 +363,12 @@ With a prefix argument, insert only the non-directory part."
 
 (load! "org.el")
 (load! "packages/mlir-mode.el")
+(load! "packages/mlir-lsp-client.el")
 (load! "packages/llvm-mode.el")
 (load! "packages/tablegen-mode.el")
+
+(after! mlir-mode
+  (lsp-mlir-setup))
 
 ;;; enable input method switch on macos
 (when (string-equal system-type "darwin")

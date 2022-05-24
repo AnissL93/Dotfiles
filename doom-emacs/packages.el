@@ -119,3 +119,10 @@
   :recipe (:host github :repo "manateelazycat/sdcv"))
 
 (package! cnfonts)
+
+
+;; https://github.com/alphapapa/org-protocol-capture-html
+(package! org-protocol-capture-html
+  :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
+
+(package! bnf-mode)
