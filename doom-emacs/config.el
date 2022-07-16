@@ -36,8 +36,11 @@
 ;; TT2020Base
 ;; Office Code Pro
 ;; Cascadia Mono
+(setq cur-font "Comic Code Ligatures")
 ;; (setq cur-font "Comic Code Ligatures")
-(setq cur-font "Azeret Mono")
+;; (setq cur-font "Anonymice Nerd Font")
+;; (setq cur-font "Consola Mono")
+;; (setq cur-font "Red Hat Mono")
 ;; (setq cur-font "Cascadia Mono")
 (setq en-font-size 17)
 (setq doom-font (font-spec :family cur-font :size en-font-size :weight 'semi-light)
@@ -54,7 +57,8 @@
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
 
 ;; (setq doom-theme 'kaolin-temple)
-(setq doom-theme 'apropospriate-light)
+;; (setq doom-theme 'modus-vivendi)
+(setq doom-theme 'doom-wilmersdorf)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -197,7 +201,6 @@
   (setq ledger-clear-whole-transactions 1)
   :mode "\\.ledger\\'")
 ;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
-
 (map! "C-/" #'comment-line)
 (map! "C-," #'toggle-input-method)
 
@@ -237,75 +240,88 @@ With a prefix argument, insert only the non-directory part."
   :custom
   (beacon-mode t))
 
-(when (equal "work" (getenv "DIST"))
-  (use-package! mu4e
-    :load-path "/data/app/mu-1.6.10/mu4e/"
-    :init
-    (setq mu4e-mu-binary "/data/app/mu-1.6.10/mu/mu")
-    (setq mu4e-maildir (expand-file-name "/data/mail"))
-    (setq mu4e-get-mail-command "true")
-    ;; ;; sync
-    (setq mu4e-get-mail-command "mbsync cambricon")
-    (setq mu4e-change-filenames-when-moving t)
-    (setq mu4e-view-prefer-html t)
-    (setq mu4e-html2text-command "html2text -utf8 -width 150")
-    (setq
-     +mu4e-backend 'mbsync
-     sendmail-program (executable-find "msmtp")
-     send-mail-function #'smtpmail-send-it
-     message-sendmail-f-is-evil t
-     message-sendmail-extra-arguments '("--read-envelope-from")
-     message-send-mail-function #'message-send-mail-with-sendmail)
+(defun get-binary-full-path (path)
+  (shell-command-to-string (format "which %s" path)))
 
-    ;; these are required for sending email
-    (setq smtpmail-default-smtp-server  "mail.cambricon.com")
-    (setq smtpmail-smtp-server "mail.cambricon.com")
 
-    (set-email-account!
-     "cambricon"
-     '((mu4e-trash-folder      . "/cambricon/Trash/")
-       (mu4e-refile-folder     . "/cambricon/Inbox/")
-       (mu4e-sent-folder       . "/cambricon/sent/")
-       (mu4e-drafts-folder     . "/cambricon/drafts/")
-       (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
-       (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
-       )
-     t)
+(defun set-mail-account (account user server mail-dir)
+  ;;(setq mu4e-maildir (expand-file-name mail-dir))
+  )
 
-    (setq mu4e-org-contacts-file  "~/Documents/RoamNotes/20220304154932-contacts.org")
 
-    ;;(add-to-list 'mu4e-headers-actions
-    ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
-    ;;(add-to-list 'mu4e-view-actions
-    ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
-    ;; refile
-    (setq mu4e-refile-folder
-          (lambda (msg)
-            (cond
-             ;; message with Jira, goes to jira
-             (
-              (mu4e-message-contact-field-matches
-               msg
-               :to
-               "lanhuiying@cambricon.com")
-              "/cambricon/Jira"
-              )
-             )
+
+(use-package! mu4e
+ :load-path "/usr/share/emacs/site-lisp/mu4e"
+ :config
+ (setq mu4e-org-contacts-file "~/Documents/RoamNotes/20220304154932-contacts.org")
+ (setq mu4e-mu-binary "/usr/bin/mu")
+
+  (setq mu4e-get-mail-command "true")
+
+  ;; ;; sync
+  (setq mu4e-get-mail-command (format "mbsync -a"))
+  (setq mu4e-update-interval 300)
+  ;; save attachment to Documents by default
+  (setq mu4e-attachment-dir "~/Documents")
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-view-prefer-html t)
+  (setq mu4e-html2text-command "html2text -utf8 -width 150")
+
+  (setq
+   +mu4e-backend 'mbsync
+   sendmail-program (executable-find "msmtp")
+   send-mail-function #'smtpmail-send-it
+   message-sendmail-f-is-evil t
+   message-sendmail-extra-arguments '("--read-envelope-from")
+   message-send-mail-function #'message-send-mail-with-sendmail)
+
+  ;; these are required for sending email
+  (setq smtpmail-default-smtp-server  (format "mail.%s" "hylan.ml"))
+  (setq smtpmail-smtp-server (format "mail.%s" "hylan.ml"))
+
+  (setq mu4e-contexts
+        `(
+          ,(make-mu4e-context
+            :name "hylan"
+            :enter-func
+            (lambda () (mu4e-message "Enter me@hylan.ml context"))
+            :leave-func
+            (lambda () (mu4e-message "Leave me@hylan.ml context"))
+            :match-func
+            (lambda (msg)
+              (when msg
+                (mu4e-message-contact-field-matches msg :to "me@hylan.ml")))
+            :vars
+            '((user-mail-address . "me@hylan.ml")
+              (user-full-name . "hylan")
+              (mu4e-drafts-folder . "/hylan/Drafts/")
+              (mu4e-sent-folder . "/hylan/Sent/")
+              (mu4e-trash-folder . "/hylan/Trash/")
+              (mu4e-refile-folder . "/hylan/Inbox/"))
             )
           )
+        )
 
-    (map!
-     :map mu4e-headers-mode-map
-     :desc "org-store-link-and-capture"
-     "C-c c"
-     #'mu4e-org-store-and-capture)
-    )
+  ;; (set-email-account!
+  ;;  "hylan"
+  ;;  '((mu4e-trash-folder      . (format "/%s/Trash/" "hylan"))
+  ;;    (mu4e-refile-folder     . (format "/%s/Inbox/" "hylan"))
+  ;;    (mu4e-sent-folder       . (format "/%s/sent/" "hylan"))
+  ;;    (mu4e-drafts-folder     . (format "/%s/drafts/" "hylan"))
+  ;;    (smtpmail-smtp-user     . (format "%s@%s" "me" "hylan.ml"))
+  ;;    (user-mail-address      . (format "%s@%s" "me" "hylan.ml"))    ;; only needed for mu < 1.4
+  ;;    )
+  ;;  t)
 
-  (use-package! eaf
-    :load-path "~/.doom.d/packages/emacs-application-framework"
-    :config
-    (require 'eaf-mindmap))
-  )
+;; (set-mail-account "hylan" "me" "hylan.ml" "~/Documents/Mail/")
+ )
+
+;; (when (equal "work" (getenv "DIST"))
+
+;;   (use-package! eaf
+;;     :load-path "~/.doom.d/packages/emacs-application-framework"
+;;     :config
+;;     (require 'eaf-mindmap)))
 
 (when (equal "personal" (getenv "DIST"))
   ;;
@@ -342,9 +358,9 @@ With a prefix argument, insert only the non-directory part."
         '("朗道汉英字典5.0"
           "朗道英汉字典5.0"))
   (setq sdcv-dictionary-complete-list '(
-          "牛津英汉双解美化版"
-          "朗道汉英字典5.0"
-          "朗道英汉字典5.0"))
+                                        "牛津英汉双解美化版"
+                                        "朗道汉英字典5.0"
+                                        "朗道英汉字典5.0"))
   (setq sdcv-tooltip-timeout 50)
 
   (map!

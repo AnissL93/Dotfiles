@@ -92,10 +92,6 @@
     \\usepackage{color}
     \\usepackage{enumerate}
     \\definecolor{bg}{rgb}{0.95,0.95,0.95}
-    \\tolerance=1000
-          [NO-DEFAULT-PACKAGES]
-          [PACKAGES]
-          [EXTRA]
     \\linespread{1.1}
     \\hypersetup{pdfborder=0 0 0}"
                  ("\\chapter{%s}" . "\\chapter*{%s}")
@@ -129,10 +125,6 @@
     \\usepackage{enumerate}
     \\usepackage{ctex}
     \\definecolor{bg}{rgb}{0.95,0.95,0.95}
-    \\tolerance=1000
-          [NO-DEFAULT-PACKAGES]
-          [PACKAGES]
-          [EXTRA]
     \\linespread{1.1}
     \\hypersetup{pdfborder=0 0 0}"
                  ("\\section{%s}" . "\\section*{%s}")
@@ -247,8 +239,7 @@
      org-noter-hide-other nil
      ;; Everything is relative to the main notes file
      org-noter-notes-search-path (list org_notes)
-     )
-    )
+     ))
 
 (require 'org-protocol-capture-html)
   ;; Actually start using templates
@@ -426,4 +417,22 @@
            (:prefix ("l" . "+link")
             :desc "org-board-archive" "a" #'auii/archive-link-and-open))))
 
+  (use-package! ox-extra
+    :config
+    (ox-extras-activate '(latex-header-blocks ignore-headlines)))
+
+  (use-package! easy-hugo
+   :init
+   (setq easy-hugo-basedir "~/Documents/RoamNotes/blog/")
+   (setq easy-hugo-url "https://blog.hylan.ml")
+   (setq easy-hugo-sshdomain "server")
+   (setq easy-hugo-default-ext "org")
+   (setq easy-hugo-postdir "content/posts")
+   (setq easy-hugo-root "/home/auau/Apps/blog/")
+   (setq easy-hugo-server-flags "-D")
+
+   :bind
+   ("C-c C-k" . easy-hugo-menu)
+   :config
+   (easy-hugo-enable-menu))
   )

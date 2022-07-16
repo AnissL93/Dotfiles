@@ -126,3 +126,6 @@
   :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
 
 (package! bnf-mode)
+
+(package! emacs-easy-hugo
+  :recipe (:host github :repo "masasam/emacs-easy-hugo"))
