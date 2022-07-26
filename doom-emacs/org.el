@@ -1,7 +1,7 @@
 ;;; org.el -*- lexical-binding: t; -*-
 (after! org
-  (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/")
-        work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/working/")
+  (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
+        work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
         ;; bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
         bib_file (concat (getenv "HOME") "/Projects/ustcthesis/bib/ref.bib")
         org-directory org_notes
@@ -28,8 +28,8 @@
 
   (when (equal (getenv "DIST") "work")
     ;; other agenda files
-    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/working/20220217102159-meetings.org")
-    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/working/20220214120016-tfu.org"))
+    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/works/20220217102159-meetings.org")
+    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/works/20220214120016-tfu.org"))
 
   (setq org-agenda-custom-commands
         '(
@@ -254,6 +254,8 @@
   (after! org-capture
     (require 'org-contacts)
     (require 'org-protocol)
+    (require 'org-protocol-capture-html)
+
     (setq org-protocol-default-template-key nil)
     (setq org-html-validation-link nil)
     (setq enable-local-variables :safe)
@@ -273,162 +275,228 @@
              :empty-lines 1
              :prepend t
              :kill-buffer t)
-
             ("b" "Protocol" entry
-             (file+headline "~/Documents/RoamNotes/20220213034655-inbox.org" "WebCapture")
+             (file+headline "~/Documents/RoamNotes/20220511171157-capture.org" "WebCapture")
              "* %:description\nSource: %t\n[[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-
+            ("r" "Review" entry
+             (file+headline "~/Documents/RoamNotes/works/20220214120016-tfu.org" "Review")
+             "* TODO %:description\nSource: %t\n[[%:link][%:description]]\n"
+             :immediate-finish t)
             ;; link for linkz
             ("o" "Link capture" entry
              (file+headline "~/Documents/RoamNotes/org-linkz/Linkz.org" "INBOX")
              "* %a %U"
              :immediate-finish t)
-            )))
+            ("w" "Web site" entry
+             (file "")
+             "* %a :website:\n\n%U %?\n\n%:initial")
+            ("m" "Meeting/Appointment" entry
+             (file+headline "~/Documents/RoamNotes/works/20220217102159-meetings.org" "Technique")
+             "* %^{title}\nSCHEDULED: <%(org-read-date)> \nADDED: %t\nPEOPLE: %^{people}")
+            ("t" "Personal todo" entry
+             (file+headline +org-capture-todo-file "Inbox")
+             "* [ ] %?\n%i\n%a" :prepend t)
+            ("n" "Personal notes" entry
+             (file+headline +org-capture-notes-file "Inbox")
+             "* %u %?\n%i\n%a" :prepend t)
+            ("j" "Journal" entry
+             (file+olp+datetree +org-capture-journal-file)
+             "* %U %?\n%i\n%a" :prepend t)
+            ("p" "Templates for projects")
+            ("pt" "Project-local todo" entry
+             (file+headline +org-capture-project-todo-file "Inbox")
+             "* TODO %?\n%i\n%a" :prepend t)
+            ("pn" "Project-local notes" entry
+             (file+headline +org-capture-project-notes-file "Inbox")
+             "* %U %?\n%i\n%a" :prepend t)
+            ("pc" "Project-local changelog" entry
+             (file+headline +org-capture-project-changelog-file "Unreleased")
+             "* %U %?\n%i\n%a" :prepend t)
+            ("c" "Centralized templates for projects")
+            ("ct" "Project todo" entry #'+org-capture-central-project-todo-file "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
+            ("cn" "Project notes" entry #'+org-capture-central-project-notes-file "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
+            ("cc" "Project changelog" entry #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
 
-  (use-package! org-roam
-    :preface
-    (defvar org-roam-directory nil)
-    :config
-    (setq org-roam-capture-templates
-          '(
-            ("r" "bibliography reference" plain "%?"
-             :target
-             (file+head "bibliography/notes/${citekey}.org"
-                        (concat
-                         "#+TITLE: ${title}\n"
-                         "#+ROAM_KEY: cite:${=key=}\n"
-                         "#+CREATED: ${date}\n"))
-             :unnarrowed t)
-            ("n" "bibliography reference + notes" plain
-             (file "~/.doom.d/capture_tmpl/ref_notes.org")
-             :target
-             (file+head "bibliography/notes/${citekey}.org" "#+TITLE: ${title}\n")
-             :unnarrowed t)
+    (use-package! org-roam
+      ;; :preface
+      ;; (defvar org-roam-directory nil)
+      :config
+      (setq org-roam-capture-templates
+            '(
+              ("r" "bibliography reference" plain "%?"
+               :target
+               (file+head "bibliography/notes/${citekey}.org"
+                          (concat
+                           "#+TITLE: ${title}\n"
+                           "#+ROAM_KEY: cite:${=key=}\n"
+                           "#+CREATED: ${date}\n"))
+               :unnarrowed t)
+              ("n" "bibliography reference + notes" plain
+               (file "~/.doom.d/capture_tmpl/ref_notes.org")
+               :target
+               (file+head "bibliography/notes/${citekey}.org" "#+TITLE: ${title}\n")
+               :unnarrowed t)
 
-            ("d" "default" plain "%?" :target
-             (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-             :unnarrowed t)
+              ("d" "default" plain "%?" :target
+               (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+               :unnarrowed t)
 
-            ("p" "project" plain
-             (file "~/.doom.d/capture_tmpl/proj.org")
-             :target
-             (file+head "projs/${slug}.org" "#+TITLE: ${slug}\n")
-             :unnarrowed t)
+              ("p" "project" plain
+               (file "~/.doom.d/capture_tmpl/proj.org")
+               :target
+               (file+head "projs/${slug}.org" "#+TITLE: ${slug}\n")
+               :unnarrowed t)
 
-            ("t" "todo" entry
-             "* %?\n %a"
-             :target
-             (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-             :unnarrowed t)
-            ))
+              ("t" "todo" entry
+               "* %?\n %a"
+               :target
+               (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+               :unnarrowed t)
+              ))
 
+      (map! :leader
+            (:prefix-map ("m")
+             (:prefix ("d" . "+data/deadline")
+              :desc "org-timestamp-now" "N" #'auii/set-timestamp-to-headline
+              :desc "org-timestamp-now" "n" #'insert-now-timestamp
+              )))
 
-    (setq org-roam-directory (expand-file-name (or org-roam-directory org_notes)
-                                               org-directory)
-          org-roam-verbose nil  ; https://youtu.be/fn4jIlFwuLU
-          org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
-          org-roam-completion-system 'default)
+      (setq org-roam-directory (expand-file-name (or org-roam-directory org_notes)
+                                                 org-directory)
+            org-roam-verbose nil  ; https://youtu.be/fn4jIlFwuLU
+            org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
+            org-roam-completion-system 'default)
 
-    (map! :leader
-          (:prefix-map ("m")
-           (:prefix ("d" . "+data/deadline")
-            :desc "org-timestamp-now" "N" #'auii/set-timestamp-to-headline
-            :desc "org-timestamp-now" "n" #'insert-now-timestamp
-            )))
+      (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
 
-    (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
+    (use-package! org-roam-protocol
+      :after org-protocol)
 
-  (use-package! org-roam-protocol
-    :after org-protocol)
+    (defun auii/add-timestamp-to-headline ()
+      "Set time stamp to current headline"
+      (interactive)
+      (evil-open-below 1)
+      (insert-now-timestamp))
 
-  (defun auii/add-timestamp-to-headline ()
-    "Set time stamp to current headline"
-    (interactive)
-    (evil-open-below 1)
-    (insert-now-timestamp))
+    (setq org-after-todo-state-change-hook nil)
 
-  (setq org-after-todo-state-change-hook nil)
-
-  (defun insert-now-timestamp()
-    "Insert org mode timestamp at point with current date and time."
-    (interactive)
-    (org-insert-time-stamp (current-time) t))
+    (defun insert-now-timestamp()
+      "Insert org mode timestamp at point with current date and time."
+      (interactive)
+      (org-insert-time-stamp (current-time) t))
 
   ;;; jira
-  (when (equal "work" (getenv "DIST"))
-    (use-package! org-jira
-      :init
-      (setq jiralib-url "http://jira.cambricon.com")
-      (setq org-jira-working-dir "/data/Projects/Jira")
-      (setq org-jira-custom-jqls
-            '(
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND status in (Open, \"In Progress\", Reopened, 已确认, 暂不处理, 暂停) AND component in (tfu, ngpf, e2e_perf) ORDER BY priority DESC, updated DESC"
-              ;; :filename "tfu-bug")
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
-              ;; :filename "tfu-feature")
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (e2e_perf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
-              ;; :filename "e2e-perf-bug")
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
-              ;; :filename "e2e-perf-feature")
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
-              ;; :limit 50
-              ;; :filename "tfu-v0.9")
-              ;; (:jql
-              ;;  "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
-              ;;  :limit 50
-              ;;  :filename "tfu-v0.10")
-              ;; (:jql
-              ;;  "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
-              ;;  :limit 50
-              ;;  :filename "my-issues")
-              ;; (:jql
-              ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
-              ;;  :filename "tfu-v0.9-bugs")
-              ;; (:jql
-              ;;  ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status ASC, priority DESC, updated DESC"
-              ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
-              ;;  :filename "tfu-v0.10-closed-bugs")
-             ;; (:jql
-              ;;  "labels = tfu-compile"
-              ;;  :filename "tfu-compile")
-              (:jql "labels = tfu-perf"
-               :filename "tfu-perf")
-              (:jql "labels = tfu-precision"
-               :filename "tfu-precision")
-              (:jql "labels = tfu-log"
-               :filename "tfu-log")
-              )
-            ))
+    (when (equal "work" (getenv "DIST"))
+      (use-package! org-jira
+        :init
+        (setq jiralib-url "http://jira.cambricon.com")
+        (setq org-jira-working-dir "/data/Projects/Jira")
+        (setq org-jira-custom-jqls
+              '(
+                ;; (:jql
+                ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND status in (Open, \"In Progress\", Reopened, 已确认, 暂不处理, 暂停) AND component in (tfu, ngpf, e2e_perf) ORDER BY priority DESC, updated DESC"
+                ;; :filename "tfu-bug")
+                ;; (:jql
+                ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+                ;; :filename "tfu-feature")
+                ;; (:jql
+                ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (e2e_perf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
+                ;; :filename "e2e-perf-bug")
+                ;; (:jql
+                ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
+                ;; :filename "e2e-perf-feature")
+                ;; (:jql
+                ;; "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
+                ;; :limit 50
+                ;; :filename "tfu-v0.9")
+                ;; (:jql
+                ;;  "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
+                ;;  :limit 50
+                ;;  :filename "tfu-v0.10")
+                ;; (:jql
+                ;;  "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
+                ;;  :limit 50
+                ;;  :filename "my-issues")
+                ;; (:jql
+                ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
+                ;;  :filename "tfu-v0.9-bugs")
+                ;; (:jql
+                ;;  ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status ASC, priority DESC, updated DESC"
+                ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
+                ;;  :filename "tfu-v0.10-closed-bugs")
+                ;; (:jql
+                ;;  "labels = tfu-compile"
+                ;;  :filename "tfu-compile")
+                (:jql "labels = tfu-perf"
+                 :filename "tfu-perf")
+                (:jql "labels = tfu-precision"
+                 :filename "tfu-precision")
+                (:jql "labels = tfu-log"
+                 :filename "tfu-log")
+                )
+              ))
 
-    ;; (use-package! ox-hugo
-    ;;   :config
-    ;;   (setq org-hugo-base-dir "/data/DataBase/hugo")
-    ;;   :after ox)
+      ;; (use-package! ox-hugo
+      ;;   :config
+      ;;   (setq org-hugo-base-dir "/data/DataBase/hugo")
+      ;;   :after ox)
 
-    (with-eval-after-load 'ox
-      (require 'ox-pandoc)
-      (require 'ox-jira)
-      (require 'ox-wk)))
+      (with-eval-after-load 'ox
+        (require 'ox-pandoc)
+        (require 'ox-jira)
+        (require 'ox-wk)))
 
 
-  (defun auii/archive-link-and-open ()
-    (interactive)
-    (auii/unset_proxy)
-    (org-set-property "URL" (x-get-clipboard))
-    (org-board-archive)
-    (auii/set_proxy)
-    (org-board-open))
+    (defun auii/archive-link-and-open ()
+      (interactive)
+      (auii/unset_proxy)
+      (org-set-property "URL" (x-get-clipboard))
+      (org-board-archive)
+      (auii/set_proxy)
+      (org-board-open))
 
-  (use-package! org-board
-    :config
-    (map! :leader
-          (:prefix-map ("m")
-           (:prefix ("l" . "+link")
-            :desc "org-board-archive" "a" #'auii/archive-link-and-open))))
+    (use-package! org-board
+      :config
+      (map! :leader
+            (:prefix-map ("m")
+             (:prefix ("l" . "+link")
+              :desc "org-board-archive" "a" #'auii/archive-link-and-open))))
 
-  )
+    ;; nodify after pomodoro is finished
+    (add-hook 'org-pomodoro-finished-hook
+              (lambda ()
+                (call-process-shell-command "notify-send -u critical \"Take a break NOW!\"" )))
+
+    (setq org-agenda-start-with-log-mode t)
+    (setq org-agenda-start-with-clockreport-mode t)
+
+    (defun my:org-agenda-time-grid-spacing ()
+      "Set different line spacing w.r.t. time duration."
+      (save-excursion
+        (let* ((background (alist-get 'background-mode (frame-parameters)))
+               (background-dark-p (string= background "dark"))
+               (colors (if background-dark-p
+                           (list "#aa557f" "DarkGreen" "DarkSlateGray" "DarkSlateBlue")
+                         (list "#F6B1C3" "#FFFF9D" "#BEEB9F" "#ADD5F7")))
+               pos
+               duration)
+          (nconc colors colors)
+          (goto-char (point-min))
+          (while (setq pos (next-single-property-change (point) 'duration))
+            (goto-char pos)
+            (when (and (not (equal pos (point-at-eol)))
+                       (setq duration (org-get-at-bol 'duration)))
+              (let ((line-height (if (< duration 30) 1.0 (+ 0.5 (/ duration 60))))
+                    (ov (make-overlay (point-at-bol) (1+ (point-at-eol)))))
+                (overlay-put ov 'face `(:background ,(car colors)
+                                        :foreground
+                                        ,(if background-dark-p "black" "white")))
+                (setq colors (cdr colors))
+                (overlay-put ov 'line-height line-height)
+                (overlay-put ov 'line-spacing (1- line-height))))))))
+
+    (add-hook 'org-agenda-finalize-hook #'my:org-agenda-time-grid-spacing))
+
+  (use-package! edrw-org
+    :init
+    (edraw-org-setup-default)))

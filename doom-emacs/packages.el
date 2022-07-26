@@ -68,6 +68,11 @@
 (package! avk-emacs-themes)
 (package! sublime-themes)
 (package! humanoid-themes)
+(package! kaolin-themes)
+(package! xresources-theme
+  :recipe (:host github :repo "martenlienen/xresources-theme"))
+(package! nimbus-theme)
+(package! apropospriate-theme)
 
 ;; tools
 (package! rime
@@ -106,16 +111,17 @@
 (package! ox-jira)
 (package! arduino-mode)
 
-(package! kaolin-themes)
-
-(package! xresources-theme
-  :recipe (:host github :repo "martenlienen/xresources-theme"))
-
-(package! nimbus-theme)
-
-(package! apropospriate-theme)
 
 (package! sdcv
   :recipe (:host github :repo "manateelazycat/sdcv"))
 
 (package! cnfonts)
+
+;; https://github.com/alphapapa/org-protocol-capture-html#org-protocol-instructions
+(package! org-protocol-capture-html
+  :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
+
+(package! command-log-mode)
+
+(package! el-easydraw
+  :recipe (:host github :repo "misohena/el-easydraw"))

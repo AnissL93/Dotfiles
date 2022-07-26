@@ -36,13 +36,22 @@
 ;; TT2020Base
 ;; Office Code Pro
 ;; Cascadia Mono
-(setq cur-font "Comic Code Ligatures")
-(setq en-font-size 17)
-(setq doom-font (font-spec :family cur-font :size en-font-size :weight 'semi-light)
+;; (setq cur-font "GoMono NF")
+;; Anonymice NF
+;; (setq cur-font "Anonymice NF")
+(setq cur-font "Fira Code")
+;; (setq cur-font "FantasqueSansMono NF")
+;; (setq cur-font "Sarasa Mono SC")
+;; (setq cur-font "Comic Code Ligatures")
+;; (setq cur-font "Hask Mono SC")
+(setq ch-font "LXGW WenKai Mono")
+(setq en-font-size 15)
+;; (setq line-spacing 3)
+(setq doom-font (font-spec :family cur-font :size en-font-size)
       doom-variable-pitch-font (font-spec :family cur-font :size en-font-size)
-      doom-big-font cur-font
-      doom-unicode-font (font-spec :family "LXGW WenKai Mono" :size (+ en-font-size 2)))
-
+      doom-unicode-font (font-spec :family ch-font)
+     ;; doom-unicode-font (font-spec :family ch-font :size (+ 0 en-font-size))
+      )
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -51,8 +60,7 @@
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
 
-;; (setq doom-theme 'kaolin-temple)
-(setq doom-theme 'avk-daylight)
+(setq doom-theme 'doom-city-lights)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -84,8 +92,7 @@
         (toggle-input-method)
       (set-input-method "rime")))
 
-  (set-input-method-to-rime)
-  (map! "C-'" #'toggle-input-method ))
+  (map! "C-'" #'toggle-input-method))
 
 
 (map! :leader
@@ -115,8 +122,9 @@
 
 (use-package! rime
   :custom
-  (rime-show-candidate 'posframe)
+  (rime-show-candidate 'minibuffer)
   (default-input-method "rime"))
+
 
 (after! nov
   (defun my-nov-font-setup ()
@@ -198,8 +206,6 @@
   :mode "\\.ledger\\'")
 ;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
 
-(map! "C-/" #'comment-line)
-
 (defun insert-date-string ()
   (interactive)
   (insert
@@ -237,28 +243,19 @@ With a prefix argument, insert only the non-directory part."
   (beacon-mode t))
 
 (when (equal "work" (getenv "DIST"))
+  (use-package! eaf
+    :load-path "~/.doom.d/packages/emacs-application-framework"
+    :config
+    (require 'eaf-mindmap))
   (use-package! mu4e
     :load-path "/data/app/mu-1.6.10/mu4e/"
-    :init
-    (setq mu4e-mu-binary "/data/app/mu-1.6.10/mu/mu")
+    :config
+    ;; (setq mu4e-mu-binary "/data/app/mu-1.6.10/mu/mu")
+    (setq mu4e-mu-binary "/usr/bin/mu")
     (setq mu4e-maildir (expand-file-name "/data/mail"))
-    (setq mu4e-get-mail-command "true")
-    ;; ;; sync
-    (setq mu4e-get-mail-command "mbsync cambricon")
-    (setq mu4e-change-filenames-when-moving t)
     (setq mu4e-view-prefer-html t)
     (setq mu4e-html2text-command "html2text -utf8 -width 150")
-    (setq
-     +mu4e-backend 'mbsync
-     sendmail-program (executable-find "msmtp")
-     send-mail-function #'smtpmail-send-it
-     message-sendmail-f-is-evil t
-     message-sendmail-extra-arguments '("--read-envelope-from")
-     message-send-mail-function #'message-send-mail-with-sendmail)
-
-    ;; these are required for sending email
-    (setq smtpmail-default-smtp-server  "mail.cambricon.com")
-    (setq smtpmail-smtp-server "mail.cambricon.com")
+    (setq +mu4e-backend 'mbsync)
 
     (set-email-account!
      "cambricon"
@@ -268,42 +265,82 @@ With a prefix argument, insert only the non-directory part."
        (mu4e-drafts-folder     . "/cambricon/drafts/")
        (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
        (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
-       )
+       (mu4e-compose-signature . "---\nBest wishes!\nHuiying Lan"))
      t)
 
+    ;; set up msmtp for sending mails
+    (setq
+     sendmail-program (executable-find "/usr/bin/msmtp")
+     send-mail-function #'smtpmail-send-it
+     message-sendmail-f-is-evil t
+     message-sendmail-extra-arguments '("--read-envelope-from")
+     message-send-mail-function #'message-send-mail-with-sendmail
+     smtpmail-default-smtp-server  "mail.cambricon.com"
+     smtpmail-smtp-server "mail.cambricon.com"
+     )
     (setq mu4e-org-contacts-file  "~/Documents/RoamNotes/20220304154932-contacts.org")
-
-    ;;(add-to-list 'mu4e-headers-actions
-    ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
-    ;;(add-to-list 'mu4e-view-actions
-    ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
-    ;; refile
-    (setq mu4e-refile-folder
-          (lambda (msg)
-            (cond
-             ;; message with Jira, goes to jira
-             (
-              (mu4e-message-contact-field-matches
-               msg
-               :to
-               "lanhuiying@cambricon.com")
-              "/cambricon/Jira"
-              )
-             )
-            )
-          )
-
-    (map!
-     :map mu4e-headers-mode-map
-     :desc "org-store-link-and-capture"
-     "C-c c"
-     #'mu4e-org-store-and-capture)
     )
+  ;; (use-package! mu4e
+  ;;   :init
+  ;;   (setq mu4e-mu-binary "/data/app/mu-1.6.10/mu/mu")
+  ;;   (setq mu4e-maildir (expand-file-name "/data/mail"))
+  ;;   (setq mu4e-get-mail-command "true")
+  ;;   ;; ;; sync
+  ;;   (setq mu4e-change-filenames-when-moving t)
+  ;;   (setq mu4e-view-prefer-html t)
+  ;;   (setq mu4e-html2text-command "html2text -utf8 -width 150")
+  ;;   (setq
+  ;;    +mu4e-backend 'mbsync
+  ;;    sendmail-program (executable-find "msmtp")
+  ;;    send-mail-function #'smtpmail-send-it
+  ;;    message-sendmail-f-is-evil t
+  ;;    message-sendmail-extra-arguments '("--read-envelope-from")
+  ;;    message-send-mail-function #'message-send-mail-with-sendmail)
 
-  (use-package! eaf
-    :load-path "~/.doom.d/packages/emacs-application-framework"
-    :config
-    (require 'eaf-mindmap))
+
+  ;;   ;; these are required for sending email
+  ;;   (setq smtpmail-default-smtp-server  "mail.cambricon.com")
+  ;;   (setq smtpmail-smtp-server "mail.cambricon.com")
+
+  ;;   (set-email-account!
+  ;;    "cambricon"
+  ;;    '((mu4e-trash-folder      . "/cambricon/Trash/")
+  ;;      (mu4e-refile-folder     . "/cambricon/Inbox/")
+  ;;      (mu4e-sent-folder       . "/cambricon/sent/")
+  ;;      (mu4e-drafts-folder     . "/cambricon/drafts/")
+  ;;      (smtpmail-smtp-user     . "lanhuiying@cambricon.com")
+  ;;      (user-mail-address      . "lanhuiying@cambricon.com")    ;; only needed for mu < 1.4
+  ;;      )
+  ;;    t)
+
+
+  ;;   ;;(add-to-list 'mu4e-headers-actions
+  ;;   ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
+  ;;   ;;(add-to-list 'mu4e-view-actions
+  ;;   ;;             '("org-contact-add" . mu4e-action-add-org-contact) t)
+  ;;   ;; refile
+  ;;   (setq mu4e-refile-folder
+  ;;         (lambda (msg)
+  ;;           (cond
+  ;;            ;; message with Jira, goes to jira
+  ;;            (
+  ;;             (mu4e-message-contact-field-matches
+  ;;              msg
+  ;;              :to
+  ;;              "lanhuiying@cambricon.com")
+  ;;             "/cambricon/Jira"
+  ;;             )
+  ;;            )
+  ;;           )
+  ;;         )
+
+  ;;   (map!
+  ;;    :map mu4e-headers-mode-map
+  ;;    :desc "org-store-link-and-capture"
+  ;;    "C-c c"
+  ;;    #'mu4e-org-store-and-capture)
+  ;;   )
+
   )
 
 (when (equal "personal" (getenv "DIST"))
@@ -352,8 +389,7 @@ With a prefix argument, insert only the non-directory part."
     :desc "word at point in prompt" "p" #'sdcv-search-pointer+
     :desc "word at point in buffer" "P" #'sdcv-search-pointer+
     :desc "input word at in prompt" "i" #'sdcv-search-input+
-    :desc "input word at in buffer" "I" #'sdcv-search-input)
-   ))
+    :desc "input word at in buffer" "I" #'sdcv-search-input)))
 
 ;;;;;;; chinese fonts
 (use-package! cnfonts
@@ -368,3 +404,8 @@ With a prefix argument, insert only the non-directory part."
 ;;; enable input method switch on macos
 (when (string-equal system-type "darwin")
   (load! "input.el"))
+
+(use-package! command-log-mode
+  :custom
+  (clm/logging-dir "~/.local/log/"))
+
