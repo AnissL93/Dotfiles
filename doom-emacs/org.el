@@ -241,7 +241,7 @@
      org-noter-notes-search-path (list org_notes)
      ))
 
-(require 'org-protocol-capture-html)
+  (require 'org-protocol-capture-html)
   ;; Actually start using templates
   (after! org-capture
     (require 'org-contacts)
@@ -265,20 +265,39 @@
              :empty-lines 1
              :prepend t
              :kill-buffer t)
-
             ("b" "Protocol" entry
              (file+headline "~/Documents/RoamNotes/20220213034655-inbox.org" "WebCapture")
              "* %:description\nSource: %t\n[[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-
             ;; link for linkz
             ("o" "Link capture" entry
              (file+headline "~/Documents/RoamNotes/org-linkz/Linkz.org" "INBOX")
-             "* %a %U"
-             :immediate-finish t)
-
+             "* %a %U" :immediate-finish t)
             ("w" "Web site" entry
              (file "~/Documents/RoamNotes/gtd/inbox.org")
              "* [[%:link][%:description]] \n %U \n %:initial \n")
+            ("t" "Personal todo" entry
+             (file+headline +org-capture-todo-file "Inbox")
+             "* [ ] %?\n%i\n%a" :prepend t)
+            ("n" "Personal notes" entry
+             (file+headline +org-capture-notes-file "Inbox")
+             "* %u %?\n%i\n%a" :prepend t)
+            ("j" "Journal" entry
+             (file+olp+datetree +org-capture-journal-file)
+             "* %U %?\n%i\n%a" :prepend t)
+            ("p" "Templates for projects")
+            ("pt" "Project-local todo" entry
+             (file+headline +org-capture-project-todo-file "Inbox")
+             "* TODO %?\n%i\n%a" :prepend t)
+            ("pn" "Project-local notes" entry
+             (file+headline +org-capture-project-notes-file "Inbox")
+             "* %U %?\n%i\n%a" :prepend t)
+            ("pc" "Project-local changelog" entry
+             (file+headline +org-capture-project-changelog-file "Unreleased")
+             "* %U %?\n%i\n%a" :prepend t)
+            ;; ("o" "Centralized templates for projects")
+            ;; ("ot" "Project todo" entry #'+org-capture-central-project-todo-file "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
+            ;; ("on" "Project notes" entry #'+org-capture-central-project-notes-file "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
+            ;; ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)
             )))
 
   (use-package! org-roam
@@ -422,17 +441,16 @@
     (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
   (use-package! easy-hugo
-   :init
-   (setq easy-hugo-basedir "~/Documents/RoamNotes/blog/")
-   (setq easy-hugo-url "https://blog.hylan.ml")
-   (setq easy-hugo-sshdomain "server")
-   (setq easy-hugo-default-ext "org")
-   (setq easy-hugo-postdir "content/posts")
-   (setq easy-hugo-root "/home/auau/Apps/blog/")
-   (setq easy-hugo-server-flags "-D")
+    :init
+    (setq easy-hugo-basedir "~/Documents/RoamNotes/blog/")
+    (setq easy-hugo-url "https://blog.hylan.ml")
+    (setq easy-hugo-sshdomain "server")
+    (setq easy-hugo-default-ext "org")
+    (setq easy-hugo-postdir "content/posts")
+    (setq easy-hugo-root "/home/auau/Apps/blog/")
+    (setq easy-hugo-server-flags "-D")
 
-   :bind
-   ("C-c C-k" . easy-hugo-menu)
-   :config
-   (easy-hugo-enable-menu))
-  )
+    :bind
+    ("C-c C-k" . easy-hugo-menu)
+    :config
+    (easy-hugo-enable-menu)))

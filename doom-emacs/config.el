@@ -1,6 +1,6 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-(setq user-full-name "Huiying Lan"
-      user-mail-address "lan_huiying@outlook.com")
+(setq user-full-name "hylan"
+      user-mail-address "me@hylan.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -36,17 +36,23 @@
 ;; TT2020Base
 ;; Office Code Pro
 ;; Cascadia Mono
-(setq cur-font "Comic Code Ligatures")
+(setq cur-font "Cascadia Code")
+;; (setq cur-font "Azeret Mono")
 ;; (setq cur-font "Comic Code Ligatures")
-;; (setq cur-font "Anonymice Nerd Font")
-;; (setq cur-font "Consola Mono")
+;; (setq cur-font "FuraCode NF")
+;; (setq cur-font "FuraCode NF")
 ;; (setq cur-font "Red Hat Mono")
-;; (setq cur-font "Cascadia Mono")
-(setq en-font-size 17)
-(setq doom-font (font-spec :family cur-font :size en-font-size :weight 'semi-light)
+;; (setq cur-font "InconsolataLGC NF")
+;; (setq cur-font "Hasklug NF")
+;; (setq cur-font "Sarasa Mono SC")
+;; (setq cur-font "Hurmit NF")
+;; (setq cur-font "Consola Mono")
+;; (setq cur-font "Anonymice NF")
+(setq en-font-size 16)
+(setq doom-font (font-spec :family cur-font :size en-font-size :weight 'semi-bold)
       doom-variable-pitch-font (font-spec :family cur-font :size en-font-size)
       doom-big-font cur-font
-      doom-unicode-font (font-spec :family "LXGW WenKai Mono" :size (+ en-font-size 2)))
+      doom-unicode-font (font-spec :family "LXGW WenKai Mono"))
 
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -58,7 +64,8 @@
 
 ;; (setq doom-theme 'kaolin-temple)
 ;; (setq doom-theme 'modus-vivendi)
-(setq doom-theme 'doom-wilmersdorf)
+;; (setq doom-theme 'doom-wilmersdorf)
+(setq doom-theme 'gotham)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -80,7 +87,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(map! "C-/" #'comment-line)
+;; (map! "C-/" #'comment-line)
 
 (defun set-input-method-to-rime ()
   (interactive)
@@ -90,18 +97,17 @@
 
 (map! "C-:" #'set-input-method-to-rime)
 
-(map! :leader
-      (:prefix-map ("e" . "S-expression operations")
-       :desc "slurp-forward" "s" #'sp-forward-slurp-sexp
-       :desc "slurp-backward" "S" #'sp-backward-slurp-sexp
-       :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
-       :desc "move the last sexp out" "B" #'sp-forward-barf-sexp)
-      (:prefix-map ("j" . "Easy motion movement")
-       :desc "jump goto line above" "l" #'avy-goto-line-above
-       :desc "jump goto line below" "L" #'avy-goto-line-below
-       :desc "goto char" "j" #'evil-avy-goto-char
-       :desc "goto word" "w" #'evil-avy-goto-word-0
-       ))
+;; (map! :leader
+;;       (:prefix-map ("e" . "S-expression operations")
+;;        :desc "slurp-forward" "s" #'sp-forward-slurp-sexp
+;;        :desc "slurp-backward" "S" #'sp-backward-slurp-sexp
+;;        :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
+;;        :desc "move the last sexp out" "B" #'sp-forward-barf-sexp)
+;;       (:prefix-map ("j" . "Easy motion movement")
+;;        :desc "jump goto line above" "l" #'avy-goto-line-above
+;;        :desc "jump goto line below" "L" #'avy-goto-line-below
+;;        :desc "goto char" "j" #'evil-avy-goto-char
+;;        :desc "goto word" "w" #'evil-avy-goto-word-0))
 
 ;;;;;;;;;; shell ;;;;;;;;;;;;;;
 (defun sudo-shell-command (command)
@@ -243,23 +249,16 @@ With a prefix argument, insert only the non-directory part."
 (defun get-binary-full-path (path)
   (shell-command-to-string (format "which %s" path)))
 
-
-(defun set-mail-account (account user server mail-dir)
-  ;;(setq mu4e-maildir (expand-file-name mail-dir))
-  )
-
-
-
 (use-package! mu4e
- :load-path "/usr/share/emacs/site-lisp/mu4e"
- :config
- (setq mu4e-org-contacts-file "~/Documents/RoamNotes/20220304154932-contacts.org")
- (setq mu4e-mu-binary "/usr/bin/mu")
-
+  :load-path "/usr/share/emacs/site-lisp/mu4e"
+  :config
+  (setq mu4e-org-contacts-file "~/Documents/RoamNotes/20220304154932-contacts.org")
+  (setq mu4e-mu-binary "/usr/bin/mu")
+  (setq mu4e-mu-home "~/Documents/Data/Mail-Database")
   (setq mu4e-get-mail-command "true")
 
   ;; ;; sync
-  (setq mu4e-get-mail-command (format "mbsync -a"))
+  (setq mu4e-get-mail-command (format "mbsync hylan"))
   (setq mu4e-update-interval 300)
   ;; save attachment to Documents by default
   (setq mu4e-attachment-dir "~/Documents")
@@ -268,7 +267,7 @@ With a prefix argument, insert only the non-directory part."
   (setq mu4e-html2text-command "html2text -utf8 -width 150")
 
   (setq
-   +mu4e-backend 'mbsync
+   ;; +mu4e-backend 'mbsync
    sendmail-program (executable-find "msmtp")
    send-mail-function #'smtpmail-send-it
    message-sendmail-f-is-evil t
@@ -301,20 +300,7 @@ With a prefix argument, insert only the non-directory part."
             )
           )
         )
-
-  ;; (set-email-account!
-  ;;  "hylan"
-  ;;  '((mu4e-trash-folder      . (format "/%s/Trash/" "hylan"))
-  ;;    (mu4e-refile-folder     . (format "/%s/Inbox/" "hylan"))
-  ;;    (mu4e-sent-folder       . (format "/%s/sent/" "hylan"))
-  ;;    (mu4e-drafts-folder     . (format "/%s/drafts/" "hylan"))
-  ;;    (smtpmail-smtp-user     . (format "%s@%s" "me" "hylan.ml"))
-  ;;    (user-mail-address      . (format "%s@%s" "me" "hylan.ml"))    ;; only needed for mu < 1.4
-  ;;    )
-  ;;  t)
-
-;; (set-mail-account "hylan" "me" "hylan.ml" "~/Documents/Mail/")
- )
+  )
 
 ;; (when (equal "work" (getenv "DIST"))
 
@@ -344,9 +330,9 @@ With a prefix argument, insert only the non-directory part."
 
 ;;; M-d select next
 ;;; M-D select prev
-(use-package! evil-multiedit
-  :config
-  (evil-multiedit-default-keybinds))
+;; (use-package! evil-multiedit
+;;   :config
+;;   (evil-multiedit-default-keybinds))
 
 (solaire-global-mode +1)
 
@@ -389,3 +375,100 @@ With a prefix argument, insert only the non-directory part."
 ;;; enable input method switch on macos
 (when (string-equal system-type "darwin")
   (load! "input.el"))
+
+(use-package! meow
+  :config
+  (defun meow-reverse-line ()
+    (interactive)
+    (negative-argument)
+    (meow-line))
+  (setq meow--kbd-undo "C-_")
+  (defun meow-setup ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    (meow-motion-overwrite-define-key
+     '("j" . meow-next)
+     '("k" . meow-prev)
+     '("<escape>" . ignore))
+    (meow-leader-define-key
+     ;; SPC j/k will run the original command in MOTION state.
+     '("j" . "H-j")
+     '("k" . "H-k")
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet))
+    (meow-normal-define-key
+     '("0" . meow-expand-0)
+     '("9" . meow-expand-9)
+     '("8" . meow-expand-8)
+     '("7" . meow-expand-7)
+     '("6" . meow-expand-6)
+     '("5" . meow-expand-5)
+     '("4" . meow-expand-4)
+     '("3" . meow-expand-3)
+     '("2" . meow-expand-2)
+     '("1" . meow-expand-1)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("a" . meow-append)
+     '("o" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     '("x" . meow-delete)
+     '("X" . meow-backward-delete)
+     '("w" . meow-next-word)
+     '("W" . meow-next-symbol)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("i" . meow-insert)
+     '("O" . meow-open-above)
+     '("j" . meow-next)
+     '("J" . meow-next-expand)
+     '("k" . meow-prev)
+     '("K" . meow-prev-expand)
+     '("l" . meow-right)
+     '("L" . meow-right-expand)
+     '("^" . meow-join)
+     '("s" . meow-search)
+     '("n" . meow-block)
+     '("N" . meow-to-block)
+     '("p" . meow-yank)
+     '("q" . meow-quit)
+     '("Q" . meow-goto-line)
+     '("r" . meow-replace)
+     '("R" . meow-swap-grab)
+     '("d" . meow-kill)
+     '("t" . meow-till)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("S" . meow-visit)
+     '("e" . meow-mark-word)
+     '("E" . meow-mark-symbol)
+     '("v" . meow-line)
+     '("V" . meow-reverse-line)
+     '("y" . meow-save)
+     '("Y" . meow-sync-grab)
+     '("z" . meow-pop-selection)
+     '("'" . repeat)
+     '("(" . scroll-down)
+     '(")" . scroll-up)
+     '("<escape>" . ignore)))
+  (meow-setup)
+  )

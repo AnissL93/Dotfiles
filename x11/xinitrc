@@ -10,7 +10,7 @@ redshift &
 
 xmodmap ~/.config/x11/xmodmap
 
-~/.config/x2ray/bin/xray run --config ~/.config/x2ray/vless_ws_xtls.json &
+~/.config/x2ray/bin/xray run --config ~/.config/x2ray/vless_ws_tls_linode.json &
 
 xbacklight -set $(cat ~/.config/X11/xbacklight)
 
