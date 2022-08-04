@@ -166,8 +166,7 @@
        ;;web               ; the tubes
        yaml              ; JSON, but readable
 
-       :email
-       (mu4e +org)
+       :email (mu4e +org)
        ;;notmuch
        ;;(wanderlust +gmail)
 

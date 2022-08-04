@@ -154,8 +154,6 @@
                                     ("\\section{%s}" . "\\section*{%s}")
                                     ("\\subsection{%s}" . "\\subsection*{%s}")))
 
-
-
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((R . t)
@@ -444,7 +442,8 @@
       (with-eval-after-load 'ox
         (require 'ox-pandoc)
         (require 'ox-jira)
-        (require 'ox-wk)))
+        (require 'ox-wk)
+        (require 'ox-beamer)))
 
 
     (defun auii/archive-link-and-open ()
@@ -496,7 +495,8 @@
                 (overlay-put ov 'line-spacing (1- line-height))))))))
 
     (add-hook 'org-agenda-finalize-hook #'my:org-agenda-time-grid-spacing))
+  )
 
-  (use-package! edrw-org
-    :init
-    (edraw-org-setup-default)))
+(with-eval-after-load 'org
+  (require 'edraw-org)
+  (edraw-org-setup-default))
