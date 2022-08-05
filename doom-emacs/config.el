@@ -36,10 +36,10 @@
 ;; TT2020Base
 ;; Office Code Pro
 ;; Cascadia Mono
-;; (setq cur-font "GoMono NF")
+(setq cur-font "mononoki NF")
 ;; Anonymice NF
 ;; (setq cur-font "Anonymice NF")
-(setq cur-font "Fira Code")
+;; (setq cur-font "Fira Code")
 ;; (setq cur-font "FantasqueSansMono NF")
 ;; (setq cur-font "Sarasa Mono SC")
 ;; (setq cur-font "Comic Code Ligatures")
@@ -50,7 +50,7 @@
 (setq doom-font (font-spec :family cur-font :size en-font-size)
       doom-variable-pitch-font (font-spec :family cur-font :size en-font-size)
       doom-unicode-font (font-spec :family ch-font)
-     ;; doom-unicode-font (font-spec :family ch-font :size (+ 0 en-font-size))
+      ;; doom-unicode-font (font-spec :family ch-font :size (+ 0 en-font-size))
       )
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -60,7 +60,8 @@
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
 
-(setq doom-theme 'doom-city-lights)
+(setq doom-theme 'jazz)
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -82,8 +83,6 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(map! "C-/" #'comment-line)
-
 (use-package! rime
   :config
   (defun set-input-method-to-rime ()
@@ -92,15 +91,16 @@
         (toggle-input-method)
       (set-input-method "rime")))
 
-  (map! "C-'" #'toggle-input-method))
-
+(map! "C-'" #'toggle-input-method))
+(map! "C-/" #'comment-line)
 
 (map! :leader
       (:prefix-map ("e" . "S-expression operations")
        :desc "slurp-forward" "s" #'sp-forward-slurp-sexp
        :desc "slurp-backward" "S" #'sp-backward-slurp-sexp
        :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
-       :desc "move the last sexp out" "B" #'sp-forward-barf-sexp)
+       :desc "move the last sexp out" "B" #'sp-forward-barf-sexp
+       :desc "expand tiny function" "e" #'tiny-expand)
       (:prefix-map ("j" . "Easy motion movement")
        :desc "jump goto line above" "l" #'avy-goto-line-above
        :desc "jump goto line below" "L" #'avy-goto-line-below
@@ -113,7 +113,6 @@
   (interactive "xShell command (root): ")
   (shell-command (concat "echo " (shell-quote-argument (read-passwd "Password? "))
                          (format " | sudo -S %s" command))))
-
 
 (use-package! deft
   :commands deft
@@ -323,7 +322,7 @@ With a prefix argument, insert only the non-directory part."
   ;;         (lambda (msg)
   ;;           (cond
   ;;            ;; message with Jira, goes to jira
-  ;;            (
+  ;;           (
   ;;             (mu4e-message-contact-field-matches
   ;;              msg
   ;;              :to
@@ -340,7 +339,6 @@ With a prefix argument, insert only the non-directory part."
   ;;    "C-c c"
   ;;    #'mu4e-org-store-and-capture)
   ;;   )
-
   )
 
 (when (equal "personal" (getenv "DIST"))
@@ -364,9 +362,9 @@ With a prefix argument, insert only the non-directory part."
 
 ;;; M-d select next
 ;;; M-D select prev
-(use-package! evil-multiedit
-  :config
-  (evil-multiedit-default-keybinds))
+;;(use-package! evil-multiedit
+;;  :config
+;;  (evil-multiedit-default-keybinds))
 
 (solaire-global-mode +1)
 
@@ -378,9 +376,9 @@ With a prefix argument, insert only the non-directory part."
         '("朗道汉英字典5.0"
           "朗道英汉字典5.0"))
   (setq sdcv-dictionary-complete-list '(
-          "牛津英汉双解美化版"
-          "朗道汉英字典5.0"
-          "朗道英汉字典5.0"))
+                                        "牛津英汉双解美化版"
+                                        "朗道汉英字典5.0"
+                                        "朗道英汉字典5.0"))
   (setq sdcv-tooltip-timeout 50)
 
   (map!
@@ -404,8 +402,122 @@ With a prefix argument, insert only the non-directory part."
 ;;; enable input method switch on macos
 (when (string-equal system-type "darwin")
   (load! "input.el"))
+(use-package! meow
+  :config
+  (meow-setup-indicator)
+  (setq meow--kbd-undo "C-_")
+  (setq meow--kbd-forward-slurp "C-c e s") ;;tjfdskd
+  (setq meow--kbd-backward-slurp "C-c e S") ;;tjfdskd
+  (defun meow-setup ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    (meow-motion-overwrite-define-key
+     '("j" . meow-next)
+     '("k" . meow-prev)
+     '("<escape>" . ignore))
+    (meow-leader-define-key
+     ;; SPC j/k will run the original command in MOTION state.
+     '("j" . "H-j")
+     '("k" . "H-k")
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet))
+    (meow-normal-define-key
+     '("0" . meow-expand-0)
+     '("9" . meow-expand-9)
+     '("8" . meow-expand-8)
+     '("7" . meow-expand-7)
+     '("6" . meow-expand-6)
+     '("5" . meow-expand-5)
+     '("4" . meow-expand-4)
+     '("3" . meow-expand-3)
+     '("2" . meow-expand-2)
+     '("1" . meow-expand-1)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("a" . meow-append)
+     '("o" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     '("d" . meow-kill)
+     ;; '("D" . meow-bckward-delete)
+     '("w" . meow-next-word)
+     '("W" . meow-next-symbol)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("i" . meow-insert)
+     '("O" . meow-open-above)
+     '("j" . meow-next)
+     '("J" . meow-next-expand)
+     '("k" . meow-prev)
+     '("K" . meow-prev-expand)
+     '("l" . meow-right)
+     '("L" . meow-right-expand)
+     '("m" . meow-join)
+     '("n" . meow-search)
+     '("N" . meow-block)
+     ;; '("n" . meow-to-block)
+     '("p" . meow-yank)
+     '("P" . meow-replace)
+     '("q" . meow-quit)
+     '("Q" . meow-goto-line)
+     '("r" . negative-argument)
+     ;; maybe change this ??
+     '("R" . meow-swap-grab)
+     '("t" . meow-till)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("s" . meow-visit)
+     '("S" . meow-forward-slurp)
+     '("M" . meow-backward-slurp)
+     '("e" . meow-mark-word)
+     '("E" . meow-mark-symbol)
+     '("x" . meow-line)
+     '("y" . meow-save)
+     '("Y" . meow-sync-grab)
+     ;; '("Z" . meow-pop-selection)
+     '("'" . repeat)
+     '("(" . scroll-down)
+     '(")" . scroll-up)
+     '("<escape>" . ignore)
+     ;; goto begin/end of buffer
+     '("<" . beginning-of-buffer)
+     '(">" . end-of-buffer)
+     ;; window manage
+     '("!" . +workspace/close-window-or-workspace)
+     '("$" . save-buffer)
+     '("v" . split-window-right)
+     '("V" . split-window-below)
+     '("C" . other-window)
+     '("F" . +format/buffer)
+     ;; buffer manage
+     '("X" . kill-current-buffer)
+     '("#" . consult-buffer)
+     '("/" . +default/search-buffer)))
 
-(use-package! command-log-mode
-  :custom
-  (clm/logging-dir "~/.local/log/"))
+  (meow-setup)
+  (setq meow-use-clipboard t)
+  )
 
+(use-package! tiny
+  :config
+  (tiny-setup-default))
+
+;; what is your favourite fonts?

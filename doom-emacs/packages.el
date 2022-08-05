@@ -126,3 +126,5 @@
 (package! el-easydraw
   :recipe (:host github :repo "misohena/el-easydraw"))
 
+(package! tiny
+  :recipe (:host github :repo "abo-abo/tiny"))
