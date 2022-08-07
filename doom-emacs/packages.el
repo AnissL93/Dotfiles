@@ -129,3 +129,6 @@
 
 (package! emacs-easy-hugo
   :recipe (:host github :repo "masasam/emacs-easy-hugo"))
+
+(package! tiny
+  :recipe (:host github :repo "abo-abo/tiny"))

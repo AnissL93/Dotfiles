@@ -22,8 +22,8 @@
        company           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       ivy               ; a search engine for love and life
-       ;; vertico
+       ;; ivy               ; a search engine for love and life
+       vertico
 
        :ui
        deft              ; notational velocity for Emacs
@@ -53,7 +53,7 @@
        ligatures
 
        :editor
-       ;;(evil +everywhere); come to the dark side, we have cookies
+      ;; (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        (format +onsave)  ; automated prettiness

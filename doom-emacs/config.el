@@ -36,24 +36,36 @@
 ;; TT2020Base
 ;; Office Code Pro
 ;; Cascadia Mono
-(setq cur-font "Cascadia Code")
+;; (setq cur-font "Cascadia Code")
 ;; (setq cur-font "Azeret Mono")
 ;; (setq cur-font "Comic Code Ligatures")
 ;; (setq cur-font "FuraCode NF")
 ;; (setq cur-font "FuraCode NF")
-;; (setq cur-font "Red Hat Mono")
+;; (setq cur-font "FantasqueSansMono NF")
 ;; (setq cur-font "InconsolataLGC NF")
 ;; (setq cur-font "Hasklug NF")
 ;; (setq cur-font "Sarasa Mono SC")
 ;; (setq cur-font "Hurmit NF")
 ;; (setq cur-font "Consola Mono")
 ;; (setq cur-font "Anonymice NF")
+;; (setq cur-font "Monoid NF")
+;; (setq cur-font "Input Mono")
+;; (setq cur-font "Liga Space Mono")
+;; (setq cur-font "Envy Code R")
+;; (setq cur-font "LXGW WenKai Mono")
+;; (setq cur-font "Ligalex Mono")
+;; (setq cur-font "Liga Roboto Mono")
+;; (setq cur-font "CamingoCode")
+;; (setq cur-font "Sometype Mono")
+;; (setq cur-font "Verily Serif Mono")
+
+;; this one is good
+(setq cur-font "NK57 Monospace")
 (setq en-font-size 16)
 (setq doom-font (font-spec :family cur-font :size en-font-size :weight 'semi-bold)
       doom-variable-pitch-font (font-spec :family cur-font :size en-font-size)
       doom-big-font cur-font
       doom-unicode-font (font-spec :family "LXGW WenKai Mono"))
-
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -65,7 +77,7 @@
 ;; (setq doom-theme 'kaolin-temple)
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'doom-wilmersdorf)
-(setq doom-theme 'gotham)
+(setq doom-theme 'doom-monokai-octagon)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -87,7 +99,8 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; (map! "C-/" #'comment-line)
+(map! "C-/" #'comment-line)
+(map! "C-- " #'kill-current-buffer)
 
 (defun set-input-method-to-rime ()
   (interactive)
@@ -97,17 +110,17 @@
 
 (map! "C-:" #'set-input-method-to-rime)
 
-;; (map! :leader
-;;       (:prefix-map ("e" . "S-expression operations")
-;;        :desc "slurp-forward" "s" #'sp-forward-slurp-sexp
-;;        :desc "slurp-backward" "S" #'sp-backward-slurp-sexp
-;;        :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
-;;        :desc "move the last sexp out" "B" #'sp-forward-barf-sexp)
-;;       (:prefix-map ("j" . "Easy motion movement")
-;;        :desc "jump goto line above" "l" #'avy-goto-line-above
-;;        :desc "jump goto line below" "L" #'avy-goto-line-below
-;;        :desc "goto char" "j" #'evil-avy-goto-char
-;;        :desc "goto word" "w" #'evil-avy-goto-word-0))
+(map! :leader
+      (:prefix-map ("e" . "S-expression operations")
+       :desc "slurp-forward" "s" #'sp-forward-slurp-sexp
+       :desc "slurp-backward" "S" #'sp-backward-slurp-sexp
+       :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
+       :desc "move the last sexp out" "B" #'sp-forward-barf-sexp)
+      (:prefix-map ("j" . "Easy motion movement")
+       :desc "jump goto line above" "l" #'avy-goto-line-above
+       :desc "jump goto line below" "L" #'avy-goto-line-below
+       :desc "goto char" "j" #'evil-avy-goto-char
+       :desc "goto word" "w" #'evil-avy-goto-word-0))
 
 ;;;;;;;;;; shell ;;;;;;;;;;;;;;
 (defun sudo-shell-command (command)
@@ -207,7 +220,6 @@
   (setq ledger-clear-whole-transactions 1)
   :mode "\\.ledger\\'")
 ;;;;;;;;;;;;;;;;;;;;;; mail config ;;;;;;;;;;;;;;;;;;;;;;
-(map! "C-/" #'comment-line)
 (map! "C-," #'toggle-input-method)
 
 (defun insert-date-string ()
@@ -302,13 +314,6 @@ With a prefix argument, insert only the non-directory part."
         )
   )
 
-;; (when (equal "work" (getenv "DIST"))
-
-;;   (use-package! eaf
-;;     :load-path "~/.doom.d/packages/emacs-application-framework"
-;;     :config
-;;     (require 'eaf-mindmap)))
-
 (when (equal "personal" (getenv "DIST"))
   ;;
   (use-package! arduino-mode
@@ -327,12 +332,6 @@ With a prefix argument, insert only the non-directory part."
     (setenv "http_proxy" "socks5://127.0.0.1:10800")
     (setenv "https_proxy" "socks5://127.0.0.1:10800"))
   (auii/set_proxy))
-
-;;; M-d select next
-;;; M-D select prev
-;; (use-package! evil-multiedit
-;;   :config
-;;   (evil-multiedit-default-keybinds))
 
 (solaire-global-mode +1)
 
@@ -368,21 +367,19 @@ With a prefix argument, insert only the non-directory part."
 (load! "packages/mlir-lsp-client.el")
 (load! "packages/llvm-mode.el")
 (load! "packages/tablegen-mode.el")
-
 (after! mlir-mode
   (lsp-mlir-setup))
 
-;;; enable input method switch on macos
+;; enable input method switch on macos
 (when (string-equal system-type "darwin")
   (load! "input.el"))
 
 (use-package! meow
   :config
-  (defun meow-reverse-line ()
-    (interactive)
-    (negative-argument)
-    (meow-line))
+  (meow-setup-indicator)
   (setq meow--kbd-undo "C-_")
+  (setq meow--kbd-forward-slurp "C-c e s") ;;tjfdskd
+  (setq meow--kbd-backward-slurp "C-c e S") ;;tjfdskd
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
     (meow-motion-overwrite-define-key
@@ -428,8 +425,8 @@ With a prefix argument, insert only the non-directory part."
      '("b" . meow-back-word)
      '("B" . meow-back-symbol)
      '("c" . meow-change)
-     '("x" . meow-delete)
-     '("X" . meow-backward-delete)
+     '("d" . meow-kill)
+     ;; '("D" . meow-bckward-delete)
      '("w" . meow-next-word)
      '("W" . meow-next-symbol)
      '("f" . meow-find)
@@ -445,30 +442,52 @@ With a prefix argument, insert only the non-directory part."
      '("K" . meow-prev-expand)
      '("l" . meow-right)
      '("L" . meow-right-expand)
-     '("^" . meow-join)
-     '("s" . meow-search)
-     '("n" . meow-block)
-     '("N" . meow-to-block)
+     '("m" . meow-join)
+     '("n" . meow-search)
+     '("N" . meow-block)
+     '("M" . meow-to-block)
      '("p" . meow-yank)
+     '("P" . meow-replace)
      '("q" . meow-quit)
      '("Q" . meow-goto-line)
-     '("r" . meow-replace)
-     '("R" . meow-swap-grab)
-     '("d" . meow-kill)
+     '("r" . negative-argument)
+     ;; maybe change this ??
+     '("R" . undo-redo)
      '("t" . meow-till)
      '("u" . meow-undo)
      '("U" . meow-undo-in-selection)
-     '("S" . meow-visit)
+     '("s" . meow-visit)
+     '("S" . meow-forward-slurp)
+     ;; '("M" . meow-backward-slurp)
      '("e" . meow-mark-word)
      '("E" . meow-mark-symbol)
-     '("v" . meow-line)
-     '("V" . meow-reverse-line)
+     '("x" . meow-line)
      '("y" . meow-save)
      '("Y" . meow-sync-grab)
-     '("z" . meow-pop-selection)
+     ;; '("Z" . meow-pop-selection)
      '("'" . repeat)
      '("(" . scroll-down)
      '(")" . scroll-up)
-     '("<escape>" . ignore)))
+     '("<escape>" . ignore)
+     ;; goto begin/end of buffer
+     '("<" . beginning-of-buffer)
+     '(">" . end-of-buffer)
+     ;; window manage
+     '("$" . save-buffer)
+     '("!" . save-buffer)
+     '("v" . split-window-right)
+     '("V" . split-window-below)
+     '("C" . other-window)
+     '("F" . +format/buffer)
+     ;; buffer manage
+     '("X" . kill-current-buffer)
+     '("#" . consult-buffer)
+     '("/" . +default/search-buffer)))
+
   (meow-setup)
+  (setq meow-use-clipboard t)
   )
+
+(use-package! tiny
+  :config
+  (tiny-setup-default))
