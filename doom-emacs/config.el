@@ -119,8 +119,8 @@
       (:prefix-map ("j" . "Easy motion movement")
        :desc "jump goto line above" "l" #'avy-goto-line-above
        :desc "jump goto line below" "L" #'avy-goto-line-below
-       :desc "goto char" "j" #'evil-avy-goto-char
-       :desc "goto word" "w" #'evil-avy-goto-word-0))
+       :desc "goto char" "j" #'avy-goto-char
+       :desc "goto word" "w" #'avy-goto-word-0))
 
 ;;;;;;;;;; shell ;;;;;;;;;;;;;;
 (defun sudo-shell-command (command)
@@ -426,7 +426,6 @@ With a prefix argument, insert only the non-directory part."
      '("B" . meow-back-symbol)
      '("c" . meow-change)
      '("d" . meow-kill)
-     ;; '("D" . meow-bckward-delete)
      '("w" . meow-next-word)
      '("W" . meow-next-symbol)
      '("f" . meow-find)
@@ -452,7 +451,7 @@ With a prefix argument, insert only the non-directory part."
      '("Q" . meow-goto-line)
      '("r" . negative-argument)
      ;; maybe change this ??
-     '("R" . undo-redo)
+     '("U" . undo-redo)
      '("t" . meow-till)
      '("u" . meow-undo)
      '("U" . meow-undo-in-selection)
@@ -472,9 +471,13 @@ With a prefix argument, insert only the non-directory part."
      ;; goto begin/end of buffer
      '("<" . beginning-of-buffer)
      '(">" . end-of-buffer)
+
+     ;; avy-goto
+     '("*" . avy-goto-word-1)
+     '("&" . avy-goto-char-2)
+
      ;; window manage
      '("$" . save-buffer)
-     '("!" . save-buffer)
      '("v" . split-window-right)
      '("V" . split-window-below)
      '("C" . other-window)
