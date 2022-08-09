@@ -1,7 +1,9 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-(setq user-full-name "hylan"
-      user-mail-address "me@hylan.com")
-
+(if (equal "personal" (getenv "DIST"))
+    (setq user-full-name "hylan"
+          user-mail-address "me@hylan.com")
+  (setq user-full-name "lanhuiying"
+        user-mail-address "lanhuiying@cambricon.com"))
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -261,22 +263,23 @@ With a prefix argument, insert only the non-directory part."
 (defun get-binary-full-path (path)
   (shell-command-to-string (format "which %s" path)))
 
+
 (use-package! mu4e
-  :load-path "/usr/share/emacs/site-lisp/mu4e"
+
+  :load-path "/data/app/mu-1.6.10/mu4e/"
   :config
   (setq mu4e-org-contacts-file "~/Documents/RoamNotes/20220304154932-contacts.org")
   (setq mu4e-mu-binary "/usr/bin/mu")
-  (setq mu4e-mu-home "~/Documents/Data/Mail-Database")
   (setq mu4e-get-mail-command "true")
 
   ;; ;; sync
-  (setq mu4e-get-mail-command (format "mbsync hylan"))
   (setq mu4e-update-interval 300)
   ;; save attachment to Documents by default
   (setq mu4e-attachment-dir "~/Documents")
   (setq mu4e-change-filenames-when-moving t)
   (setq mu4e-view-prefer-html t)
   (setq mu4e-html2text-command "html2text -utf8 -width 150")
+
 
   (setq
    ;; +mu4e-backend 'mbsync
@@ -289,30 +292,56 @@ With a prefix argument, insert only the non-directory part."
   ;; these are required for sending email
   (setq smtpmail-default-smtp-server  (format "mail.%s" "hylan.ml"))
   (setq smtpmail-smtp-server (format "mail.%s" "hylan.ml"))
-
-  (setq mu4e-contexts
-        `(
-          ,(make-mu4e-context
-            :name "hylan"
-            :enter-func
-            (lambda () (mu4e-message "Enter me@hylan.ml context"))
-            :leave-func
-            (lambda () (mu4e-message "Leave me@hylan.ml context"))
-            :match-func
-            (lambda (msg)
-              (when msg
-                (mu4e-message-contact-field-matches msg :to "me@hylan.ml")))
-            :vars
-            '((user-mail-address . "me@hylan.ml")
-              (user-full-name . "hylan")
-              (mu4e-drafts-folder . "/hylan/Drafts/")
-              (mu4e-sent-folder . "/hylan/Sent/")
-              (mu4e-trash-folder . "/hylan/Trash/")
-              (mu4e-refile-folder . "/hylan/Inbox/"))
-            )
-          )
-        )
-  )
+  (if (string-equal "personal" (getenv "DIST"))
+      (progn
+        (message "Add hylan Mail accounts")
+        (setq mu4e-mu-home "~/Documents/Data/Mail-Database")
+        (setq mu4e-get-mail-command (format "mbsync hylan"))
+        (setq mu4e-contexts
+              `(
+                ,(make-mu4e-context
+                  :name "hylan"
+                  :enter-func
+                  (lambda () (mu4e-message "Enter me@hylan.ml context"))
+                  :leave-func
+                  (lambda () (mu4e-message "Leave me@hylan.ml context"))
+                  :match-func
+                  (lambda (msg)
+                    (when msg
+                      (mu4e-message-contact-field-matches msg :to "me@hylan.ml")))
+                  :vars
+                  '((user-mail-address . "me@hylan.ml")
+                    (user-full-name . "hylan")
+                    (mu4e-drafts-folder . "/hylan/Drafts/")
+                    (mu4e-sent-folder . "/hylan/Sent/")
+                    (mu4e-trash-folder . "/hylan/Trash/")
+                    (mu4e-refile-folder . "/hylan/Inbox/"))))))
+    (progn
+      (message "Add Cambricon Mail accounts")
+      (setq mu4e-get-mail-command (format "mbsync cambricon"))
+      ;; (setq mu4e-mu-home "/data/mail/")
+      (setq mu4e-maildir "/data/mail/")
+      (setq mu4e-contexts
+            `(
+              ,(make-mu4e-context
+                :name "cambricon"
+                :enter-func
+                (lambda () (mu4e-message "Enter lanhuiying@cambricon.com context"))
+                :leave-func
+                (lambda () (mu4e-message "Leave lanhuiying@cambricon.com context"))
+                :match-func
+                (lambda (msg)
+                  (when msg
+                    (mu4e-message-contact-field-matches msg :to "lanhuiying@cambricon.com")))
+                :vars
+                '((user-mail-address . "lanhuiying@cambricon.com")
+                  (user-full-name . "lanhuiying")
+                  (mu4e-drafts-folder . "/cambricon/drafts/")
+                  (mu4e-sent-folder . "/cambricon/sent/")
+                  (mu4e-trash-folder . "/cambricon/Trash/")
+                  (mu4e-refile-folder . "/cambricon/Inbox/")
+                  (mu4e-compose-signature . "---\nBest wishes!\n Huiying Lan\n")
+                  )))))))
 
 (when (equal "personal" (getenv "DIST"))
   ;;
@@ -371,8 +400,7 @@ With a prefix argument, insert only the non-directory part."
   (lsp-mlir-setup))
 
 ;; enable input method switch on macos
-(when (string-equal system-type "darwin")
-  (load! "input.el"))
+(load! "input.el")
 
 (use-package! meow
   :config
@@ -414,8 +442,7 @@ With a prefix argument, insert only the non-directory part."
      '("3" . meow-expand-3)
      '("2" . meow-expand-2)
      '("1" . meow-expand-1)
-     '("-" . negative-argument)
-     '(";" . meow-reverse)
+     '(";" . meow--reverse)
      '("," . meow-inner-of-thing)
      '("." . meow-bounds-of-thing)
      '("[" . meow-beginning-of-thing)
@@ -428,7 +455,7 @@ With a prefix argument, insert only the non-directory part."
      '("d" . meow-kill)
      '("w" . meow-next-word)
      '("W" . meow-next-symbol)
-     '("f" . meow-find)
+     '("&" . meow-find)
      '("g" . meow-cancel-selection)
      '("G" . meow-grab)
      '("h" . meow-left)
@@ -443,7 +470,7 @@ With a prefix argument, insert only the non-directory part."
      '("L" . meow-right-expand)
      '("m" . meow-join)
      '("n" . meow-search)
-     '("N" . meow-block)
+     '("%" . meow-block)
      '("M" . meow-to-block)
      '("p" . meow-yank)
      '("P" . meow-replace)
@@ -473,20 +500,21 @@ With a prefix argument, insert only the non-directory part."
      '(">" . end-of-buffer)
 
      ;; avy-goto
-     '("*" . avy-goto-word-1)
-     '("&" . avy-goto-char-2)
+     '("f" . avy-goto-word-1)
+     '("F" . avy-goto-char-2)
 
      ;; window manage
      '("$" . save-buffer)
      '("v" . split-window-right)
      '("V" . split-window-below)
      '("C" . other-window)
-     '("F" . +format/buffer)
+     '("*" . +format/buffer)
+     '("z" . recenter)
+
      ;; buffer manage
      '("X" . kill-current-buffer)
      '("#" . consult-buffer)
      '("/" . +default/search-buffer)))
-
   (meow-setup)
   (setq meow-use-clipboard t)
   )

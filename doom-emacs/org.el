@@ -1,6 +1,6 @@
 ;;; org.el -*- lexical-binding: t; -*-
 (after! org
-  (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/")
+  (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
         work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
         ;; bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
         bib_file (concat (getenv "HOME") "/Projects/ustcthesis/bib/ref.bib")
