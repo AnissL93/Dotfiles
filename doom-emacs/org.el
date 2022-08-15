@@ -268,6 +268,10 @@
             ("b" "Protocol" entry
              (file+headline "~/Documents/RoamNotes/20220213034655-inbox.org" "WebCapture")
              "* %:description\nSource: %t\n[[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+            ("r" "Review" entry
+             (file+headline "~/Documents/RoamNotes/works/20220214120016-tfu.org" "Review")
+             "* TODO %:description\nSource: %t\n[[%:link][%:description]]\n"
+             :immediate-finish t)
             ;; link for linkz
             ("o" "Link capture" entry
              (file+headline "~/Documents/RoamNotes/org-linkz/Linkz.org" "INBOX")
@@ -275,6 +279,9 @@
             ("w" "Web site" entry
              (file "~/Documents/RoamNotes/gtd/inbox.org")
              "* [[%:link][%:description]] \n %U \n %:initial \n")
+            ("m" "Meeting/Appointment" entry
+             (file+headline "~/Documents/RoamNotes/works/20220217102159-meetings.org" "Technique")
+             "* %^{title}\nSCHEDULED: <%(org-read-date)> \nADDED: %t\nPEOPLE: %^{people}")
             ("t" "Personal todo" entry
              (file+headline +org-capture-todo-file "Inbox")
              "* [ ] %?\n%i\n%a" :prepend t)
