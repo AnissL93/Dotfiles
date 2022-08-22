@@ -241,9 +241,9 @@
      org-noter-notes-search-path (list org_notes)
      ))
 
-  (require 'org-protocol-capture-html)
   ;; Actually start using templates
   (after! org-capture
+    (require 'org-protocol-capture-html)
     (require 'org-contacts)
     (require 'org-protocol)
     (setq org-protocol-default-template-key nil)
@@ -270,15 +270,18 @@
              "* %:description\nSource: %t\n[[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
             ("r" "Review" entry
              (file+headline "~/Documents/RoamNotes/works/20220214120016-tfu.org" "Review")
-             "* TODO %:description\nSource: %t\n[[%:link][%:description]]\n"
+             "* TODO %:description\nSource: %t\n:PROPERTIES:\n:assignee: %:initial\n:END:\n[[%:link][%:description]]\n"
              :immediate-finish t)
             ;; link for linkz
             ("o" "Link capture" entry
              (file+headline "~/Documents/RoamNotes/org-linkz/Linkz.org" "INBOX")
              "* %a %U" :immediate-finish t)
+            ;; ("w" "Web site" entry
+            ;;  (file "~/Documents/RoamNotes/gtd/inbox.org")
+            ;;  "* [[%:link][%:description]] \n %U \n %:initial \n")
             ("w" "Web site" entry
-             (file "~/Documents/RoamNotes/gtd/inbox.org")
-             "* [[%:link][%:description]] \n %U \n %:initial \n")
+             (file "")
+             "* %a :website:\n\n%U %?\n\n%:initial")
             ("m" "Meeting/Appointment" entry
              (file+headline "~/Documents/RoamNotes/works/20220217102159-meetings.org" "Technique")
              "* %^{title}\nSCHEDULED: <%(org-read-date)> \nADDED: %t\nPEOPLE: %^{people}")

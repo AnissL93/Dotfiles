@@ -53,7 +53,7 @@
        ligatures
 
        :editor
-       ;;(evil +everywhere); come to the dark side, we have cookies
+       (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        (format +onsave)  ; automated prettiness
@@ -65,7 +65,7 @@
        rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent
-       (meow +override +keypad)
+       ;;(meow +override +keypad)
 
        :emacs
        dired             ; making dired pretty [functional]
