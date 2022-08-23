@@ -39,7 +39,7 @@
 ;; Office Code Pro
 ;; Cascadia Mono
 ;; (setq cur-font "Office Code Pro")
-(setq cur-font "Iosevka Comfy")
+;; (setq cur-font "Iosevka Comfy")
 ;; (setq cur-font "Cascadia Code")
 ;; (setq cur-font "Azeret Mono")
 ;; (setq cur-font "Comic Code Ligatures")
@@ -61,8 +61,8 @@
 ;; (setq cur-font "Input Mono")
 ;; (setq cur-font "Liga Space Mono")
 ;; (setq cur-font "Envy Code R")
-(setq cur-font "LXGW WenKai Mono")
-;; (setq cur-font "Ligalex Mono")
+;; (setq cur-font "LXGW WenKai Mono")
+(setq cur-font "Ligalex Mono")
 ;; (setq cur-font "Liga Hack")
 ;; (setq cur-font "LigaSrc Pro")
 ;; (setq cur-font "Liga Roboto Mono")
@@ -86,41 +86,30 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
-(add-to-list 'load-path "~/.doom.d/themes/ef-themes")
+(use-package! ef-themes
+  :load-path "~/.doom.d/themes/ef-themes"
+  :config
+  (setq ef-themes-headings ; read the manual's entry of the doc string
+        '((0 . (variable-pitch light 1.9))
+          (1 . (variable-pitch light 1.8))
+          (2 . (variable-pitch regular 1.7))
+          (3 . (variable-pitch regular 1.6))
+          (4 . (variable-pitch regular 1.5))
+          (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
+          (6 . (variable-pitch 1.3))
+          (7 . (variable-pitch 1.2))
+          (t . (variable-pitch 1.1))))
 
-(require 'ef-themes)
-
-;; If you like two specific themes and want to switch between them, you
-;; can specify them in `ef-themes-to-toggle' and then invoke the command
-;; `ef-themes-toggle':
-(setq ef-themes-to-toggle '(ef-summer ef-winter))
-
-;; Make customisations that affect Emacs faces BEFORE loading a theme
-;; (any change needs a theme re-load to take effect).
-
-;; (setq ef-themes-headings ; read the manual's entry of the doc string
-;;       '((0 . (variable-pitch light 1.9))
-;;         (1 . (variable-pitch light 1.8))
-;;         (2 . (variable-pitch regular 1.7))
-;;         (3 . (variable-pitch regular 1.6))
-;;         (4 . (variable-pitch regular 1.5))
-;;         (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
-;;         (6 . (variable-pitch 1.3))
-;;         (7 . (variable-pitch 1.2))
-;;         (t . (variable-pitch 1.1))))
-
-;; Disable all other themes to avoid awkward blending:
-(mapc #'disable-theme custom-enabled-themes)
-
-;; Load the theme of choice:
-(load-theme 'ef-day :no-confirm)
+  ;; Disable all other themes to avoid awkward blending:
+  (mapc #'disable-theme custom-enabled-themes))
 
 (setq doom-theme 'everblush)
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'doom-wilmersdorf)
 ;; (setq doom-theme 'whiteboard)
-;; (setq doom-theme 'everblush)
+
+(setq doom-theme 'ef-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
