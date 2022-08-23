@@ -58,5 +58,4 @@
       (set-input-method-to-ch)))
 
   (setq meow-insert-exit-hook 'meow-insert-exit-hook-func)
-  (setq meow-insert-enter-hook 'meow-insert-enter-hook-func)
-  )
+  (setq meow-insert-enter-hook 'meow-insert-enter-hook-func))

@@ -68,6 +68,23 @@
 (package! avk-emacs-themes)
 (package! sublime-themes)
 (package! humanoid-themes)
+(package! kaolin-themes)
+(package! xresources-theme
+  :recipe (:host github :repo "martenlienen/xresources-theme"))
+(package! nimbus-theme)
+(package! apropospriate-theme)
+(package! color-theme-sanityinc-tomorrow)
+(package! afternoon-theme)
+(package! tao-theme)
+(package! organic-green-theme)
+(package! clues-theme)
+(package! twilight-bright-theme)
+(package! zweilight-theme)
+(package! tommyh-theme)
+(package! minimal-theme)
+(package! seti-theme)
+(package! seoul256-theme)
+(package! melancholy-theme)
 
 ;; tools
 (package! rime
@@ -106,14 +123,6 @@
 (package! ox-jira)
 (package! arduino-mode)
 
-(package! kaolin-themes)
-
-(package! xresources-theme
-  :recipe (:host github :repo "martenlienen/xresources-theme"))
-
-(package! nimbus-theme)
-
-(package! apropospriate-theme)
 
 (package! sdcv
   :recipe (:host github :repo "manateelazycat/sdcv"))
@@ -132,3 +141,5 @@
 
 (package! tiny
   :recipe (:host github :repo "abo-abo/tiny"))
+
+(package! scad-mode)

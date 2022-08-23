@@ -1,7 +1,11 @@
 ;;; org.el -*- lexical-binding: t; -*-
 (after! org
-  (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
-        work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
+  (if (string-equal (getenv "DIST") "work")
+      (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/"))
+      (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/"))
+      )
+
+  (setq work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
         ;; bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
         bib_file (concat (getenv "HOME") "/Projects/ustcthesis/bib/ref.bib")
         org-directory org_notes

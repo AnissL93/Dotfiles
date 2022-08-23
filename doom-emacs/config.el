@@ -38,6 +38,8 @@
 ;; TT2020Base
 ;; Office Code Pro
 ;; Cascadia Mono
+;; (setq cur-font "Office Code Pro")
+(setq cur-font "Iosevka Comfy")
 ;; (setq cur-font "Cascadia Code")
 ;; (setq cur-font "Azeret Mono")
 ;; (setq cur-font "Comic Code Ligatures")
@@ -61,18 +63,22 @@
 ;; (setq cur-font "Envy Code R")
 (setq cur-font "LXGW WenKai Mono")
 ;; (setq cur-font "Ligalex Mono")
+;; (setq cur-font "Liga Hack")
+;; (setq cur-font "LigaSrc Pro")
 ;; (setq cur-font "Liga Roboto Mono")
 ;; (setq cur-font "CamingoCode")
 ;; (setq cur-font "Sometype Mono")
 ;; (setq cur-font "Verily Serif Mono")
+;; (setq cur-font "LXGW WenKai Mono")
 
 ;; this one is good
 ;; (setq cur-font "NK57 Monospace")
-(setq en-font-size 17)
-(setq doom-font (font-spec :family cur-font :size en-font-size :weight 'semi-bold)
+(setq en-font-size 16)
+(setq ch-font "LXGW WenKai Mono")
+(setq doom-font (font-spec :family cur-font :size en-font-size)
       doom-variable-pitch-font (font-spec :family cur-font :size en-font-size)
       doom-big-font cur-font
-      doom-unicode-font (font-spec :family "Sarasa Mono SC"))
+      doom-unicode-font (font-spec :family ch-font))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -80,12 +86,41 @@
 ;; (setq package-build-path "~/.emacs.d/.local/straight/build-27.2/")
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
+(add-to-list 'load-path "~/.doom.d/themes/ef-themes")
+
+(require 'ef-themes)
+
+;; If you like two specific themes and want to switch between them, you
+;; can specify them in `ef-themes-to-toggle' and then invoke the command
+;; `ef-themes-toggle':
+(setq ef-themes-to-toggle '(ef-summer ef-winter))
+
+;; Make customisations that affect Emacs faces BEFORE loading a theme
+;; (any change needs a theme re-load to take effect).
+
+;; (setq ef-themes-headings ; read the manual's entry of the doc string
+;;       '((0 . (variable-pitch light 1.9))
+;;         (1 . (variable-pitch light 1.8))
+;;         (2 . (variable-pitch regular 1.7))
+;;         (3 . (variable-pitch regular 1.6))
+;;         (4 . (variable-pitch regular 1.5))
+;;         (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
+;;         (6 . (variable-pitch 1.3))
+;;         (7 . (variable-pitch 1.2))
+;;         (t . (variable-pitch 1.1))))
+
+;; Disable all other themes to avoid awkward blending:
+(mapc #'disable-theme custom-enabled-themes)
+
+;; Load the theme of choice:
+(load-theme 'ef-day :no-confirm)
 
 (setq doom-theme 'everblush)
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'doom-wilmersdorf)
-;; (setq doom-theme 'apropospriate-dark)
+;; (setq doom-theme 'whiteboard)
+;; (setq doom-theme 'everblush)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -119,16 +154,17 @@
 (map! "C-:" #'set-input-method-to-rime)
 
 (map! :leader
-      (:prefix-map ("e" . "S-expression operations")
-       :desc "slurp-forward" "s" #'sp-forward-slurp-sexp
-       :desc "slurp-backward" "S" #'sp-backward-slurp-sexp
-       :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
-       :desc "move the last sexp out" "B" #'sp-forward-barf-sexp)
       (:prefix-map ("j" . "Easy motion movement")
+       ;; easy motion jumping
        :desc "jump goto line above" "l" #'avy-goto-line-above
        :desc "jump goto line below" "L" #'avy-goto-line-below
        :desc "goto char" "j" #'avy-goto-word-1
-       :desc "goto word" "w" #'avy-goto-char-2))
+       :desc "goto word" "w" #'avy-goto-char-2
+       ;; slurping/barfing
+       :desc "slurp-forward" "s" #'sp-forward-slurp-sexp
+       :desc "slurp-backward" "S" #'sp-backward-slurp-sexp
+       :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
+       :desc "move the last sexp out" "B" #'sp-forward-barf-sexp))
 
 ;;;;;;;;;; shell ;;;;;;;;;;;;;;
 (defun sudo-shell-command (command)
@@ -376,8 +412,7 @@ With a prefix argument, insert only the non-directory part."
   (setq sdcv-dictionary-simple-list
         '("朗道汉英字典5.0"
           "朗道英汉字典5.0"))
-  (setq sdcv-dictionary-complete-list '(
-                                        "牛津英汉双解美化版"
+  (setq sdcv-dictionary-complete-list '("牛津英汉双解美化版"
                                         "朗道汉英字典5.0"
                                         "朗道英汉字典5.0"))
   (setq sdcv-tooltip-timeout 50)
@@ -408,125 +443,145 @@ With a prefix argument, insert only the non-directory part."
 (load! "input.el")
 
 ;; (use-package! meow
-;;  :config
-;;  (meow-setup-indicator)
-;;  (setq meow--kbd-undo "C-_")
-;;  (setq meow--kbd-forward-slurp "C-c e s")
-;;  (setq meow--kbd-backward-slurp "C-c e S")
-;;  (defun scroll-up-15 ()
-;;    (interactive)
-;;    (scroll-up-line 15))
-;;  (defun scroll-down-15 ()
-;;    (interactive)
-;;    (scroll-down-line 15))
-;;  (defun meow-setup ()
-;;    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
-;;    (meow-motion-overwrite-define-key
-;;     '("j" . meow-next)
-;;     '("k" . meow-prev)
-;;     '("<escape>" . ignore))
-;;    (meow-leader-define-key
-;;     ;; SPC j/k will run the original command in MOTION state.
-;;     '("j" . "H-j")
-;;     '("k" . "H-k")
-;;     ;; Use SPC (0-9) for digit arguments.
-;;     '("1" . meow-digit-argument)
-;;     '("2" . meow-digit-argument)
-;;     '("3" . meow-digit-argument)
-;;     '("4" . meow-digit-argument)
-;;     '("5" . meow-digit-argument)
-;;     '("6" . meow-digit-argument)
-;;     '("7" . meow-digit-argument)
-;;     '("8" . meow-digit-argument)
-;;     '("9" . meow-digit-argument)
-;;     '("0" . meow-digit-argument)
-;;     '("/" . meow-keypad-describe-key)
-;;     '("?" . meow-cheatsheet))
-;;    (meow-normal-define-key
-;;     '("0" . meow-expand-0)
-;;     '("9" . meow-expand-9)
-;;     '("8" . meow-expand-8)
-;;     '("7" . meow-expand-7)
-;;     '("6" . meow-expand-6)
-;;     '("5" . meow-expand-5)
-;;     '("4" . meow-expand-4)
-;;     '("3" . meow-expand-3)
-;;     '("2" . meow-expand-2)
-;;     '("1" . meow-expand-1)
-;;     '(";" . meow-reverse)
-;;     '("," . meow-inner-of-thing)
-;;     '("." . meow-bounds-of-thing)
-;;     '("[" . meow-beginning-of-thing)
-;;     '("]" . meow-end-of-thing)
-;;     '("a" . meow-append)
-;;     '("o" . meow-open-below)
-;;     '("b" . meow-back-word)
-;;     '("B" . meow-back-symbol)
-;;     '("c" . meow-change)
-;;     '("d" . meow-kill)
-;;     '("w" . meow-next-word)
-;;     '("W" . meow-next-symbol)
-;;     '("&" . meow-find)
-;;     '("g" . meow-cancel-selection)
-;;     '("G" . meow-grab)
-;;     '("h" . meow-left)
-;;     '("H" . meow-left-expand)
-;;     '("i" . meow-insert)
-;;     '("O" . meow-open-above)
-;;     '("j" . meow-next)
-;;     '("J" . meow-next-expand)
-;;     '("k" . meow-prev)
-;;     '("K" . meow-prev-expand)
-;;     '("l" . meow-right)
-;;     '("L" . meow-right-expand)
-;;     '("m" . meow-join)
-;;     '("n" . meow-search)
-;;     '("%" . meow-block)
-;;     '("M" . meow-to-block)
-;;     '("p" . meow-yank)
-;;     '("P" . meow-replace)
-;;     '("q" . meow-quit)
-;;     '("Q" . meow-goto-line)
-;;     '("r" . negative-argument)
-;;     ;; maybe change this ??
-;;     '("U" . undo-redo)
-;;     '("t" . meow-till)
-;;     '("u" . meow-undo)
-;;     '("s" . meow-visit)
-;;     '("S" . meow-forward-slurp)
-;;     ;; '("M" . meow-backward-slurp)
-;;     '("e" . meow-mark-word)
-;;     '("E" . meow-mark-symbol)
-;;     '("x" . meow-line)
-;;     '("y" . meow-save)
-;;     '("Y" . meow-sync-grab)
-;;     ;; '("Z" . meow-pop-selection)
-;;     '("'" . repeat)
-;;     '("(" . scroll-down-15)
-;;     '(")" . scroll-up-15)
-;;     '("<escape>" . ignore)
-;;     ;; goto begin/end of buffer
-;;     '("<" . beginning-of-buffer)
-;;     '(">" . end-of-buffer)
+;;   :config
+;;   (meow-setup-indicator)
+;;   (setq meow--kbd-undo "C-_")
+;;   (setq meow--kbd-forward-slurp "C-c e s") ;;tjfdskd
+;;   (setq meow--kbd-backward-slurp "C-c e S") ;;tjfdskd
+;;   (defun meow-setup ()
+;;     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+;;     (meow-motion-overwrite-define-key
+;;      '("0" . meow-expand-0)
+;;      '("9" . meow-expand-9)
+;;      '("8" . meow-expand-8)
+;;      '("7" . meow-expand-7)
+;;      '("6" . meow-expand-6)
+;;      '("5" . meow-expand-5)
+;;      '("4" . meow-expand-4)
+;;      '("3" . meow-expand-3)
+;;      '("2" . meow-expand-2)
+;;      '("1" . meow-expand-1)
+;;      '("j" . meow-next)
+;;      '("k" . meow-prev)
+;;      '("l" . meow-right)
+;;      '("h" . meow-left)
+;;      '("b" . meow-back-word)
+;;      '("B" . meow-back-symbol)
+;;      '("<escape>" . ignore)
+;;      '("w" . meow-next-word)
+;;      '("W" . meow-next-symbol)
+;;      '("(" . scroll-down)
+;;      '(")" . scroll-up)
+;;      '("z" . recenter)
+;;      '("/" . +default/search-buffer)
+;;      '("f" . avy-goto-word-1)
+;;      '("F" . avy-goto-char-2))
+;;     (meow-leader-define-key
+;;      ;; SPC j/k will run the original command in MOTION state.
+;;      '("j" . "H-j")
+;;      '("k" . "H-k")
+;;      ;; Use SPC (0-9) for digit arguments.
+;;      '("1" . meow-digit-argument)
+;;      '("2" . meow-digit-argument)
+;;      '("3" . meow-digit-argument)
+;;      '("4" . meow-digit-argument)
+;;      '("5" . meow-digit-argument)
+;;      '("6" . meow-digit-argument)
+;;      '("7" . meow-digit-argument)
+;;      '("8" . meow-digit-argument)
+;;      '("9" . meow-digit-argument)
+;;      '("0" . meow-digit-argument)
+;;      '("/" . meow-keypad-describe-key)
+;;      '("?" . meow-cheatsheet))
+;;     (meow-normal-define-key
+;;      '("0" . meow-expand-0)
+;;      '("9" . meow-expand-9)
+;;      '("8" . meow-expand-8)
+;;      '("7" . meow-expand-7)
+;;      '("6" . meow-expand-6)
+;;      '("5" . meow-expand-5)
+;;      '("4" . meow-expand-4)
+;;      '("3" . meow-expand-3)
+;;      '("2" . meow-expand-2)
+;;      '("1" . meow-expand-1)
+;;      '(";" . meow-reverse)
+;;      '("," . meow-inner-of-thing)
+;;      '("." . meow-bounds-of-thing)
+;;      '("[" . meow-beginning-of-thing)
+;;      '("]" . meow-end-of-thing)
+;;      '("a" . meow-append)
+;;      '("o" . meow-open-below)
+;;      '("b" . meow-back-word)
+;;      '("B" . meow-back-symbol)
+;;      '("c" . meow-change)
+;;      '("d" . meow-kill)
+;;      '("w" . meow-next-word)
+;;      '("W" . meow-next-symbol)
+;;      '("&" . meow-find)
+;;      '("g" . meow-cancel-selection)
+;;      '("G" . meow-grab)
+;;      '("h" . meow-left)
+;;      '("H" . meow-left-expand)
+;;      '("i" . meow-insert)
+;;      '("O" . meow-open-above)
+;;      '("j" . meow-next)
+;;      '("J" . meow-next-expand)
+;;      '("k" . meow-prev)
+;;      '("K" . meow-prev-expand)
+;;      '("l" . meow-right)
+;;      '("L" . meow-right-expand)
+;;      '("m" . meow-join)
+;;      '("n" . meow-search)
+;;      '("%" . meow-block)
+;;      '("M" . meow-to-block)
+;;      '("p" . meow-yank)
+;;      '("P" . meow-replace)
+;;      '("q" . meow-quit)
+;;      '("Q" . meow-goto-line)
+;;      '("r" . negative-argument)
+;;      ;; maybe change this ??
+;;      '("U" . undo-redo)
+;;      '("t" . meow-till)
+;;      '("u" . meow-undo)
+;;      '("s" . meow-visit)
+;;      '("S" . meow-forward-slurp)
+;;      ;; '("M" . meow-backward-slurp)
+;;      '("e" . meow-mark-word)
+;;      '("E" . meow-mark-symbol)
+;;      '("x" . meow-line)
+;;      '("y" . meow-save)
+;;      '("Y" . meow-sync-grab)
+;;      ;; '("Z" . meow-pop-selection)
+;;      '("'" . repeat)
+;;      '("(" . scroll-down)
+;;      '(")" . scroll-up)
+;;      '("<escape>" . ignore)
+;;      ;; goto begin/end of buffer
+;;      '("<" . beginning-of-buffer)
+;;      '(">" . end-of-buffer)
 
-;;     ;; avy-goto
-;;     '("f" . avy-goto-word-1)
-;;     '("F" . avy-goto-char-2)
+;;      ;; avy-goto
+;;      '("f" . avy-goto-word-1)
+;;      '("F" . avy-goto-char-2)
 
-;;     ;; window manage
-;;     '("$" . save-buffer)
-;;     '("v" . split-window-right)
-;;     '("V" . split-window-below)
-;;     '("C" . other-window)
-;;     '("*" . +format/buffer)
-;;     '("z" . recenter)
+;;      ;; tiny
+;;      '("_" . tiny-expand)
 
-;;     ;; buffer manage
-;;     '("X" . kill-current-buffer)
-;;     '("#" . consult-buffer)
-;;     '("/" . +default/search-buffer)))
-;;  (meow-setup)
-;;  (setq meow-use-clipboard t))
+;;      ;; window manage
+;;      '("$" . save-buffer)
+;;      '("v" . split-window-right)
+;;      '("V" . split-window-below)
+;;      '("C" . other-window)
+;;      '("*" . +format/buffer)
+;;      '("z" . recenter)
+
+;;      ;; buffer manage
+;;      '("X" . kill-current-buffer)
+;;      '("#" . consult-buffer)
+;;      '("/" . +default/search-buffer)))
+;;   (meow-setup)
+;;   (setq meow-use-clipboard t)
+;;   )
 
 (use-package! tiny
   :config
