@@ -30,3 +30,4 @@ build/x2ray/__pycache__
 build/x2ray/config.json
 tmp/*
 tar/*
+fcitx/rime/user.yaml

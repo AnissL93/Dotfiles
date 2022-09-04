@@ -25,7 +25,7 @@
 
   (setq reftex-default-bibliography '("~/Documents/RoamNotes/bibliography/ref.bib"))
 
-  (defun auii/open-bib-file ()
+  (defun aniss/open-bib-file ()
     (interactive)
     (find-file (car reftex-default-bibliography)))
 
@@ -248,7 +248,6 @@
   ;; Actually start using templates
   (after! org-capture
     (require 'org-protocol-capture-html)
-    (require 'org-contacts)
     (require 'org-protocol)
     (setq org-protocol-default-template-key nil)
     (setq org-html-validation-link nil)
@@ -308,10 +307,6 @@
             ("pc" "Project-local changelog" entry
              (file+headline +org-capture-project-changelog-file "Unreleased")
              "* %U %?\n%i\n%a" :prepend t)
-            ;; ("o" "Centralized templates for projects")
-            ;; ("ot" "Project todo" entry #'+org-capture-central-project-todo-file "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
-            ;; ("on" "Project notes" entry #'+org-capture-central-project-notes-file "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
-            ;; ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)
             )))
 
   (use-package! org-roam
@@ -361,7 +356,7 @@
     (map! :leader
           (:prefix-map ("m")
            (:prefix ("d" . "+data/deadline")
-            :desc "org-timestamp-now" "N" #'auii/set-timestamp-to-headline
+            :desc "org-timestamp-now" "N" #'aniss/set-timestamp-to-headline
             :desc "org-timestamp-now" "n" #'insert-now-timestamp
             )))
 
@@ -370,7 +365,7 @@
   (use-package! org-roam-protocol
     :after org-protocol)
 
-  (defun auii/add-timestamp-to-headline ()
+  (defun aniss/add-timestamp-to-headline ()
     "Set time stamp to current headline"
     (interactive)
     (evil-open-below 1)
@@ -435,12 +430,12 @@
       (require 'ox-wk)))
 
 
-  (defun auii/archive-link-and-open ()
+  (defun aniss/archive-link-and-open ()
     (interactive)
-    (auii/unset_proxy)
+    (aniss/unset_proxy)
     (org-set-property "URL" (x-get-clipboard))
     (org-board-archive)
-    (auii/set_proxy)
+    (aniss/set_proxy)
     (org-board-open))
 
   (use-package! org-board
@@ -448,7 +443,7 @@
     (map! :leader
           (:prefix-map ("m")
            (:prefix ("l" . "+link")
-            :desc "org-board-archive" "a" #'auii/archive-link-and-open))))
+            :desc "org-board-archive" "a" #'aniss/archive-link-and-open))))
 
   (use-package! ox-extra
     :config

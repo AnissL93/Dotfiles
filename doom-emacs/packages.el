@@ -143,3 +143,6 @@
   :recipe (:host github :repo "abo-abo/tiny"))
 
 (package! scad-mode)
+
+(package! emacs-bazel-mode
+  :recipe (:host github :repo "bazelbuild/emacs-bazel-mode"))

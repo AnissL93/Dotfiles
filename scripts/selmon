@@ -10,11 +10,13 @@ get_aval_monitor_num() {
 
 mon_list=()
 get_monitors() {
+    echo "Get active monitors"
    local all_mons=$(xrandr -q)
-   mon=$(xrandr | egrep -o "^[A-Za-z0-9]* connected")
+   mon=$(xrandr | egrep -o "^[A-Za-z0-9\-]* connected")
    for i in ${mon[@]}; do
        [ $i = "connected" ] || mon_list=(${mon_list[@]} $i)
    done
+   echo "find ${#mon_list[@]} monitors"
 }
 
 set_mirror() {
@@ -31,10 +33,10 @@ set_mirror() {
 }
 
 set_indep_left_to_right_by_index() {
-    echo "set"
     # set other mon to the right-of the previous one
     local left=""
     for i in ${mon_list[@]}; do
+        echo "set monitor ${i}"
         if [ -z $left ]; then
             # the first mon
             xrandr --output $i --auto
