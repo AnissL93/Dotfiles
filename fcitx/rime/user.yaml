@@ -1,6 +1,11 @@
 var:
-  last_build_time: 1660482811
+  last_build_time: 1663720330
+  option:
+    full_shape: false
   previously_selected_schema: openfly
   schema_access_time:
+    double_pinyin_flypy: 1663445430
+    double_pinyin_mspy: 1663446273
+    japanese: 1663609671
     numbers: 1660483938
-    openfly: 1660483944
+    openfly: 1663609984

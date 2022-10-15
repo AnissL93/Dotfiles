@@ -22,4 +22,6 @@ patch:
   schema_list:
     - {schema: numbers}
     - {schema: openfly}
-    - {schema: double_pinyin_flypy}
+    - {schema: japanese}
+    - {schema: double_pinyin_mspy}
+    - {schema: luna_pinyin}
