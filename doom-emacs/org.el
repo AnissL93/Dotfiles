@@ -1,9 +1,25 @@
 ;;; org.el -*- lexical-binding: t; -*-
 (after! org
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;    Insert timestamp    ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (defun insert-now-timestamp ()
+    "Insert org mode timestamp at point with current date and time."
+    (interactive)
+    (org-insert-time-stamp (current-time) t))
+  (defun insert-now-timestamp-inactive ()
+    "Insert org mode timestamp at point with current date and time."
+    (interactive)
+    (org-insert-time-stamp (current-time) t t))
+  (map! :leader
+        (:prefix-map ("m")
+                     (:prefix ("d" . "+data/deadline")
+                      :desc "org-timestamp-now-inactive" "N" #'insert-now-timestamp-inactive
+                      :desc "org-timestamp-now" "n" #'insert-now-timestamp)))
   (if (string-equal (getenv "DIST") "work")
       (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/"))
-      (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/"))
-      )
+    (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/"))
+    )
 
   (setq work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
         ;; bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
@@ -28,7 +44,6 @@
   (defun aniss/open-bib-file ()
     (interactive)
     (find-file (car reftex-default-bibliography)))
-
 
   (when (equal (getenv "DIST") "work")
     ;; other agenda files
@@ -167,84 +182,6 @@
 
   (setq org-plantuml-jar-path "/data/app/plantuml-1.2022.1.jar")
 
-  (use-package! org-ref
-    :init
-    (setq
-     org-ref-cite-completion-function 'org-ref-get-pdf-filename-bibtex-completion
-
-     bibtex-completion-bibliography '("~/Documents/RoamNotes//bibliography/ref.bib")
-     bibtex-completion-library-path '("~/Documents/Resources/" "~/Documents/Resources/Papers")
-     bibtex-completion-notes-path "~/Documents/RoamNotes/bibliography/notes/"
-     bibtex-completion-pdf-field "file"
-
-     bibtex-completion-additional-search-fields '(keywords)
-     bibtex-completion-display-formats
-     '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-       (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-       (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-       (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-       (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-
-
-     ;; bibtex-completion-pdf-open-function 'find-file-other-window
-     ;; ** use other process to open pdf ** ;;
-     ;; bibtex-completion-pdf-open-function
-     ;; (lambda (fpath)
-     ;;   (call-process "open" nil 0 nil fpath))
-     )
-
-    (require 'bibtex)
-    (setq bibtex-autokey-year-length 4
-          bibtex-autokey-name-year-separator "-"
-          bibtex-autokey-year-title-separator "-"
-          bibtex-autokey-titleword-separator "-"
-          bibtex-autokey-titlewords 2
-          bibtex-autokey-titlewords-stretch 1
-          bibtex-autokey-titleword-length 5)
-
-    (define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
-    (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
-
-    (require 'org-ref-ivy)
-    (require 'org-ref-arxiv)
-    (require 'org-ref-scopus)
-    (require 'org-ref-wos))
-
-  (use-package! org-ref-ivy
-    :init
-    (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-          org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-          org-ref-insert-label-function 'org-ref-insert-label-link
-          org-ref-insert-ref-function 'org-ref-insert-ref-link
-          org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body))))
-
-  ;; ;;;;;;;;;; org roam bibtex ;;;;;;;;;;
-  (use-package! org-roam-bibtex
-    :after org-roam
-    :hook (org-roam-mode . org-roam-bibtex-mode)
-    :config
-    (require 'org-ref)
-    (setq orb-preformat-keywords
-          '("citekey" "title" "url" "author-or-editor" "keywords" "file")
-          orb-process-file-keyword t
-          orb-attached-file-extensions '("pdf"))
-
-    (setq! orb-note-actions-interface 'hydra))
-
-  (use-package! org-noter
-    :after (:any org pdf-view)
-    :config
-    (setq
-     ;; The WM can handle splits
-     org-noter-notes-window-location 'horizontal-split
-     ;; Please stop opening frames
-     org-noter-always-create-frame nil
-     ;; I want to see the whole file
-     org-noter-hide-other nil
-     ;; Everything is relative to the main notes file
-     org-noter-notes-search-path (list org_notes)
-     ))
-
   ;; Actually start using templates
   (after! org-capture
     (require 'org-protocol-capture-html)
@@ -313,8 +250,12 @@
     :preface
     (defvar org-roam-directory nil)
     :config
+
     (setq org-roam-capture-templates
-          '(
+          '(("d" "default" plain "%?" :target
+             (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+             :unnarrowed t)
+
             ("r" "bibliography reference" plain "%?"
              :target
              (file+head "bibliography/notes/${citekey}.org"
@@ -324,13 +265,9 @@
                          "#+CREATED: ${date}\n"))
              :unnarrowed t)
             ("n" "bibliography reference + notes" plain
-             (file "~/.doom.d/capture_tmpl/ref_notes.org")
+             (file "/home/auii/.doom.d/capture_tmpl/ref_notes.org")
              :target
              (file+head "bibliography/notes/${citekey}.org" "#+TITLE: ${title}\n")
-             :unnarrowed t)
-
-            ("d" "default" plain "%?" :target
-             (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
              :unnarrowed t)
 
             ("p" "project" plain
@@ -344,8 +281,11 @@
              :target
              (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
              :unnarrowed t)
+            ("m" "Markdown" plain "" :target
+             (file+head "%<%Y-%m-%dT%H%M%S>.md"
+                        "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
+             :unnarrowed t)
             ))
-
 
     (setq org-roam-directory (expand-file-name (or org-roam-directory org_notes)
                                                org-directory)
@@ -353,14 +293,90 @@
           org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
           org-roam-completion-system 'default)
 
-    (map! :leader
-          (:prefix-map ("m")
-           (:prefix ("d" . "+data/deadline")
-            :desc "org-timestamp-now" "N" #'aniss/set-timestamp-to-headline
-            :desc "org-timestamp-now" "n" #'insert-now-timestamp
-            )))
+    (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)) ;;; end of org-roam
 
-    (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
+  (use-package! md-roam
+    :config
+    (setq org-roam-file-extensions '("org" "md"))
+    (md-roam-mode 1)
+    (setq md-roam-file-extension "md")
+    (org-roam-db-autosync-mode 1))
+
+  (use-package! org-ref
+    :init
+    (setq
+     org-ref-cite-completion-function 'org-ref-get-pdf-filename-bibtex-completion
+
+     bibtex-completion-bibliography '("~/Documents/RoamNotes//bibliography/ref.bib")
+     bibtex-completion-library-path '("~/Documents/Resources/" "~/Documents/Resources/Papers")
+     bibtex-completion-notes-path "~/Documents/RoamNotes/bibliography/notes/"
+     bibtex-completion-pdf-field "file"
+
+     bibtex-completion-additional-search-fields '(keywords)
+     bibtex-completion-display-formats
+     '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+       (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+       (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+       (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+       (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+
+     ;; bibtex-completion-pdf-open-function 'find-file-other-window
+     ;; ** use other process to open pdf ** ;;
+     ;; bibtex-completion-pdf-open-function
+     ;; (lambda (fpath)
+     ;;   (call-process "open" nil 0 nil fpath))
+     )
+
+    (require 'bibtex)
+    (setq bibtex-autokey-year-length 4
+          bibtex-autokey-name-year-separator "-"
+          bibtex-autokey-year-title-separator "-"
+          bibtex-autokey-titleword-separator "-"
+          bibtex-autokey-titlewords 2
+          bibtex-autokey-titlewords-stretch 1
+          bibtex-autokey-titleword-length 5)
+
+    (define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
+    (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
+
+    (require 'org-ref-ivy)
+    (require 'org-ref-arxiv)
+    (require 'org-ref-scopus)
+    (require 'org-ref-wos))
+
+  (use-package! org-ref-ivy
+    :init
+    (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+          org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+          org-ref-insert-label-function 'org-ref-insert-label-link
+          org-ref-insert-ref-function 'org-ref-insert-ref-link
+          org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body))))
+
+  ;; ;;;;;;;;;; org roam bibtex ;;;;;;;;;;
+  (use-package! org-roam-bibtex
+    :after org-roam
+    :hook (org-roam-mode . org-roam-bibtex-mode)
+    :config
+    (require 'org-ref)
+    (setq orb-preformat-keywords
+          '("citekey" "title" "url" "author-or-editor" "keywords" "file")
+          orb-process-file-keyword t
+          orb-attached-file-extensions '("pdf"))
+    (setq! orb-note-actions-interface 'hydra))
+
+  (use-package! org-noter
+    :after (:any org pdf-view)
+    :config
+    (setq
+     ;; The WM can handle splits
+     org-noter-notes-window-location 'horizontal-split
+     ;; Please stop opening frames
+     org-noter-always-create-frame nil
+     ;; I want to see the whole file
+     org-noter-hide-other nil
+     ;; Everything is relative to the main notes file
+     org-noter-notes-search-path (list org_notes)
+     ))
 
   (use-package! org-roam-protocol
     :after org-protocol)
@@ -372,12 +388,6 @@
     (insert-now-timestamp))
 
   (setq org-after-todo-state-change-hook nil)
-
-  (defun insert-now-timestamp()
-    "Insert org mode timestamp at point with current date and time."
-    (interactive)
-    (org-insert-time-stamp (current-time) t))
-
   ;;; jira
   (when (equal "work" (getenv "DIST"))
     (use-package! org-jira
@@ -442,8 +452,8 @@
     :config
     (map! :leader
           (:prefix-map ("m")
-           (:prefix ("l" . "+link")
-            :desc "org-board-archive" "a" #'aniss/archive-link-and-open))))
+                       (:prefix ("l" . "+link")
+                        :desc "org-board-archive" "a" #'aniss/archive-link-and-open))))
 
   (use-package! ox-extra
     :config
@@ -462,4 +472,13 @@
     :bind
     ("C-c C-k" . easy-hugo-menu)
     :config
-    (easy-hugo-enable-menu)))
+    (easy-hugo-enable-menu))
+
+(use-package! org-transclusion
+  :init
+  (map!
+   :map global-map "<f12>" #'org-transclusion-add
+   :leader
+   :prefix "n"
+   :desc "Org Transclusion Mode" "t" #'org-transclusion-mode))
+  )

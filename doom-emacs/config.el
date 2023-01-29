@@ -39,7 +39,7 @@
 ;; Office Code Pro
 ;; Cascadia Mono
 ;; (setq cur-font "Office Code Pro")
-(setq cur-font "Iosevka Comfy")
+(setq cur-font "Sarasa Mono CL")
 ;; (setq cur-font "Cascadia Code")
 ;; (setq cur-font "Azeret Mono")
 ;; (setq cur-font "Comic Code Ligatures")
@@ -67,19 +67,20 @@
 ;; (setq cur-font "LigaSrc Pro")
 ;; (setq cur-font "Liga Roboto Mono")
 ;; (setq cur-font "CamingoCode")
+;; (setq cur-font "Iosevka Curly")
 ;; (setq cur-font "Sometype Mono")
 ;; (setq cur-font "Verily Serif Mono")
 ;; (setq cur-font "LXGW WenKai Mono")
 
 ;; this one is good
 ;; (setq cur-font "NK57 Monospace")
-(setq en-font-size 16)
+(setq en-font-size 15)
 ;; (setq ch-font "LXGW WenKai Mono")
-;; (setq ch-font "Sarasa Mono SC")
+(setq ch-font "Sarasa Mono SC")
 
 ;; (setq ch-font "Xiaolai Mono SC")
 ;; (setq ch-font "Yozai")
-(setq ch-font "MaoKenTangYuan")
+;; (setq ch-font "MaoKenTangYuan")
 ;; (setq ch-font "LXGW ZhenKai")
 ;; (setq ch-font "Source Han Serif SC Medium")
 ;; (setq ch-font "HanaMinA")
@@ -95,29 +96,30 @@
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
 (use-package! ef-themes
-  :load-path "~/.doom.d/themes/ef-themes"
-  :config
-  (setq ef-themes-headings ; read the manual's entry of the doc string
-        '((0 . (variable-pitch light 1.9))
-          (1 . (variable-pitch light 1.8))
-          (2 . (variable-pitch regular 1.7))
-          (3 . (variable-pitch regular 1.6))
-          (4 . (variable-pitch regular 1.5))
-          (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
-          (6 . (variable-pitch 1.3))
-          (7 . (variable-pitch 1.2))
-          (t . (variable-pitch 1.1))))
+ :load-path "~/.doom.d/themes/ef-themes"
+ :config
+ (setq ef-themes-headings ; read the manual's entry of the doc string
+       '((0 . (variable-pitch light 1.9))
+         (1 . (variable-pitch light 1.8))
+         (2 . (variable-pitch regular 1.7))
+         (3 . (variable-pitch regular 1.6))
+         (4 . (variable-pitch regular 1.5))
+         (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
+         (6 . (variable-pitch 1.3))
+         (7 . (variable-pitch 1.2))
+         (t . (variable-pitch 1.1))))
 
-  ;; Disable all other themes to avoid awkward blending:
-  (mapc #'disable-theme custom-enabled-themes))
+ ;; Disable all other themes to avoid awkward blending:
+ ;; (mapc #'disable-theme custom-enabled-themes)
+ )
 
 ;; (setq doom-theme 'everblush)
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'doom-wilmersdorf)
 ;; (setq doom-theme 'whiteboard)
-
-(setq doom-theme 'ef-winter)
+;; (setq doom-theme 'ef-day)
+(setq doom-theme 'doom-one)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -160,8 +162,8 @@
        ;; slurping/barfing
        :desc "slurp-forward" "s" #'sp-forward-slurp-sexp
        :desc "slurp-backward" "S" #'sp-backward-slurp-sexp
-       :desc "move the first sexp out" "b" #'sp-backward-barf-sexp
-       :desc "move the last sexp out" "B" #'sp-forward-barf-sexp))
+       :desc "move the first sexp out" "b" #'sp-forward-barf-sexp
+       :desc "move the last sexp out" "B" #'sp-backward-barf-sexp))
 
 ;;;;;;;;;; shell ;;;;;;;;;;;;;;
 (defun sudo-shell-command (command)
@@ -318,7 +320,6 @@ With a prefix argument, insert only the non-directory part."
   (setq mu4e-view-prefer-html t)
   (setq mu4e-html2text-command "html2text -utf8 -width 150")
 
-
   (setq
    ;; +mu4e-backend 'mbsync
    sendmail-program (executable-find "msmtp")
@@ -395,9 +396,10 @@ With a prefix argument, insert only the non-directory part."
 
   (defun aniss/set_proxy ()
     (interactive)
-    (setenv "http_proxy" "socks5://127.0.0.1:10800")
-    (setenv "https_proxy" "socks5://127.0.0.1:10800"))
-  (aniss/set_proxy))
+    (setenv "http_proxy" "http://127.0.0.1:10809")
+    (setenv "https_proxy" "http://127.0.0.1:10809"))
+  ;;(aniss/set_proxy)
+  )
 
 (solaire-global-mode +1)
 
@@ -422,11 +424,6 @@ With a prefix argument, insert only the non-directory part."
     :desc "input word at in buffer" "I" #'sdcv-search-input)
    ))
 
-;;;;;;; chinese fonts
-(use-package! cnfonts
-  :config
-  (setq cnfonts-mode 1))
-
 (load! "org.el")
 (load! "packages/mlir-mode.el")
 (load! "packages/mlir-lsp-client.el")
@@ -437,7 +434,7 @@ With a prefix argument, insert only the non-directory part."
 
 ;; enable input method switch on macos
 (load! "input.el")
-(load! "meow-edit-config.el")
+;;(load! "meow-edit-config.el")
 
 (use-package! tiny
   :config

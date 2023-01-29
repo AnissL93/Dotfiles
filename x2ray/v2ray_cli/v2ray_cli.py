@@ -20,7 +20,7 @@ if __name__ == "__main__":
     # cfg = configparser.ConfigParser()
     # cfg.read(cfg_pathname, encoding='UTF-8')
 
-    url = "https://patriot.ninja//index.php?m=wray&token=EXy4Ve3pTHUIFAKPgzvKDUFKhs%2B967Ge3xaFws0%2F1I%2BmwXgjBDNvnLwHTdTALu7mCS2Wzq9kHMA%3D"
+    url = "https://patriot.ninja//index.php?m=wray&token=rOI%2Fp7RBv4DJS7rd1hhitjq5TLoAdTZshr52NwxgbN3z4tCYf8Cl6XUtysngds8S8Eq8kT7B7mY%3D"
     # if cfg["subscribe"]["url"] == "":
     #     url = input("Please Enter The Subscription Address: ")
     #     cfg["subscribe"] = {"url": url}

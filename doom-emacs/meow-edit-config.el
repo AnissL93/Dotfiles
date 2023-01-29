@@ -3,8 +3,6 @@
   :config
   (meow-setup-indicator)
   (setq meow--kbd-undo "C-_")
-  (setq meow--kbd-forward-slurp "C-c e s")
-  (setq meow--kbd-backward-slurp "C-c e S")
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
     (meow-motion-overwrite-define-key
@@ -114,5 +112,4 @@
      '("#" . consult-buffer)
      '("/" . +default/search-buffer)))
   (meow-setup)
-  (setq meow-use-clipboard t)
-  )
+  (setq meow-use-clipboard t))

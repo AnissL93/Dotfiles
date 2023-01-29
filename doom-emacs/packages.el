@@ -54,6 +54,8 @@
   :recipe (:host github :repo "magit/git-modes" :files ("gitconfig-mode.el")))
 (package! gitignore-mode
   :recipe (:host github :repo "magit/git-modes" :files ("gitignore-mode.el")))
+(package! md-roam
+  :recipe (:host github :repo "nobiot/md-roam" :files ("md-roam.el")))
 
 ;; (package! mu4e)
 
@@ -98,6 +100,8 @@
 (package! ivy-bibtex)
 (package! org-roam-bibtex
   :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+(unpin! org-roam)
+(unpin! bibtex-completion helm-bibtex ivy-bibtex)
 
 (package! org-board)
 (package! nov)
@@ -129,7 +133,6 @@
 
 (package! cnfonts)
 
-
 ;; https://github.com/alphapapa/org-protocol-capture-html
 (package! org-protocol-capture-html
   :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
@@ -146,3 +149,5 @@
 
 (package! emacs-bazel-mode
   :recipe (:host github :repo "bazelbuild/emacs-bazel-mode"))
+
+(package! org-transclusion)

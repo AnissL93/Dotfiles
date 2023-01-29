@@ -65,11 +65,11 @@
             "settings": {
                 "vnext": [
                     {
-                        "address": "jp-01.wallthefool.org",
-                        "port": 15601,
+                        "address": "la-detour-01.wallthefool.org",
+                        "port": 15501,
                         "users": [
                             {
-                                "alterId": 2,
+                                "alterId": 0,
                                 "id": "ddc10532-412d-4e19-89c9-50b2cbbad356",
                                 "level": 8,
                                 "security": "auto"
