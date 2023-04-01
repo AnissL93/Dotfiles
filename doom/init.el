@@ -45,7 +45,7 @@
        ;;tabs              ; a tab bar for Emacs
        ;; (treemacs +lsp)          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
-       vc-gutter         ; vcs diff in the fringe
+       (vc-gutter +pretty)        ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        (window-select +switch-window +number)     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
@@ -140,7 +140,7 @@
        (latex +fold +latexmk +lsp)             ; writing papers in Emacs has never been so fun
        ;;lean
        ;;factor
-       ;;ledger            ; an accounting system in Emacs
+       ledger            ; an accounting system in Emacs
        ;;lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
@@ -176,7 +176,7 @@
        :app
        calendar
        everywhere
-       ;;irc               ; how neckbeards socialize
+       irc               ; how neckbeards socialize
        (rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
 

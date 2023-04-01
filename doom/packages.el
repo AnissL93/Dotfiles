@@ -108,8 +108,8 @@
   :recipe
   (:host github :repo "Fuco1/justify-kp"))
 
-(package! ledger-mode
-  :recipe (:host github :repo "ledger/ledger-mode"))
+;;(package! ledger-mode
+;;  :recipe (:host github :repo "ledger/ledger-mode"))
 
 (package! ox-pandoc)
 (package! org-board)
