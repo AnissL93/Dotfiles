@@ -21,4 +21,4 @@ set_wallpaper() {
     esac
 }
 
-[[ $# -eq 0 ]] && set_wallpaper ~/Documents/Pictures/wallpapers || set_wallpaper $1
+[[ $# -eq 0 ]] && set_wallpaper ~/.config/X11/Wallpapers || set_wallpaper $1

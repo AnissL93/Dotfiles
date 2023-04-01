@@ -86,9 +86,9 @@
        grammar           ; tasing grammar mistake every you make
 
        :tools
-       ;;biblio
+       biblio
        ;;ansible
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
+       debugger          ; FIXME stepping through code, to help you add bugs
        direnv
        docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces

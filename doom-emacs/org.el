@@ -16,39 +16,25 @@
                      (:prefix ("d" . "+data/deadline")
                       :desc "org-timestamp-now-inactive" "N" #'insert-now-timestamp-inactive
                       :desc "org-timestamp-now" "n" #'insert-now-timestamp)))
-  (if (string-equal (getenv "DIST") "work")
-      (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/"))
-    (setq org_notes (concat (getenv "HOME") "/Documents/RoamNotes/"))
-    )
+  (setq org_notes (concat (getenv "HOME") "/Notes/Org/")
+        roam_notes (concat (getenv "HOME") "/Notes/RoamNotes/"))
 
-  (setq work_org_notes (concat (getenv "HOME") "/Documents/RoamNotes/works/")
-        ;; bib_file (concat (getenv "HOME") "/Documents/RoamNotes/bibliography/ref.bib")
-        bib_file (concat (getenv "HOME") "/Projects/ustcthesis/bib/ref.bib")
-        org-directory org_notes
-        deft-directory org_notes
-        org-roam-directory org_notes
-        org-agenda-files (append (list org_notes) (list work_org_notes))
+  (setq org-directory org_notes
+        deft-directory roam_notes
+        org-roam-directory roam_notes
+        org-agenda-files (directory-files-recursively (concat org_notes "/Gtd") directory-files-no-dot-files-regexp)
 
         org-log-done-with-time t
         org-agenda-ndays 3
         org-agenda-start-day "+0d"
 
-        ;; org-journal-dir "~/Documents/RoamNotes/"
-        ;; org-journal-enable-agenda-integration t
-        ;; org-journal-file-format "%Y%m%d"
-        ;; org-journal-date-format "%A, %d/%m/%Y"
         +org-capture-journal-file (concat org_notes "journal.org"))
 
-  (setq reftex-default-bibliography '("~/Documents/RoamNotes/bibliography/ref.bib"))
+  (setq reftex-default-bibliography '("~/DataBase/Papers/References/ref.bib"))
 
   (defun aniss/open-bib-file ()
     (interactive)
     (find-file (car reftex-default-bibliography)))
-
-  (when (equal (getenv "DIST") "work")
-    ;; other agenda files
-    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/works/20220217102159-meetings.org")
-    (add-to-list 'org-agenda-files "~/Documents/RoamNotes/works/20220214120016-tfu.org"))
 
   (setq org-agenda-custom-commands
         '(
@@ -77,14 +63,14 @@
                       (org-super-agenda-groups
                        '((:auto-category t))                     )))
             ))
-          )
-        )
+          ))
 
 
   ;;;;; latex format ;;;;;;
   (require 'ox-latex)
   ;;(setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
-  (setq org-latex-compiler "xelatex")
+  ;; (setq org-latex-compiler "xelatex")
+  (setq org-latex-compiler "pdflatex")
 
   (unless (boundp 'org-latex-classes)
     (setq org-latex-classes nil))
@@ -97,14 +83,9 @@
     \\usepackage{fixltx2e}
     \\usepackage{graphicx}
     \\usepackage{longtable}
-    \\usepackage{float}
-    \\usepackage{wrapfig}
     \\usepackage{rotating}
-    \\usepackage[normalem]{ulem}
     \\usepackage{amsmath}
     \\usepackage{textcomp}
-    \\usepackage{marvosym}
-    \\usepackage{wasysym}
     \\usepackage{amssymb}
     \\usepackage{hyperref}
     \\usepackage{mathpazo}
@@ -129,20 +110,14 @@
     \\usepackage{fixltx2e}
     \\usepackage{graphicx}
     \\usepackage{longtable}
-    \\usepackage{float}
-    \\usepackage{wrapfig}
     \\usepackage{rotating}
-    \\usepackage[normalem]{ulem}
     \\usepackage{amsmath}
     \\usepackage{textcomp}
-    \\usepackage{marvosym}
-    \\usepackage{wasysym}
     \\usepackage{amssymb}
     \\usepackage{hyperref}
     \\usepackage{mathpazo}
     \\usepackage{color}
     \\usepackage{enumerate}
-    \\usepackage{ctex}
     \\definecolor{bg}{rgb}{0.95,0.95,0.95}
     \\linespread{1.1}
     \\hypersetup{pdfborder=0 0 0}"
@@ -190,41 +165,46 @@
     (setq org-html-validation-link nil)
     (setq enable-local-variables t)
 
-    (setq org-contacts-files '("~/Documents/RoamNotes/20220304154932-contacts.org"))
+    (setq org-contacts-files '("~/Notes/RoamNotes/20220304154932-contacts.org"))
     ;; Firefox and Chrome
     (setq org-capture-templates
           '(("c" "Contact" entry
-             (file+headline "~/Documents/RoamNotes/20220304154932-contacts.org" "Cambricon")
+             (file+headline "~/Notes/RoamNotes/20220304154932-contacts.org" "Cambricon")
              "* %(org-contacts-template-name)\n :PROPERTIES:\n :BIRTHDAY: %^{yyyy-mm-dd}\n :EMAIL: %(org-contacts-template-email)\n :NOTE: %^{NOTE}\n :END:"
              :empty-lines 1
              :prepend t
              :kill-buffer t)
             ("i" "Inbox" entry
-             (file+headline "~/Documents/RoamNotes/gtd/inbox.org" "Inbox")
+             (file+headline "~/Notes/Org/Gtd/Inbox.org" "Inbox")
              "* TODO %?\n"
              :empty-lines 1
              :prepend t
              :kill-buffer t)
             ("b" "Protocol" entry
-             (file+headline "~/Documents/RoamNotes/20220213034655-inbox.org" "WebCapture")
-             "* %:description\nSource: %t\n[[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-            ("r" "Review" entry
-             (file+headline "~/Documents/RoamNotes/works/20220214120016-tfu.org" "Review")
-             "* TODO %:description\nSource: %t\n:PROPERTIES:\n:assignee: %:initial\n:END:\n[[%:link][%:description]]\n"
-             :immediate-finish t)
+             (file+headline "~/Notes/RoamNotes/20220213034655-inbox.org" "WebCapture")
+             "* %:description\nSource: %t\n[[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
+             :append
+             )
             ;; link for linkz
             ("o" "Link capture" entry
-             (file+headline "~/Documents/RoamNotes/org-linkz/Linkz.org" "INBOX")
+             (file+headline "~/Notes/RoamNotes/org-linkz/Linkz.org" "INBOX")
              "* %a %U" :immediate-finish t)
-            ;; ("w" "Web site" entry
-            ;;  (file "~/Documents/RoamNotes/gtd/inbox.org")
-            ;;  "* [[%:link][%:description]] \n %U \n %:initial \n")
-            ("w" "Web site" entry
-             (file "")
-             "* %a :website:\n\n%U %?\n\n%:initial")
+            ("w"
+             "Web selection"
+             entry
+             (file+headline "~/Notes/RoamNotes/20220213034655-inbox.org" "WebNotes")
+             "* %:description :website:\n\n  Date: %u\n  Source: %:link\n\n  %:initial"
+             :empty-lines 1)
+
+            ("x" "Web site" entry
+              (file+headline "~/Notes/RoamNotes/20220213034655-inbox.org" "WebPages")
+             "* %:description :website:\n\n  Date: %u\n  Source: %:link\n\n  %:initial"
+             :empty-lines 1)
+
             ("m" "Meeting/Appointment" entry
-             (file+headline "~/Documents/RoamNotes/works/20220217102159-meetings.org" "Technique")
+             (file+headline "~/Notes/Org/Gtd/Meetings.org" "Meetings")
              "* %^{title}\nSCHEDULED: <%(org-read-date)> \nADDED: %t\nPEOPLE: %^{people}")
+
             ("t" "Personal todo" entry
              (file+headline +org-capture-todo-file "Inbox")
              "* [ ] %?\n%i\n%a" :prepend t)
@@ -244,13 +224,17 @@
             ("pc" "Project-local changelog" entry
              (file+headline +org-capture-project-changelog-file "Unreleased")
              "* %U %?\n%i\n%a" :prepend t)
+            ("pp" "Project-local" entry
+             (file+headline "Projects/proj.org" "Inbox")
+             "* %U %?\n%i\n" :prepend t)
             )))
 
   (use-package! org-roam
     :preface
     (defvar org-roam-directory nil)
-    :config
 
+    :config
+    (org-roam-setup)
     (setq org-roam-capture-templates
           '(("d" "default" plain "%?" :target
              (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
@@ -264,29 +248,43 @@
                          "#+ROAM_KEY: cite:${=key=}\n"
                          "#+CREATED: ${date}\n"))
              :unnarrowed t)
+
             ("n" "bibliography reference + notes" plain
-             (file "/home/auii/.doom.d/capture_tmpl/ref_notes.org")
+             (file "~/.config/doom/capture_tmpl/ref_notes.org")
              :target
-             (file+head "bibliography/notes/${citekey}.org" "#+TITLE: ${title}\n")
+             (file+head "Referneces/Notes/${citekey}.org" "#+TITLE: ${title}\n")
              :unnarrowed t)
 
-            ("p" "project" plain
-             (file "~/.doom.d/capture_tmpl/proj.org")
-             :target
-             (file+head "projs/${slug}.org" "#+TITLE: ${slug}\n")
-             :unnarrowed t)
-
-            ("t" "todo" entry
-             "* %?\n %a"
-             :target
-             (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-             :unnarrowed t)
             ("m" "Markdown" plain "" :target
-             (file+head "%<%Y-%m-%dT%H%M%S>.md"
+             (file+head "%<%Y-%m-%dT%H%M%S>-${slug}.md"
                         "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
              :unnarrowed t)
+
+            ;; ("a" "Annotation" plain "%?"
+            ;;  :target (file+head "${slug}.org"
+            ;;                     "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_alias:\n")
+            ;;                :immediate-finish t
+            ;;                :unnarrowed t)
             ))
 
+    ;; Template for org roam protocol
+    (setq org-roam-capture-ref-templates
+          '(
+            ("r" "ref" plain "%?" :target
+            (file+head "${slug}.org" "#+title: ${title}\n* %<%Y-%m-%d-%H:%M:%S>\n ${body}\n")
+            :unnarrowed t)
+            ;; ("r" "ref" plain "%?" :target
+            ;; (file-headline "${slug}.org" "* %<%Y-%m-%dT%H%M%S>\n ${body}\n")
+            ;; :unnarrowed t)
+            ("a" "Annotation" entry "* %<%Y-%m-%d-%H:%M:%S>\n ${body}\n"
+             :target
+            (file-olp "${slug}.org" "%<%Y-%m-%d-%H:%M:%S>")
+            :empty-lines 1
+            :unnarrowed t
+            :append)
+            ))
+
+    (org-roam-bibtex-mode)
     (setq org-roam-directory (expand-file-name (or org-roam-directory org_notes)
                                                org-directory)
           org-roam-verbose nil  ; https://youtu.be/fn4jIlFwuLU
@@ -305,11 +303,12 @@
   (use-package! org-ref
     :init
     (setq
-     org-ref-cite-completion-function 'org-ref-get-pdf-filename-bibtex-completion
+     org-ref-notes-function 'orb-edit-note
+     org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-bibtex-completion
 
-     bibtex-completion-bibliography '("~/Documents/RoamNotes//bibliography/ref.bib")
-     bibtex-completion-library-path '("~/Documents/Resources/" "~/Documents/Resources/Papers")
-     bibtex-completion-notes-path "~/Documents/RoamNotes/bibliography/notes/"
+     bibtex-completion-bibliography '("~/DataBase/Papers/References/ref.bib")
+     bibtex-completion-library-path '("~/DataBase/Papers/")
+     bibtex-completion-notes-path "~/Notes/Papers/"
      bibtex-completion-pdf-field "file"
 
      bibtex-completion-additional-search-fields '(keywords)
@@ -361,8 +360,9 @@
     (setq orb-preformat-keywords
           '("citekey" "title" "url" "author-or-editor" "keywords" "file")
           orb-process-file-keyword t
-          orb-attached-file-extensions '("pdf"))
-    (setq! orb-note-actions-interface 'hydra))
+          orb-attached-file-extensions '("pdf")
+          orb-note-actions-interface 'ivy
+          orb-insert-interface 'ivy-bibtex))
 
   (use-package! org-noter
     :after (:any org pdf-view)
@@ -378,8 +378,7 @@
      org-noter-notes-search-path (list org_notes)
      ))
 
-  (use-package! org-roam-protocol
-    :after org-protocol)
+  (require 'org-roam-protocol)
 
   (defun aniss/add-timestamp-to-headline ()
     "Set time stamp to current headline"
@@ -388,65 +387,6 @@
     (insert-now-timestamp))
 
   (setq org-after-todo-state-change-hook nil)
-  ;;; jira
-  (when (equal "work" (getenv "DIST"))
-    (use-package! org-jira
-      :init
-      (setq jiralib-url "http://jira.cambricon.com")
-      (setq org-jira-working-dir "/data/Projects/Jira")
-      (setq org-jira-custom-jqls
-            '(
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
-              ;; :filename "tfu-bug")
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
-              ;; :filename "tfu-feature")
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (e2e_perf) AND project = MAG ORDER BY status ASC, priority DESC, updated DESC"
-              ;; :filename "e2e-perf-bug")
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) ORDER BY status DESC, priority DESC, updated DESC"
-              ;; :filename "e2e-perf-feature")
-              ;; (:jql
-              ;; "(project = MAG OR project = Inference_Platform)  AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 ORDER BY status DESC, priority DESC, updated DESC"
-              ;; :limit 50
-              ;; :filename "tfu-v0.9")
-              ;; (:jql
-              ;;  "(project = MAG OR project = Inference_Platform) AND type in (Epic, Story, \"New Feature\", Task, Sub-task) AND status in (已变更, 暂不处理, Open, \"In Progress\", Reopened, Done, 等待其他任务, 暂停, 待验证, 验证中) AND component in (tfu, ngpf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status DESC, priority DESC, updated DESC"
-              ;;  :limit 50
-              ;;  :filename "tfu-v0.10")
-              ;; (:jql
-              ;;  "assignee = currentUser() AND resolution = Unresolved order by updated DESC"
-              ;;  :limit 50
-              ;;  :filename "my-issues")
-              ;; (:jql
-              ;;  "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.9.0 AND status = Closed ORDER BY status ASC, priority DESC, updated DESC"
-              ;;  :filename "tfu-v0.9-bugs")
-              (:jql
-               "(project = MAG OR project = Inference_Platform) AND issuetype = Bug AND component in (tfu, ngpf, e2e_perf) AND project = MAG AND fixVersion = mm_v0.10.0 ORDER BY status ASC, priority DESC, updated DESC"
-               :filename "tfu-v0.10-bugs")
-              )
-            ))
-
-    ;; (use-package! ox-hugo
-    ;;   :config
-    ;;   (setq org-hugo-base-dir "/data/DataBase/hugo")
-    ;;   :after ox)
-
-    (with-eval-after-load 'ox
-      (require 'ox-pandoc)
-      (require 'ox-jira)
-      (require 'ox-wk)))
-
-
-  (defun aniss/archive-link-and-open ()
-    (interactive)
-    (aniss/unset_proxy)
-    (org-set-property "URL" (x-get-clipboard))
-    (org-board-archive)
-    (aniss/set_proxy)
-    (org-board-open))
 
   (use-package! org-board
     :config
@@ -459,26 +399,27 @@
     :config
     (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
-  (use-package! easy-hugo
+  ;;(use-package! easy-hugo
+  ;;  :init
+  ;;  (setq easy-hugo-basedir "~/Notes/RoamNotes/blog/")
+  ;;  (setq easy-hugo-url "https://blog.hylan.ml")
+  ;;  (setq easy-hugo-sshdomain "server")
+  ;;  (setq easy-hugo-default-ext "org")
+  ;;  (setq easy-hugo-postdir "content/posts")
+  ;;  (setq easy-hugo-root "/home/auau/Apps/blog/")
+  ;;  (setq easy-hugo-server-flags "-D")
+
+  ;;  :bind
+  ;;  ("C-c C-k" . easy-hugo-menu)
+  ;;  :config
+  ;;  (easy-hugo-enable-menu))
+
+  (use-package! org-transclusion
     :init
-    (setq easy-hugo-basedir "~/Documents/RoamNotes/blog/")
-    (setq easy-hugo-url "https://blog.hylan.ml")
-    (setq easy-hugo-sshdomain "server")
-    (setq easy-hugo-default-ext "org")
-    (setq easy-hugo-postdir "content/posts")
-    (setq easy-hugo-root "/home/auau/Apps/blog/")
-    (setq easy-hugo-server-flags "-D")
+    (map!
+     :map global-map "<f12>" #'org-transclusion-add
+     :leader
+     :prefix "n"
+     :desc "Org Transclusion Mode" "t" #'org-transclusion-mode))
 
-    :bind
-    ("C-c C-k" . easy-hugo-menu)
-    :config
-    (easy-hugo-enable-menu))
-
-(use-package! org-transclusion
-  :init
-  (map!
-   :map global-map "<f12>" #'org-transclusion-add
-   :leader
-   :prefix "n"
-   :desc "Org Transclusion Mode" "t" #'org-transclusion-mode))
   )

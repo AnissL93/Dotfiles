@@ -1,9 +1,9 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-(if (equal "personal" (getenv "DIST"))
-    (setq user-full-name "hylan"
-          user-mail-address "me@hylan.com")
-  (setq user-full-name "lanhuiying"
-        user-mail-address "lanhuiying@cambricon.com"))
+;;;
+;;;
+(setq user-full-name "huiying.lan"
+      user-mail-address "hy.lan@nus.edu.sg")
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -39,25 +39,25 @@
 ;; Office Code Pro
 ;; Cascadia Mono
 ;; (setq cur-font "Office Code Pro")
-(setq cur-font "Sarasa Mono CL")
+;; (setq cur-font "Sarasa Mono CL")
 ;; (setq cur-font "Cascadia Code")
 ;; (setq cur-font "Azeret Mono")
 ;; (setq cur-font "Comic Code Ligatures")
 ;; (setq cur-font "FuraMono NF")
-;; (setq cur-font "FuraCode NF")
+(setq cur-font "FiraCode Nerd Font")
 ;;
 ;; (setq cur-font "Ubuntu Mono Ligaturized")
 ;; (setq cur-font "Liga Hack")
 ;; (setq cur-font "LXGW WenKai Mono")
-;; (setq cur-font "FantasqueSansMono NF")
+;; (setq cur-font "FantasqueSansMono Nerd Font")
 ;; (setq cur-font "JetBrainsMono NF")
 ;; (setq cur-font "InconsolataLGC NF")
-;; (setq cur-font "Hasklug NF")
+;; (setq cur-font "Hasklug Nerd Font")
 ;; (setq cur-font "Sarasa Mono SC")
-;; (setq cur-font "Hurmit NF")
+;; (setq cur-font "Hurmit Nerd Font")
 ;; (setq cur-font "Consola Mono")
 ;; (setq cur-font "Anonymice NF")
-;; (setq cur-font "Monoid NF")
+;; (setq cur-font "Monoid Nerd Font")
 ;; (setq cur-font "Input Mono")
 ;; (setq cur-font "Liga Space Mono")
 ;; (setq cur-font "Envy Code R")
@@ -71,6 +71,12 @@
 ;; (setq cur-font "Sometype Mono")
 ;; (setq cur-font "Verily Serif Mono")
 ;; (setq cur-font "LXGW WenKai Mono")
+;; (setq cur-font "ProFontIIx NFM")
+;; (setq cur-font "Sauce Code Pro Nerd Font")
+;; (setq cur-font "MesloLGLDZ NF")
+
+;; (setq cur-font "CaskaydiaCove Nerd Font")
+;; (setq cur-font "Monofur Nerd Font")
 
 ;; this one is good
 ;; (setq cur-font "NK57 Monospace")
@@ -96,30 +102,30 @@
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "melancholy-theme"))
 ;; (add-to-list 'custom-theme-load-path (concat package-build-path "alect-themes"))
 (use-package! ef-themes
- :load-path "~/.doom.d/themes/ef-themes"
- :config
- (setq ef-themes-headings ; read the manual's entry of the doc string
-       '((0 . (variable-pitch light 1.9))
-         (1 . (variable-pitch light 1.8))
-         (2 . (variable-pitch regular 1.7))
-         (3 . (variable-pitch regular 1.6))
-         (4 . (variable-pitch regular 1.5))
-         (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
-         (6 . (variable-pitch 1.3))
-         (7 . (variable-pitch 1.2))
-         (t . (variable-pitch 1.1))))
+  :load-path "~/.config/doom/themes/ef-themes"
+  :config
+  (setq ef-themes-headings ; read the manual's entry of the doc string
+        '((0 . (variable-pitch light 1.9))
+          (1 . (variable-pitch light 1.8))
+          (2 . (variable-pitch regular 1.7))
+          (3 . (variable-pitch regular 1.6))
+          (4 . (variable-pitch regular 1.5))
+          (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
+          (6 . (variable-pitch 1.3))
+          (7 . (variable-pitch 1.2))
+          (t . (variable-pitch 1.1))))
 
- ;; Disable all other themes to avoid awkward blending:
- ;; (mapc #'disable-theme custom-enabled-themes)
- )
+  ;; Disable all other themes to avoid awkward blending:
+  ;; (mapc #'disable-theme custom-enabled-themes)
+  )
 
-;; (setq doom-theme 'everblush)
+;; (setq doom-theme 'kaolin-temple)
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'doom-wilmersdorf)
 ;; (setq doom-theme 'whiteboard)
-;; (setq doom-theme 'ef-day)
-(setq doom-theme 'doom-one)
+(setq doom-theme 'ef-summer)
+;; (setq doom-theme 'doom-vibrant)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -290,11 +296,11 @@ With a prefix argument, insert only the non-directory part."
   (interactive)
   (org-insert-time-stamp (current-time) t))
 
-(use-package! scihub
-  :init
-  (setq scihub-download-directory "~/Documents/Resources/Papers"
-        scihub-open-after-download t
-        scihub-fetch-domain 'scihub-fetch-domains-lovescihub))
+;;(use-package! scihub
+;;  :init
+;;  (setq scihub-download-directory "~/Documents/Resources/Papers"
+;;        scihub-open-after-download t
+;;        scihub-fetch-domain 'scihub-fetch-domains-lovescihub))
 
 (use-package! beacon
   :custom
@@ -304,102 +310,82 @@ With a prefix argument, insert only the non-directory part."
   (shell-command-to-string (format "which %s" path)))
 
 
-(use-package! mu4e
-
-  :load-path "/data/app/mu-1.6.10/mu4e/"
-  :config
-  (setq mu4e-org-contacts-file "~/Documents/RoamNotes/20220304154932-contacts.org")
-  (setq mu4e-mu-binary "/usr/bin/mu")
-  (setq mu4e-get-mail-command "true")
-
-  ;; ;; sync
-  (setq mu4e-update-interval 300)
-  ;; save attachment to Documents by default
-  (setq mu4e-attachment-dir "~/Documents")
-  (setq mu4e-change-filenames-when-moving t)
-  (setq mu4e-view-prefer-html t)
-  (setq mu4e-html2text-command "html2text -utf8 -width 150")
-
-  (setq
-   ;; +mu4e-backend 'mbsync
-   sendmail-program (executable-find "msmtp")
-   send-mail-function #'smtpmail-send-it
-   message-sendmail-f-is-evil t
-   message-sendmail-extra-arguments '("--read-envelope-from")
-   message-send-mail-function #'message-send-mail-with-sendmail)
-
-  ;; these are required for sending email
-  (setq smtpmail-default-smtp-server  (format "mail.%s" "hylan.ml"))
-  (setq smtpmail-smtp-server (format "mail.%s" "hylan.ml"))
-  (if (string-equal "personal" (getenv "DIST"))
-      (progn
-        (message "Add hylan Mail accounts")
-        (setq mu4e-mu-home "~/Documents/Data/Mail-Database")
-        (setq mu4e-get-mail-command (format "mbsync hylan"))
-        (setq mu4e-contexts
-              `(
-                ,(make-mu4e-context
-                  :name "hylan"
-                  :enter-func
-                  (lambda () (mu4e-message "Enter me@hylan.ml context"))
-                  :leave-func
-                  (lambda () (mu4e-message "Leave me@hylan.ml context"))
-                  :match-func
-                  (lambda (msg)
-                    (when msg
-                      (mu4e-message-contact-field-matches msg :to "me@hylan.ml")))
-                  :vars
-                  '((user-mail-address . "me@hylan.ml")
-                    (user-full-name . "hylan")
-                    (mu4e-drafts-folder . "/hylan/Drafts/")
-                    (mu4e-sent-folder . "/hylan/Sent/")
-                    (mu4e-trash-folder . "/hylan/Trash/")
-                    (mu4e-refile-folder . "/hylan/Inbox/"))))))
-    (progn
-      (message "Add Cambricon Mail accounts")
-      (setq mu4e-get-mail-command (format "mbsync cambricon"))
-      (setq mu4e-mu-home "/data/mail/")
-      (setq mu4e-contexts
-            `(
-              ,(make-mu4e-context
-                :name "cambricon"
-                :enter-func
-                (lambda () (mu4e-message "Enter lanhuiying@cambricon.com context"))
-                :leave-func
-                (lambda () (mu4e-message "Leave lanhuiying@cambricon.com context"))
-                :match-func
-                (lambda (msg)
-                  (when msg
-                    (mu4e-message-contact-field-matches msg :to "lanhuiying@cambricon.com")))
-                :vars
-                '((user-mail-address . "lanhuiying@cambricon.com")
-                  (user-full-name . "lanhuiying")
-                  (mu4e-drafts-folder . "/cambricon/drafts/")
-                  (mu4e-sent-folder . "/cambricon/sent/")
-                  (mu4e-trash-folder . "/cambricon/Trash/")
-                  (mu4e-refile-folder . "/cambricon/Inbox/")
-                  (mu4e-compose-signature . "---\nBest wishes!\n Huiying Lan\n")
-                  )))))))
-
-(when (equal "personal" (getenv "DIST"))
-  ;;
-  (use-package! arduino-mode
-    :init
-    (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
-    (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t))
-
-  ;;; set proxy
-  (defun aniss/unset_proxy ()
-    (interactive)
-    (setenv "http_proxy" "")
-    (setenv "https_proxy" ""))
-
-  (defun aniss/set_proxy ()
-    (interactive)
-    (setenv "http_proxy" "http://127.0.0.1:10809")
-    (setenv "https_proxy" "http://127.0.0.1:10809"))
-  ;;(aniss/set_proxy)
-  )
+;;(use-package! mu4e
+;;
+;;  :load-path "/data/app/mu-1.6.10/mu4e/"
+;;  :config
+;;  (setq mu4e-org-contacts-file "~/Documents/RoamNotes/20220304154932-contacts.org")
+;;  (setq mu4e-mu-binary "/usr/bin/mu")
+;;  (setq mu4e-get-mail-command "true")
+;;
+;;  ;; ;; sync
+;;  (setq mu4e-update-interval 300)
+;;  ;; save attachment to Documents by default
+;;  (setq mu4e-attachment-dir "~/Documents")
+;;  (setq mu4e-change-filenames-when-moving t)
+;;  (setq mu4e-view-prefer-html t)
+;;  (setq mu4e-html2text-command "html2text -utf8 -width 150")
+;;
+;;  (setq
+;;   ;; +mu4e-backend 'mbsync
+;;   sendmail-program (executable-find "msmtp")
+;;   send-mail-function #'smtpmail-send-it
+;;   message-sendmail-f-is-evil t
+;;   message-sendmail-extra-arguments '("--read-envelope-from")
+;;   message-send-mail-function #'message-send-mail-with-sendmail)
+;;
+;;  ;; these are required for sending email
+;;  (setq smtpmail-default-smtp-server  (format "mail.%s" "hylan.ml"))
+;;  (setq smtpmail-smtp-server (format "mail.%s" "hylan.ml"))
+;;  (if (string-equal "personal" (getenv "DIST"))
+;;      (progn
+;;        (message "Add hylan Mail accounts")
+;;        (setq mu4e-mu-home "~/Documents/Data/Mail-Database")
+;;        (setq mu4e-get-mail-command (format "mbsync hylan"))
+;;        (setq mu4e-contexts
+;;              `(
+;;                ,(make-mu4e-context
+;;                  :name "hylan"
+;;                  :enter-func
+;;                  (lambda () (mu4e-message "Enter me@hylan.ml context"))
+;;                  :leave-func
+;;                  (lambda () (mu4e-message "Leave me@hylan.ml context"))
+;;                  :match-func
+;;                  (lambda (msg)
+;;                    (when msg
+;;                      (mu4e-message-contact-field-matches msg :to "me@hylan.ml")))
+;;                  :vars
+;;                  '((user-mail-address . "me@hylan.ml")
+;;                    (user-full-name . "hylan")
+;;                    (mu4e-drafts-folder . "/hylan/Drafts/")
+;;                    (mu4e-sent-folder . "/hylan/Sent/")
+;;                    (mu4e-trash-folder . "/hylan/Trash/")
+;;                    (mu4e-refile-folder . "/hylan/Inbox/"))))))
+;;    (progn
+;;      (message "Add Cambricon Mail accounts")
+;;      (setq mu4e-get-mail-command (format "mbsync cambricon"))
+;;      (setq mu4e-mu-home "/data/mail/")
+;;      (setq mu4e-contexts
+;;            `(
+;;              ,(make-mu4e-context
+;;                :name "cambricon"
+;;                :enter-func
+;;                (lambda () (mu4e-message "Enter lanhuiying@cambricon.com context"))
+;;                :leave-func
+;;                (lambda () (mu4e-message "Leave lanhuiying@cambricon.com context"))
+;;                :match-func
+;;                (lambda (msg)
+;;                  (when msg
+;;                    (mu4e-message-contact-field-matches msg :to "lanhuiying@cambricon.com")))
+;;                :vars
+;;                '((user-mail-address . "lanhuiying@cambricon.com")
+;;                  (user-full-name . "lanhuiying")
+;;                  (mu4e-drafts-folder . "/cambricon/drafts/")
+;;                  (mu4e-sent-folder . "/cambricon/sent/")
+;;                  (mu4e-trash-folder . "/cambricon/Trash/")
+;;                  (mu4e-refile-folder . "/cambricon/Inbox/")
+;;                  (mu4e-compose-signature . "---\nBest wishes!\n Huiying Lan\n")
+;;                  )))))))
 
 (solaire-global-mode +1)
 
@@ -439,3 +425,15 @@ With a prefix argument, insert only the non-directory part."
 (use-package! tiny
   :config
   (tiny-setup-default))
+
+;; (after! lsp-mode
+;;   (lsp-register-client
+;;    (make-lsp-client :new-connection (lsp-tramp-connection "pyls")
+;;                     :major-modes '(python-mode)
+;;                     :remote? t
+;;                     :server-id 'pyls-remote))
+;;   (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
+;;                    :major-modes '(c++-mode)
+;;                    :remote? t
+;;                    :server-id 'clang-remote)
+;;   )

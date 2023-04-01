@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-screenshot_path=$HOME/Documents/Pictures/screenshots/
+screenshot_path=$HOME/Pictures/Screenshots/
 action=$(echo -e "gui\nfull\ncur" | dmenu)
 case $action in
     "gui")

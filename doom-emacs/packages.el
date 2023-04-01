@@ -100,7 +100,6 @@
 (package! ivy-bibtex)
 (package! org-roam-bibtex
   :recipe (:host github :repo "org-roam/org-roam-bibtex"))
-(unpin! org-roam)
 (unpin! bibtex-completion helm-bibtex ivy-bibtex)
 
 (package! org-board)
@@ -119,7 +118,6 @@
   :recipe (:host github :repo "emacs-pe/scihub.el"))
 
 (package! beacon)
-
 (package! org-jira)
 ;; (package! ox-hugo)
 (package! org-super-agenda)
