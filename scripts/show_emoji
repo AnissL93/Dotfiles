@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-a=$(cut -d ';' -f1 ~/.local/share/emoji | dmenu -i -l 30 | sed "s/ .*//")
+a=$(cut -d ';' -f1 ~/.config/Scripts/emoji | dmenu -i -l 30 | sed "s/ .*//")
 # cut descriptions
 
 [ -z "$a" ] && exit

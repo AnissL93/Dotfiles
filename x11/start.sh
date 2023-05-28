@@ -4,11 +4,9 @@ export LC_ALL="en_US.UTF-8"
 export XMODIFIERS="@im=fcitx"
 export QT_IM_MODULE="fcitx"
 export GTK_IM_MODULE="fcitx"
-#exec fcitx &gt; /dev/null &amp;
+exec fcitx &gt; /dev/null &amp;
 
-#redshift &
-
-xmodmap ~/.config/x11/xmodmap
+redshift &
 
 #xbacklight -set $(cat ~/.config/X11/xbacklight)
 
@@ -16,15 +14,15 @@ xmodmap ~/.config/x11/xmodmap
 
 xcompmgr &
 
-#xwallpaper --zoom "$HOME/.local/share/bg"
-#wal -i $(realpath "$HOME/.local/share/bg") --backend colorz
-#xrdb -merge ~/.Xresources
+xwallpaper --zoom "$HOME/.local/share/bg"
+wal -i $(realpath "$HOME/.local/share/bg") --backend colorz
+xrdb -merge ~/.Xresources
 
-#xset -dpms
-#xset s off
+xset -dpms
+xset s off
 
-keybind
-#emacs --daemon
-exec dwmblocks &
+#xmodmap ~/.config/x11/xmodmap 
+
+emacs --daemon
+dwmblocks & 
 exec dwm
-

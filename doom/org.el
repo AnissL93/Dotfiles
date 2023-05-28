@@ -30,7 +30,7 @@
 
         +org-capture-journal-file (concat org_notes "journal.org"))
 
-  (setq reftex-default-bibliography '("~/DataBase/Papers/References/ref.bib"))
+  ;(setq reftex-default-bibliography '("~/DataBase/Papers/References/ref.bib"))
 
   (defun aniss/open-bib-file ()
     (interactive)
@@ -234,6 +234,7 @@
     (defvar org-roam-directory nil)
 
     :config
+    (setq org-roam-database-connector 'sqlite3)
     (org-roam-setup)
     (setq org-roam-capture-templates
           '(("d" "default" plain "%?" :target

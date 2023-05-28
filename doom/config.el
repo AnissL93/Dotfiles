@@ -44,7 +44,7 @@
 ;; (setq cur-font "Azeret Mono")
 ;; (setq cur-font "Comic Code Ligatures")
 ;; (setq cur-font "FuraMono NF")
-(setq cur-font "FiraCode Nerd Font")
+(setq cur-font "Sarasa Mono SC")
 ;;
 ;; (setq cur-font "Ubuntu Mono Ligaturized")
 ;; (setq cur-font "Liga Hack")
@@ -124,7 +124,7 @@
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'doom-wilmersdorf)
 ;; (setq doom-theme 'whiteboard)
-(setq doom-theme 'ef-summer)
+(setq doom-theme 'sanityinc-tomorrow-bright)
 ;; (setq doom-theme 'doom-vibrant)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line

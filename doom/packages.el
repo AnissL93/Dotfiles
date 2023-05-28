@@ -149,3 +149,4 @@
   :recipe (:host github :repo "bazelbuild/emacs-bazel-mode"))
 
 (package! org-transclusion)
+(package! emacsql-sqlite3)
