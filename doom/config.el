@@ -184,7 +184,10 @@
 
 (use-package! rime
   :custom
+  (rime-emacs-module-header-root  "/opt/homebrew/opt/emacs/include")
+  (rime-librime-root "~/.config/emacs/librime/dist")
   (rime-show-candidate 'posframe)
+  (rime-user-data-dir "~/Projects/Dotfiles/fcitx/rime/")
   (default-input-method "rime"))
 
 ;;; config org ref
