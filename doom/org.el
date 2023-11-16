@@ -400,20 +400,18 @@
     :config
     (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
-  ;;(use-package! easy-hugo
-  ;;  :init
-  ;;  (setq easy-hugo-basedir "~/Notes/RoamNotes/blog/")
-  ;;  (setq easy-hugo-url "https://blog.hylan.ml")
-  ;;  (setq easy-hugo-sshdomain "server")
-  ;;  (setq easy-hugo-default-ext "org")
-  ;;  (setq easy-hugo-postdir "content/posts")
-  ;;  (setq easy-hugo-root "/home/auau/Apps/blog/")
-  ;;  (setq easy-hugo-server-flags "-D")
+  (use-package! easy-hugo
+   :init
+   (setq easy-hugo-basedir "~/Notes/AnissL93.github.io/")
+   (setq easy-hugo-sshdomain "server")
+   (setq easy-hugo-default-ext "org")
+   (setq easy-hugo-postdir "content/posts")
+   (setq easy-hugo-server-flags "-D")
 
-  ;;  :bind
-  ;;  ("C-c C-k" . easy-hugo-menu)
-  ;;  :config
-  ;;  (easy-hugo-enable-menu))
+   :bind
+   ("C-c C-k" . easy-hugo-menu)
+   :config
+   (easy-hugo-enable-menu))
 
   (use-package! org-transclusion
     :init
