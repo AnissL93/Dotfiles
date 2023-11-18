@@ -108,9 +108,6 @@
   :recipe
   (:host github :repo "Fuco1/justify-kp"))
 
-;;(package! ledger-mode
-;;  :recipe (:host github :repo "ledger/ledger-mode"))
-
 (package! ox-pandoc)
 (package! org-board)
 
@@ -150,3 +147,28 @@
 
 (package! org-transclusion)
 (package! emacsql-sqlite3)
+
+(package! docker-tramp)
+
+(package! org-remark)
+
+(package! company-tabnine)
+
+(package! chatgpt
+  :recipe (:host github :repo "AnissL93/ChatGPT.el" :files ("dist" "*.el")))
+
+(package! ob-chatgpt :recipe (:host github :repo "suonlight/ob-chatgpt" :files ("dist" "*.el")))
+
+(package! simpleclip)
+
+(package! cyberpunk-theme)
+(package! soothe-theme)
+(package! flatland-theme)
+
+(package! annotate)
+
+(package! hledger-mode)
+
+(package! ox-ioslide)
+
+(package! google-this)

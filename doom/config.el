@@ -39,33 +39,33 @@
 ;; Office Code Pro
 ;; Cascadia Mono
 ;; (setq cur-font "Office Code Pro")
-;; (setq cur-font "Sarasa Mono CL")
+;; (setq cur-font "UbuntuMono ")
+;; (setq cur-font "DinaRemaster")
 ;; (setq cur-font "Cascadia Code")
 ;; (setq cur-font "Azeret Mono")
 ;; (setq cur-font "Comic Code Ligatures")
 ;; (setq cur-font "FuraMono NF")
-(setq cur-font "Sarasa Mono SC")
+;; (setq cur-font "JetBrains Mono Nerd Font")
+;; (setq cur-font "ProggyVector")
 ;;
-;; (setq cur-font "Ubuntu Mono Ligaturized")
+;; (setq cur-font "Drafting Mono ")
+;; (setq cur-font "SF Mono")
+;; (setq cur-font "Inconsolata Nerd Font")
+;; (setq cur-font "UbuntuMono Nerd Font")
 ;; (setq cur-font "Liga Hack")
 ;; (setq cur-font "LXGW WenKai Mono")
 ;; (setq cur-font "FantasqueSansMono Nerd Font")
-;; (setq cur-font "JetBrainsMono NF")
+;; (setq cur-font "OverpassMono Nerd Font")
 ;; (setq cur-font "InconsolataLGC NF")
 ;; (setq cur-font "Hasklug Nerd Font")
-;; (setq cur-font "Sarasa Mono SC")
-;; (setq cur-font "Hurmit Nerd Font")
 ;; (setq cur-font "Consola Mono")
-;; (setq cur-font "Anonymice NF")
 ;; (setq cur-font "Monoid Nerd Font")
 ;; (setq cur-font "Input Mono")
-;; (setq cur-font "Liga Space Mono")
 ;; (setq cur-font "Envy Code R")
 ;; (setq cur-font "LXGW WenKai Mono")
 ;; (setq cur-font "Ligalex Mono")
 ;; (setq cur-font "Liga Hack")
 ;; (setq cur-font "LigaSrc Pro")
-;; (setq cur-font "Liga Roboto Mono")
 ;; (setq cur-font "CamingoCode")
 ;; (setq cur-font "Iosevka Curly")
 ;; (setq cur-font "Sometype Mono")
@@ -74,16 +74,43 @@
 ;; (setq cur-font "ProFontIIx NFM")
 ;; (setq cur-font "Sauce Code Pro Nerd Font")
 ;; (setq cur-font "MesloLGLDZ NF")
+;; (setq cur-font "Martian Mono")
+;; (setq cur-font "IBM Plex Mono")
+;; (setq cur-font "Chivo Mono Medium")
+
 
 ;; (setq cur-font "CaskaydiaCove Nerd Font")
 ;; (setq cur-font "Monofur Nerd Font")
 
 ;; this one is good
-;; (setq cur-font "NK57 Monospace")
-(setq en-font-size 15)
-;; (setq ch-font "LXGW WenKai Mono")
-(setq ch-font "Sarasa Mono SC")
+(setq cur-font "JuliaMono")
+(setq cur-font "DM Mono")
+(setq cur-font "Hurmit Nerd Font")
+(setq cur-font "IBM Plex Mono")
+(setq cur-font "Ligalex Mono")
+(setq cur-font "Anonymice Nerd Font")
+(setq cur-font "Liga Roboto Mono")
+(setq cur-font "Comic Code Ligatures")
+(setq cur-font "Liga Space Mono")
+(setq cur-font "saxMono")
+(setq cur-font "Mononoki Nerd Font")
+(setq cur-font "NK57 Monospace")
+(setq cur-font "FiraCode Nerd Font")
+(setq cur-font "IBM Plex Mono")
+(setq cur-font "Monofur Nerd Font")
+(setq cur-font "Sarasa Mono SC")
+(setq cur-font "Iosevka Comfy Fixed")
+(setq cur-font "Rec Mono Casual")
+(setq cur-font "JetBrains Mono Nerd Font")
+(setq cur-font "Hack Nerd Font")
+(setq cur-font "VictorMono Nerd Font")
 
+(setq en-font-size 14)
+(setq ch-font "LXGW WenKai Mono GB")
+
+;; (setq ch-font "IBM Plex Sans")
+;; (setq cur-font "LXGW Wenkai Mono GB")
+;; (setq ch-font "LXGW WenKai Mono GB")
 ;; (setq ch-font "Xiaolai Mono SC")
 ;; (setq ch-font "Yozai")
 ;; (setq ch-font "MaoKenTangYuan")
@@ -124,8 +151,26 @@
 ;; (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'doom-wilmersdorf)
 ;; (setq doom-theme 'whiteboard)
-(setq doom-theme 'sanityinc-tomorrow-bright)
 ;; (setq doom-theme 'doom-vibrant)
+;; (setq doom-theme 'kaolin-temple)
+;; (setq doom-theme 'sanityinc-tomorrow-eighties)
+;; (setq doom-theme 'organic-green)
+;; (setq doom-theme 'nimbus)
+
+;; (setq doom-theme 'doom-city-lights)
+(setq doom-theme 'doom-laserwave)
+(setq doom-theme 'doom-acario-light)
+(setq doom-theme 'ef-light)
+(setq doom-theme 'tango-dark)
+(setq doom-theme 'kaolin-aurora)
+(setq doom-theme 'twilight-bright)
+(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'kaolin-valley-dark)
+(setq doom-theme 'zweilight)
+(setq doom-theme 'doom-manegarm)
+(setq doom-theme 'doom-one)
+(setq doom-theme 'ef-spring)
+(setq doom-theme 'kaolin-aurora)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -261,6 +306,7 @@
       (insert entry-score " ")))
   ;; (setq elfeed-search-print-entry-function #'my-search-print-fn)
   )
+
 (setq url-queue-timeout 30)
 
 (require 'elfeed-goodies)
@@ -292,6 +338,16 @@ With a prefix argument, insert only the non-directory part."
   :desc "Date" "d" #'insert-date-string
   :desc "File path" "P" #'insert-file-path))
 
+(defun hyl-goto-project ()
+  (interactive)
+  (find-file "~/Notes/Org/Projects"))
+
+(map!
+ :leader
+ (:prefix ("o" . Open)
+  :nv
+  :desc "Open project directory" "p" #'hyl-goto-project))
+
 ;;;;;;;;;;;;; org ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;
 (defun insert-now-timestamp()
@@ -299,11 +355,11 @@ With a prefix argument, insert only the non-directory part."
   (interactive)
   (org-insert-time-stamp (current-time) t))
 
-;;(use-package! scihub
-;;  :init
-;;  (setq scihub-download-directory "~/Documents/Resources/Papers"
-;;        scihub-open-after-download t
-;;        scihub-fetch-domain 'scihub-fetch-domains-lovescihub))
+(use-package! scihub
+ :init
+ (setq scihub-download-directory "~/DataBase/Papers/"
+       scihub-open-after-download t
+       scihub-fetch-domain 'scihub-fetch-domains-lovescihub))
 
 (use-package! beacon
   :custom
@@ -422,21 +478,193 @@ With a prefix argument, insert only the non-directory part."
   (lsp-mlir-setup))
 
 ;; enable input method switch on macos
-(load! "input.el")
+;;(load! "input.el")
 ;;(load! "meow-edit-config.el")
 
 (use-package! tiny
   :config
   (tiny-setup-default))
 
-;; (after! lsp-mode
-;;   (lsp-register-client
-;;    (make-lsp-client :new-connection (lsp-tramp-connection "pyls")
-;;                     :major-modes '(python-mode)
-;;                     :remote? t
-;;                     :server-id 'pyls-remote))
-;;   (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
-;;                    :major-modes '(c++-mode)
-;;                    :remote? t
-;;                    :server-id 'clang-remote)
-;;   )
+
+(after! lsp-mode
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-tramp-connection "pyright")
+                    :major-modes '(python-mode)
+                    :remote? t
+                    :server-id 'pyright-remote
+                    )
+   ;; (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
+   ;;                  :major-modes '(c++-mode c-mode)
+   ;;                  :priority -1
+   ;;                  :remote? t
+   ;;                  :server-id 'clang-remote))
+   )
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
+                    :major-modes '(c-mode c++-mode)
+                    :remote? t
+                    :server-id 'c-remote
+                    )
+   )
+  )
+
+;; Open files in Docker containers like so: /docker:drunk_bardeen:/etc/passwd
+;; (push
+;;  (cons
+;;   "docker"
+;;   '((tramp-login-program "docker")
+;;     (tramp-login-args (("exec" "-it") ("%h") ("/bin/bash")))
+;;     (tramp-remote-shell "/bin/sh")
+;;     (tramp-remote-shell-args ("-i") ("-c"))))
+;;  tramp-methods)
+
+(defadvice tramp-completion-handle-file-name-all-completions
+    (around dotemacs-completion-docker activate)
+  "(tramp-completion-handle-file-name-all-completions \"\" \"/docker:\" returns
+    a list of active Docker container names, followed by colons."
+  (if (equal (ad-get-arg 1) "/docker:")
+      (let* ((dockernames-raw (shell-command-to-string "docker ps | perl -we 'use strict; $_ = <>; m/^(.*)NAMES/ or die; my $offset = length($1); while(<>) {substr($_, 0, $offset, q()); chomp; for(split m/\\W+/) {print qq($_:\n)} }'"))
+             (dockernames (cl-remove-if-not
+                           #'(lambda (dockerline) (string-match ":$" dockerline))
+                           (split-string dockernames-raw "\n"))))
+        (setq ad-return-value dockernames))
+    ad-do-it))
+
+;; Trigger completion immediately.
+(setq company-idle-delay 0)
+
+;; Number the candidates (use M-1, M-2 etc to select completions).
+(setq company-show-numbers t)
+
+;;;; vterm
+;;(push (list "find-file-below"
+;;            (lambda (path)
+;;              (if-let* ((buf (find-file-noselect path))
+;;                        (window (display-buffer-below-selected buf nil)))
+;;                  (select-window window)
+;;                (message "Failed to open file: %s" path))))
+;;      vterm-eval-cmds)
+
+;; (setenv "PATH"
+;;         (concat
+;;          "/usr/local/texlive/2023/bin/x86_64-linux/:"
+;;          (getenv "PATH"))
+;;         )
+
+;; (setq python-shell-interpreter "/home/hyl/System/anaconda3/bin/python3")
+;; (setq python-interpreter "/home/hyl/System/anaconda3/bin/python3")
+
+;; (require 'hledger-mode)
+;; ;; To open files with .journal extension in hledger-mode
+;; (add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
+
+;; ;; Provide the path to you journal file.
+;; ;; The default location is too opinionated.
+;; (setq hledger-jfile "~/.hledger.journal")
+
+
+;; ;;; Auto-completion for account names
+;; ;; For company-mode users,
+;; (add-to-list 'company-backends 'hledger-company)
+
+;; ;; For auto-complete users,
+;; ;;(add-to-list 'ac-modes 'hledger-mode)
+;; (add-hook 'hledger-mode-hook
+;;           (lambda ()
+;;             (setq-local ac-sources '(hledger-ac-source))))
+
+;; ;; For easily adjusting dates.
+;; (define-key hledger-mode-map (kbd "<kp-add>") 'hledger-increment-entry-date)
+;; (define-key hledger-mode-map (kbd "<kp-subtract>") 'hledger-decrement-entry-date)
+
+
+(use-package! hledger-mode
+  :after htmlize
+  :mode ("\\.journal\\'" "\\.hledger\\'")
+  :commands hledger-enable-reporting
+  :preface
+  (defun hledger/next-entry ()
+    "Move to next entry and pulse."
+    (interactive)
+    (hledger-next-or-new-entry)
+    (hledger-pulse-momentary-current-entry))
+
+  (defface hledger-warning-face
+    '((((background dark))
+       :background "Red" :foreground "White")
+      (((background light))
+       :background "Red" :foreground "White")
+      (t :inverse-video t))
+    "Face for warning"
+    :group 'hledger)
+
+  (defun hledger/prev-entry ()
+    "Move to last entry and pulse."
+    (interactive)
+    (hledger-backward-entry)
+    (hledger-pulse-momentary-current-entry))
+
+  :bind (("C-c j" . hledger-run-command)
+         :map hledger-mode-map
+         ("C-c e" . hledger-jentry)
+         ("M-p" . hledger/prev-entry)
+         ("M-n" . hledger/next-entry))
+  :init
+  (setq hledger-jfile
+        (expand-file-name "~/DataBase/Notes/Ledger/account.journal")
+        hledger-email-secrets-file (expand-file-name "secrets.el"
+                                                     emacs-assets-directory))
+  ;; Expanded account balances in the overall monthly report are
+  ;; mostly noise for me and do not convey any meaningful information.
+  (setq hledger-show-expanded-report nil)
+
+  (when (boundp 'my-hledger-service-fetch-url)
+    (setq hledger-service-fetch-url
+          my-hledger-service-fetch-url))
+
+  :config
+  (add-hook 'hledger-view-mode-hook #'hl-line-mode)
+  (add-hook 'hledger-view-mode-hook #'center-text-for-reading)
+
+  (add-hook 'hledger-view-mode-hook
+            (lambda ()
+              (run-with-timer 1
+                              nil
+                              (lambda ()
+                                (when (equal hledger-last-run-command
+                                             "balancesheet")
+                                  ;; highlight frequently changing accounts
+                                  (highlight-regexp "^.*\\(savings\\|cash\\).*$")
+                                  (highlight-regexp "^.*credit-card.*$"
+                                                    'hledger-warning-face))))))
+
+  (add-hook 'hledger-mode-hook
+            (lambda ()
+              (make-local-variable 'company-backends)
+              (add-to-list 'company-backends 'hledger-company))))
+
+(use-package! hledger-input
+  :bind (("C-c e" . hledger-capture)
+         :map hledger-input-mode-map
+         ("C-c C-b" . popup-balance-at-point))
+  :preface
+  (defun popup-balance-at-point ()
+    "Show balance for account at point in a popup."
+    (interactive)
+    (if-let ((account (thing-at-point 'hledger-account)))
+        (message (hledger-shell-command-to-string (format " balance -N %s "
+                                                          account)))
+      (message "No account at point")))
+
+  :config
+  (setq hledger-input-buffer-height 20)
+  (add-hook 'hledger-input-post-commit-hook #'hledger-show-new-balances)
+  (add-hook 'hledger-input-mode-hook #'auto-fill-mode)
+  (add-hook 'hledger-input-mode-hook
+            (lambda ()
+              (make-local-variable 'company-idle-delay)
+              (setq-local company-idle-delay 0.1))))
+
+(use-package! google-this
+  :config
+  (google-this-mode 1))

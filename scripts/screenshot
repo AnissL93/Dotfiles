@@ -1,17 +1,39 @@
 #!/usr/bin/env bash
 
-screenshot_path=$HOME/Pictures/Screenshots/
+if [ $# -eq 0 ]; then
+    screenshot_path=$HOME/Pictures/Screenshots/
+elif [ $# -eq 1 ]; then
+    screenshot_path=$1
+else
+    notify-send "Wrong screenshots path"
+fi
+
+
+get_info() {
+    tmp_file=/tmp/.screenshot_tmp
+    rm $tmp_file
+    flameshot $1 -p $(realpath $screenshot_path) > $tmp_file 2>&1
+    fname=$(cat $tmp_file | grep -o "/.*")
+    # notify-send "Save image to $fname"
+    echo $fname
+    # echo $fname | xclip -sel clip
+}
+
+
 action=$(echo -e "gui\nfull\ncur" | dmenu)
 case $action in
     "gui")
-        flameshot gui -p $(realpath $screenshot_path)
+        get_info gui
         ;;
     "full")
-        flameshot full -p $(realpath $screenshot_path)
+        get_info full
         ;;
     "cur")
-        flameshot screen -p $(realpath $screenshot_path)
+        get_info cur
         ;;
     *)
+        exit
         ;;
+
 esac
+

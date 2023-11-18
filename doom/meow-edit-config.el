@@ -44,7 +44,7 @@
      '("a" . meow-append)
      '("o" . meow-open-below)
      '("b" . meow-back-word)
-     '("B" . meow-back-symbol)
+     '("B" . sp-forward-barf-sexp)
      '("c" . meow-change)
      '("d" . meow-kill)
      '("w" . meow-next-word)
@@ -76,7 +76,7 @@
      '("t" . meow-till)
      '("u" . meow-undo)
      '("s" . meow-visit)
-     '("S" . meow-forward-slurp)
+     '("S" . sp-forward-slurp-sexp)
      ;; '("M" . meow-backward-slurp)
      '("e" . meow-mark-word)
      '("E" . meow-mark-symbol)
@@ -106,6 +106,8 @@
      '("C" . other-window)
      '("*" . +format/buffer)
      '("z" . recenter)
+
+     '("+" . +org/dwim-at-point)
 
      ;; buffer manage
      '("X" . kill-current-buffer)

@@ -1,0 +1,24 @@
+IMAPAccount NUS
+Host outlook.office365.com
+User hy.lan@nus.edu.sg
+PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.password-store/nus.gpg"
+Port 993
+SSLType IMAPS
+AuthMechs XOAUTH2
+
+IMAPStore NUS-remote
+Account NUS
+
+MaildirStore NUS-local
+Path ~/DataBase/email/mbsyncmail/
+Inbox ~/DataBase/email/mbsyncmail/Inbox/
+SubFolders Verbatim
+
+Channel NUS
+Master :NUS-remote:
+Slave :NUS-local:
+Patterns *
+Create Slave
+Sync All
+Expunge None
+SyncState *

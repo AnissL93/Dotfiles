@@ -1,4 +1,12 @@
+#!/usr/bin/env bash
+# prompt="$1"
+# answer=$(st -o "-" -g 100x5 -c st-prompt sh -c "echo -n '$prompt: '; read -s ANSWER; echo \$ANSWER")
+# echo "${answer#*: }" | tr -d '\r'
 #!/bin/bash
+# command="$@";st -- $command
+#!/bin/bash
+# dmenu -p "$1" <&-
+#! /bin/sh
 
 # shellcheck disable=2046
 caller="$(ps -o comm= -p $(ps -o ppid= -p $$))"

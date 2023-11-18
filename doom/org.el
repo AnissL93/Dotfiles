@@ -19,10 +19,11 @@
   (setq org_notes (concat (getenv "HOME") "/Notes/Org/")
         roam_notes (concat (getenv "HOME") "/Notes/RoamNotes/"))
 
+
   (setq org-directory org_notes
         deft-directory roam_notes
         org-roam-directory roam_notes
-        org-agenda-files (directory-files-recursively (concat org_notes "/Gtd") directory-files-no-dot-files-regexp)
+        org-agenda-files (directory-files-recursively (concat org_notes "/Gtd") "\.org$")
 
         org-log-done-with-time t
         org-agenda-ndays 3
@@ -30,7 +31,8 @@
 
         +org-capture-journal-file (concat org_notes "journal.org"))
 
-  ;(setq reftex-default-bibliography '("~/DataBase/Papers/References/ref.bib"))
+  (setq reftex-default-bibliography '("~/DataBase/Papers/References/ref.bib"))
+  (setq reftex-bibpath-environment-variables '(".:~/DataBase/References//"))
 
   (defun aniss/open-bib-file ()
     (interactive)
@@ -168,12 +170,7 @@
     (setq org-contacts-files '("~/Notes/RoamNotes/20220304154932-contacts.org"))
     ;; Firefox and Chrome
     (setq org-capture-templates
-          '(("c" "Contact" entry
-             (file+headline "~/Notes/RoamNotes/20220304154932-contacts.org" "Cambricon")
-             "* %(org-contacts-template-name)\n :PROPERTIES:\n :BIRTHDAY: %^{yyyy-mm-dd}\n :EMAIL: %(org-contacts-template-email)\n :NOTE: %^{NOTE}\n :END:"
-             :empty-lines 1
-             :prepend t
-             :kill-buffer t)
+          '(
             ("i" "Inbox" entry
              (file+headline "~/Notes/Org/Gtd/Inbox.org" "Inbox")
              "* TODO %?\n"
@@ -197,23 +194,39 @@
              :empty-lines 1)
 
             ("x" "Web site" entry
-              (file+headline "~/Notes/RoamNotes/20220213034655-inbox.org" "WebPages")
+             (file+headline "~/Notes/RoamNotes/20220213034655-inbox.org" "WebPages")
              "* %:description :website:\n\n  Date: %u\n  Source: %:link\n\n  %:initial"
              :empty-lines 1)
 
-            ("m" "Meeting/Appointment" entry
+            ("c" "Citation" plain
+             (file "~/DataBase/Papers/References/ref.bib")
+             "%:initial"
+             :empty-lines 1
+             :prepend t
+             :kill-buffer t)
+
+            ;;;;;; Get things done ;;;;;;
+            ("g" "Templates for Get things done")
+            ("gm" "Meeting/Appointment" entry
              (file+headline "~/Notes/Org/Gtd/Meetings.org" "Meetings")
              "* %^{title}\nSCHEDULED: <%(org-read-date)> \nADDED: %t\nPEOPLE: %^{people}")
-
-            ("t" "Personal todo" entry
+            ("gt" "Personal todo" entry
              (file+headline +org-capture-todo-file "Inbox")
              "* [ ] %?\n%i\n%a" :prepend t)
+
+
             ("n" "Personal notes" entry
              (file+headline +org-capture-notes-file "Inbox")
              "* %u %?\n%i\n%a" :prepend t)
             ("j" "Journal" entry
              (file+olp+datetree +org-capture-journal-file)
              "* %U %?\n%i\n%a" :prepend t)
+
+            ("r" "Research")
+            ("rp" "PaperReading" entry
+             (file+olp+datetree "~/Notes/Org/Gtd/PaperReading.org")
+             "* %U %?\n%i\n%a" :prepend t)
+
             ("p" "Templates for projects")
             ("pt" "Project-local todo" entry
              (file+headline +org-capture-project-todo-file "Inbox")
@@ -272,17 +285,17 @@
     (setq org-roam-capture-ref-templates
           '(
             ("r" "ref" plain "%?" :target
-            (file+head "${slug}.org" "#+title: ${title}\n* %<%Y-%m-%d-%H:%M:%S>\n ${body}\n")
-            :unnarrowed t)
+             (file+head "${slug}.org" "#+title: ${title}\n* %<%Y-%m-%d-%H:%M:%S>\n ${body}\n")
+             :unnarrowed t)
             ;; ("r" "ref" plain "%?" :target
             ;; (file-headline "${slug}.org" "* %<%Y-%m-%dT%H%M%S>\n ${body}\n")
             ;; :unnarrowed t)
             ("a" "Annotation" entry "* %<%Y-%m-%d-%H:%M:%S>\n ${body}\n"
              :target
-            (file-olp "${slug}.org" "%<%Y-%m-%d-%H:%M:%S>")
-            :empty-lines 1
-            :unnarrowed t
-            :append)
+             (file-olp "${slug}.org" "%<%Y-%m-%d-%H:%M:%S>")
+             :empty-lines 1
+             :unnarrowed t
+             :append)
             ))
 
     (org-roam-bibtex-mode)
@@ -307,7 +320,11 @@
      org-ref-notes-function 'orb-edit-note
      org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-bibtex-completion
 
-     bibtex-completion-bibliography '("~/DataBase/Papers/References/ref.bib")
+     bibtex-completion-bibliography (directory-files-recursively
+                                     "~/DataBase/Papers/References/"
+                                     ".*\.bib")
+     ;; directory-files-no-dot-files-regexp false)
+
      bibtex-completion-library-path '("~/DataBase/Papers/")
      bibtex-completion-notes-path "~/Notes/Papers/"
      bibtex-completion-pdf-field "file"
@@ -421,4 +438,88 @@
      :prefix "n"
      :desc "Org Transclusion Mode" "t" #'org-transclusion-mode))
 
-  )
+(advice-remove 'org-link-search '+org--recenter-after-follow-link-a)
+
+  ;;;; org remark
+  (org-remark-global-tracking-mode +1)
+  ;; Optional if you would like to highlight websites via eww-mode
+  (with-eval-after-load 'eww
+    (org-remark-eww-mode +1))
+
+  ;; Key-bind `org-remark-mark' to global-map so that you can call it
+  ;; globally before the library is loaded.
+
+  (define-key global-map (kbd "C-c n m") #'org-remark-mark)
+
+  ;; The rest of keybidings are done only on loading `org-remark'
+  (with-eval-after-load 'org-remark
+    (define-key org-remark-mode-map (kbd "C-c n o") #'org-remark-open)
+    (define-key org-remark-mode-map (kbd "C-c n ]") #'org-remark-view-next)
+    (define-key org-remark-mode-map (kbd "C-c n [") #'org-remark-view-prev)
+    (define-key org-remark-mode-map (kbd "C-c n r") #'org-remark-remove))
+
+  (setq python-interpreter "/home/hyl/System/anaconda3/bin/python")
+  (setq python-shell-interpreter "/home/hyl/System/anaconda3/bin/python")
+
+  (use-package! chatgpt
+    :defer t
+    :config
+    (unless (boundp 'python-interpreter)
+      (defvaralias 'python-interpreter 'python-shell-interpreter))
+    (setq chatgpt-repo-path (expand-file-name "straight/repos/ChatGPT.el/" doom-local-dir))
+    (set-popup-rule! (regexp-quote "*ChatGPT*")
+      :side 'bottom :size .5 :ttl nil :quit t :modeline nil)
+    :bind ("C-c q" . chatgpt-query))
+
+  (use-package! ob-chatgpt
+    :after '(chatgpt))
+
+  (defun chatgpt-translate (input)
+    (interactive (list (if (region-active-p)
+                           (buffer-substring-no-properties (region-beginning) (region-end))
+                         (read-from-minibuffer "ChatGPT Query: "))))
+
+    (setq full-input (concat "I want you to act as an English translator, spelling corrector and improver. I will speak to you in any language and you will detect the language, translate it and answer in the corrected and improved version of my text, in English. I want you to replace my simplified A0-level words and sentences with more beautiful and elegant, upper level English words and sentences. Keep the meaning same, but make them more literary. I want you to only reply the correction, the improvements and nothing else, do not write explanations. My first sentence is: " input))
+    (deferred:$
+      (deferred:next
+        (lambda ()
+          (chatgpt-query full-input)))
+      (deferred:nextc it
+        (lambda ()
+          (insert chatgpt-response)))))
+
+  (defun chatgpt-trans-kill-ring ()
+    "Send the content in kill-ring to chatgpt for translation, and insert the response to current point."
+    (interactive)
+    (setq full-input (concat "I want you to act as an English translator, spelling corrector and improver. I will speak to you in any language and you will detect the language, translate it and answer in the corrected and improved version of my text, in English. I want you to replace my simplified A0-level words and sentences with more beautiful and elegant, upper level English words and sentences. Keep the meaning same, but make them more literary. I want you to only reply the correction, the improvements and nothing else, do not write explanations. My first sentence is: "
+                             (substring-no-properties (car kill-ring))))
+    (deferred:$
+      (deferred:next
+        (lambda ()
+          (chatgpt-query full-input)))
+      (deferred:nextc it
+        (lambda ()
+          (insert chatgpt-response)))))
+
+  (require 'ox-ioslide)
+
+
+  (defun filename ()
+    "Copy the full path of the current buffer."
+    (interactive)
+    (kill-new (buffer-file-name (window-buffer (minibuffer-selected-window)))))
+
+  (defun aniss/org-screenshot ()
+    "Take a screenshot, save to default-directory/img/, and insert to current point."
+    (interactive)
+    (setq __img_path (concat org_notes "Images"))
+    (setq pic_path
+          (replace-regexp-in-string "\n" "" (shell-command-to-string (concat "screenshot "  __img_path ))))
+    (insert (format "[[%s]]" pic_path)))
+
+(map!
+ :leader
+ (:prefix ("i" . insert)
+  :nv
+  :desc "Screenshots" "S" #'aniss/org-screenshot))
+)
