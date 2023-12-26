@@ -1,0 +1,36 @@
+Host gpu-server
+	HostName rs720-e9-rs8-g.d2.comp.nus.edu.sg
+	User huiying
+
+Host cpu-server
+	HostName rs700-e10-rs4u.d2.comp.nus.edu.sg
+	User huiying
+
+Host cpu-server-docker
+	HostName localhost
+	User root
+	Port 5555
+	ProxyJump cpu-server
+
+Host a100-server
+	HostName ecolab.d2.comp.nus.edu.sg
+	User huiying
+
+Host khadas-soc
+	HostName 169.254.170.200
+	User khadas
+	
+Host github.com
+    Hostname ssh.github.com
+    Port 443
+    User git
+
+Host rohan
+	Hostname  172.26.190.109
+	User rohan
+
+Host gitlab.com
+    Hostname altssh.gitlab.com
+    Port 443
+    User git
+
