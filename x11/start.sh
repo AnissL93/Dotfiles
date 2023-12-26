@@ -6,11 +6,11 @@ export QT_IM_MODULE="fcitx"
 export GTK_IM_MODULE="fcitx"
 exec fcitx &gt; /dev/null &amp;
 
-redshift &
+#redshift &
 
 #xbacklight -set $(cat ~/.config/X11/xbacklight)
 
-#~/.config/Scripts/selmon init
+~/.config/Scripts/selmon init
 
 xcompmgr &
 
@@ -21,7 +21,7 @@ xrdb -merge ~/.Xresources
 xset -dpms
 xset s off
 
-#xmodmap ~/.config/x11/xmodmap 
+xmodmap ~/.config/x11/xmodmap
 
 emacs --daemon
 dwmblocks & 

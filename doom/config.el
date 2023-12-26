@@ -356,10 +356,10 @@ With a prefix argument, insert only the non-directory part."
   (org-insert-time-stamp (current-time) t))
 
 (use-package! scihub
- :init
- (setq scihub-download-directory "~/DataBase/Papers/"
-       scihub-open-after-download t
-       scihub-fetch-domain 'scihub-fetch-domains-lovescihub))
+  :init
+  (setq scihub-download-directory "~/DataBase/Papers/"
+        scihub-open-after-download t
+        scihub-fetch-domain 'scihub-fetch-domains-lovescihub))
 
 (use-package! beacon
   :custom
@@ -668,3 +668,5 @@ With a prefix argument, insert only the non-directory part."
 (use-package! google-this
   :config
   (google-this-mode 1))
+
+(setq python-python-command "/home/hyl/miniforge3/bin/python")

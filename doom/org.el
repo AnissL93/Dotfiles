@@ -31,8 +31,8 @@
 
         +org-capture-journal-file (concat org_notes "journal.org"))
 
-  (setq reftex-default-bibliography '("~/DataBase/Papers/References/ref.bib"))
-  (setq reftex-bibpath-environment-variables '(".:~/DataBase/References//"))
+  (setq reftex-default-bibliography '("~/Notes/References/ref.bib"))
+  (setq reftex-bibpath-environment-variables '(".:~/Notes/References//"))
 
   (defun aniss/open-bib-file ()
     (interactive)
@@ -321,7 +321,7 @@
      org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-bibtex-completion
 
      bibtex-completion-bibliography (directory-files-recursively
-                                     "~/DataBase/Papers/References/"
+                                     "~/Notes/References/"
                                      ".*\.bib")
      ;; directory-files-no-dot-files-regexp false)
 
@@ -418,17 +418,17 @@
     (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
   (use-package! easy-hugo
-   :init
-   (setq easy-hugo-basedir "~/Notes/AnissL93.github.io/")
-   (setq easy-hugo-sshdomain "server")
-   (setq easy-hugo-default-ext "org")
-   (setq easy-hugo-postdir "content/posts")
-   (setq easy-hugo-server-flags "-D")
+    :init
+    (setq easy-hugo-basedir "~/Notes/AnissL93.github.io/")
+    (setq easy-hugo-sshdomain "server")
+    (setq easy-hugo-default-ext "org")
+    (setq easy-hugo-postdir "content/posts")
+    (setq easy-hugo-server-flags "-D")
 
-   :bind
-   ("C-c C-k" . easy-hugo-menu)
-   :config
-   (easy-hugo-enable-menu))
+    :bind
+    ("C-c C-k" . easy-hugo-menu)
+    :config
+    (easy-hugo-enable-menu))
 
   (use-package! org-transclusion
     :init
@@ -438,7 +438,7 @@
      :prefix "n"
      :desc "Org Transclusion Mode" "t" #'org-transclusion-mode))
 
-(advice-remove 'org-link-search '+org--recenter-after-follow-link-a)
+  (advice-remove 'org-link-search '+org--recenter-after-follow-link-a)
 
   ;;;; org remark
   (org-remark-global-tracking-mode +1)
@@ -517,9 +517,9 @@
           (replace-regexp-in-string "\n" "" (shell-command-to-string (concat "screenshot "  __img_path ))))
     (insert (format "[[%s]]" pic_path)))
 
-(map!
- :leader
- (:prefix ("i" . insert)
-  :nv
-  :desc "Screenshots" "S" #'aniss/org-screenshot))
-)
+  (map!
+   :leader
+   (:prefix ("i" . insert)
+    :nv
+    :desc "Screenshots" "S" #'aniss/org-screenshot))
+  )
