@@ -23,7 +23,8 @@
   (setq org-directory org_notes
         deft-directory roam_notes
         org-roam-directory roam_notes
-        org-agenda-files (directory-files-recursively (concat org_notes "/Gtd") "\.org$")
+        org-agenda-files '("~/Notes/Gtd")
+        ;; org-agenda-files (directory-files-recursively (concat (concat (getenv "HOME") "/Notes") "/Gtd") "\.org$")
 
         org-log-done-with-time t
         org-agenda-ndays 3
@@ -72,7 +73,7 @@
   (require 'ox-latex)
   ;;(setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
   ;; (setq org-latex-compiler "xelatex")
-  (setq org-latex-compiler "pdflatex")
+  (setq org-latex-compiler "xelatex")
 
   (unless (boundp 'org-latex-classes)
     (setq org-latex-classes nil))
@@ -394,6 +395,7 @@
      org-noter-hide-other nil
      ;; Everything is relative to the main notes file
      org-noter-notes-search-path (list org_notes)
+     org-noter-highlight-selected-text t
      ))
 
   (require 'org-roam-protocol)
@@ -514,7 +516,7 @@
     (interactive)
     (setq __img_path (concat org_notes "Images"))
     (setq pic_path
-          (replace-regexp-in-string "\n" "" (shell-command-to-string (concat "screenshot "  __img_path ))))
+          (replace-regexp-in-string "\n" "" (shell-command-to-string (concat "~/.config/Scripts/screenshot "  __img_path ))))
     (insert (format "[[%s]]" pic_path)))
 
   (map!
@@ -522,4 +524,50 @@
    (:prefix ("i" . insert)
     :nv
     :desc "Screenshots" "S" #'aniss/org-screenshot))
-  )
+  ;; Minimal UI
+  (package-initialize)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  ;;  (modus-themes-load-operandi)
+
+  ;; Choose some fonts
+  ;; (set-face-attribute 'default nil :family "Iosevka")
+  ;; (set-face-attribute 'variable-pitch nil :family "Iosevka Aile")
+  ;; (set-face-attribute 'org-modern-symbol nil :family "Iosevka")
+
+  ;; Add frame borders and window dividers
+  (modify-all-frames-parameters
+   '((right-divider-width . 40)
+     (internal-border-width . 40)))
+  (dolist (face '(window-divider
+                  window-divider-first-pixel
+                  window-divider-last-pixel))
+    (face-spec-reset-face face)
+    (set-face-foreground face (face-attribute 'default :background)))
+  (set-face-background 'fringe (face-attribute 'default :background))
+
+  (setq
+   ;; Edit settings
+   org-auto-align-tags nil
+   org-tags-column 0
+   org-catch-invisible-edits 'show-and-error
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
+
+   ;; Org styling, hide markup etc.
+   org-hide-emphasis-markers t
+   org-pretty-entities t
+   org-ellipsis "…"
+
+   ;; Agenda styling
+   org-agenda-tags-column 0
+   org-agenda-block-separator ?─
+   org-agenda-time-grid
+   '((daily today require-timed)
+     (800 1000 1200 1400 1600 1800 2000)
+     " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+   org-agenda-current-time-string
+   "◀── now ─────────────────────────────────────────────────")
+
+  (global-org-modern-mode))

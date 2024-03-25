@@ -172,3 +172,10 @@
 (package! ox-ioslide)
 
 (package! google-this)
+
+(package! org-modern)
+
+(package! forest-blue-theme)
+
+(package! emacs-copilot
+  :recipe (:host github :repo "jart/emacs-copilot"))

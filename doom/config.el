@@ -79,7 +79,6 @@
 ;; (setq cur-font "Chivo Mono Medium")
 
 
-;; (setq cur-font "CaskaydiaCove Nerd Font")
 ;; (setq cur-font "Monofur Nerd Font")
 
 ;; this one is good
@@ -90,23 +89,47 @@
 (setq cur-font "Ligalex Mono")
 (setq cur-font "Anonymice Nerd Font")
 (setq cur-font "Liga Roboto Mono")
-(setq cur-font "Comic Code Ligatures")
 (setq cur-font "Liga Space Mono")
 (setq cur-font "saxMono")
-(setq cur-font "Mononoki Nerd Font")
 (setq cur-font "NK57 Monospace")
-(setq cur-font "FiraCode Nerd Font")
 (setq cur-font "IBM Plex Mono")
 (setq cur-font "Monofur Nerd Font")
-(setq cur-font "Sarasa Mono SC")
-(setq cur-font "Iosevka Comfy Fixed")
 (setq cur-font "Rec Mono Casual")
 (setq cur-font "JetBrains Mono Nerd Font")
 (setq cur-font "Hack Nerd Font")
 (setq cur-font "VictorMono Nerd Font")
+(setq cur-font "ComicShannsMono Nerd Font Mono")
+(setq cur-font "CaskaydiaCove Nerd Font")
+(setq cur-font "JetBrains Mono Nerd Font")
+(setq cur-font "FiraCode Nerd Font")
+(setq cur-font "MonegoLigatures Nerd Font")
+(setq cur-font "Pes Mono")
+(setq cur-font "Barlow Condensed")
+(setq cur-font "Cartograph CF")
+(setq cur-font "Pragmata Pro Mono")
+(setq cur-font "Comic Code Ligatures")
+(setq cur-font "Monaspace Krypton Var")
+(setq cur-font "Monaspace Radon")
+(setq cur-font "Sudo")
+(setq cur-font "Lilex")
+(setq cur-font "CommitMono Nerd Font")
+(setq cur-font "Monaspace Neon")
+(setq cur-font "Iosevka Comfy Duo")
+(setq cur-font "ProggyVector")
+(setq cur-font "Mononoki Nerd Font")
+(setq cur-font "FiraMono Nerd Font")
+(setq cur-font "Sarasa Mono SC")
+(setq cur-font "MonoLisa")
+(setq cur-font "Operator Mono")
+(setq cur-font "Monaspace Xenon Var")
 
-(setq en-font-size 14)
-(setq ch-font "LXGW WenKai Mono GB")
+(setq en-font-size 15)
+(setq ch-font "Sarasa Mono SC")
+(setq ch-font "LXGW WenKai Mono")
+(setq cur-font "Monaspace Argon Var")
+(setq cur-font "Recursive Monospace")
+(setq cur-font "GeistMono Nerd Font Mono")
+
 
 ;; (setq ch-font "IBM Plex Sans")
 ;; (setq cur-font "LXGW Wenkai Mono GB")
@@ -131,6 +154,8 @@
 (use-package! ef-themes
   :load-path "~/.config/doom/themes/ef-themes"
   :config
+  (setq ef-themes-mixed-fonts t
+        ef-themes-variable-pitch-ui t)
   (setq ef-themes-headings ; read the manual's entry of the doc string
         '((0 . (variable-pitch light 1.9))
           (1 . (variable-pitch light 1.8))
@@ -171,6 +196,10 @@
 (setq doom-theme 'doom-one)
 (setq doom-theme 'ef-spring)
 (setq doom-theme 'kaolin-aurora)
+(setq doom-theme 'doom-miramare)
+(setq doom-theme 'ef-tritanopia-dark)
+(setq doom-theme 'doom-horizon)
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -469,7 +498,6 @@ With a prefix argument, insert only the non-directory part."
     :desc "input word at in buffer" "I" #'sdcv-search-input)
    ))
 
-(load! "org.el")
 (load! "packages/mlir-mode.el")
 (load! "packages/mlir-lsp-client.el")
 (load! "packages/llvm-mode.el")
@@ -485,6 +513,7 @@ With a prefix argument, insert only the non-directory part."
   :config
   (tiny-setup-default))
 
+(load! "org.el")
 
 (after! lsp-mode
   (lsp-register-client
@@ -670,3 +699,81 @@ With a prefix argument, insert only the non-directory part."
   (google-this-mode 1))
 
 (setq python-python-command "/home/hyl/miniforge3/bin/python")
+(setq python-shell-interpreter "~/miniforge3/bin/python")
+(setq python-interpreter "~/miniforge3/bin/python")
+(setq org-babel-python-command "~/miniforge3/bin/python")
+
+
+(defun copilot-complete ()
+  (interactive)
+  (let* ((spot (point))
+         (inhibit-quit t)
+         (curfile (buffer-file-name))
+         (cash (concat curfile ".cache"))
+         (hist (concat curfile ".prompt"))
+         (lang (file-name-extension curfile))
+
+         ;; extract current line, to left of caret
+         ;; and the previous line, to give the llm
+         (code (save-excursion
+                 (dotimes (i 2)
+                   (when (> (line-number-at-pos) 1)
+                     (previous-line)))
+                 (beginning-of-line)
+                 (buffer-substring-no-properties (point) spot)))
+
+         ;; create new prompt for this interaction
+         (system "\
+You are an Emacs code generator. \
+Writing comments is forbidden. \
+Writing test code is forbidden. \
+Writing English explanations is forbidden. ")
+         (prompt (format
+                  "[INST]%sGenerate %s code to complete:[/INST]\n```%s\n%s"
+                  (if (file-exists-p cash) "" system) lang lang code)))
+
+    ;; iterate text deleted within editor then purge it from prompt
+    (when kill-ring
+      (save-current-buffer
+        (find-file hist)
+        (dotimes (i 10)
+          (let ((substring (current-kill i t)))
+            (when (and substring (string-match-p "\n.*\n" substring))
+              (goto-char (point-min))
+              (while (search-forward substring nil t)
+                (delete-region (- (point) (length substring)) (point))))))
+        (save-buffer 0)
+        (kill-buffer (current-buffer))))
+
+    ;; append prompt for current interaction to the big old prompt
+    (write-region prompt nil hist 'append 'silent)
+
+    ;; run llamafile streaming stdout into buffer catching ctrl-g
+    (with-local-quit
+      (call-process "~/.config/emacs/bin/phi-2.Q5_K_M.sh"
+                    nil (list (current-buffer) nil) t
+                    "--prompt-cache" cash
+                    "--prompt-cache-all"
+                    "--silent-prompt"
+                    "--temp" "0"
+                    "-c" "1024"
+                    "-ngl" "35"
+                    "-r" "```"
+                    "-r" "\n}"
+                    "-f" hist))
+
+    ;; get rid of most markdown syntax
+    (let ((end (point)))
+      (save-excursion
+        (goto-char spot)
+        (while (search-forward "\\_" end t)
+          (backward-char)
+          (delete-backward-char 1 nil)
+          (setq end (- end 1)))
+        (goto-char spot)
+        (while (search-forward "```" end t)
+          (delete-backward-char 3 nil)
+          (setq end (- end 3))))
+
+      ;; append generated code to prompt
+      (write-region spot end hist 'append 'silent))))
