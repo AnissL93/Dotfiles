@@ -87,7 +87,6 @@
 (setq cur-font "Hurmit Nerd Font")
 (setq cur-font "IBM Plex Mono")
 (setq cur-font "Ligalex Mono")
-(setq cur-font "Anonymice Nerd Font")
 (setq cur-font "Liga Roboto Mono")
 (setq cur-font "Liga Space Mono")
 (setq cur-font "saxMono")
@@ -96,39 +95,41 @@
 (setq cur-font "Monofur Nerd Font")
 (setq cur-font "Rec Mono Casual")
 (setq cur-font "JetBrains Mono Nerd Font")
-(setq cur-font "Hack Nerd Font")
 (setq cur-font "VictorMono Nerd Font")
 (setq cur-font "ComicShannsMono Nerd Font Mono")
 (setq cur-font "CaskaydiaCove Nerd Font")
 (setq cur-font "JetBrains Mono Nerd Font")
 (setq cur-font "FiraCode Nerd Font")
 (setq cur-font "MonegoLigatures Nerd Font")
-(setq cur-font "Pes Mono")
 (setq cur-font "Barlow Condensed")
 (setq cur-font "Cartograph CF")
-(setq cur-font "Pragmata Pro Mono")
-(setq cur-font "Comic Code Ligatures")
 (setq cur-font "Monaspace Krypton Var")
 (setq cur-font "Monaspace Radon")
 (setq cur-font "Sudo")
-(setq cur-font "Lilex")
 (setq cur-font "CommitMono Nerd Font")
 (setq cur-font "Monaspace Neon")
-(setq cur-font "Iosevka Comfy Duo")
 (setq cur-font "ProggyVector")
-(setq cur-font "Mononoki Nerd Font")
-(setq cur-font "FiraMono Nerd Font")
-(setq cur-font "Sarasa Mono SC")
 (setq cur-font "MonoLisa")
 (setq cur-font "Operator Mono")
 (setq cur-font "Monaspace Xenon Var")
 
 (setq en-font-size 15)
-(setq ch-font "Sarasa Mono SC")
 (setq ch-font "LXGW WenKai Mono")
 (setq cur-font "Monaspace Argon Var")
 (setq cur-font "Recursive Monospace")
 (setq cur-font "GeistMono Nerd Font Mono")
+(setq cur-font "FiraMono Nerd Font")
+(setq cur-font "Pes Mono")
+(setq cur-font "Comic Code Ligatures")
+(setq cur-font "Hack Nerd Font")
+(setq ch-font "Sarasa Mono SC")
+(setq cur-font "Iosevka Comfy Duo")
+(setq cur-font "Sarasa Mono SC")
+(setq cur-font "Lilex")
+(setq cur-font "JetBrains Mono Nerd Font")
+(setq cur-font "Anonymice Nerd Font")
+(setq cur-font "Mononoki Nerd Font")
+(setq cur-font "Pragmata Pro Mono")
 
 
 ;; (setq ch-font "IBM Plex Sans")
@@ -499,12 +500,12 @@ With a prefix argument, insert only the non-directory part."
    ))
 
 (load! "packages/mlir-mode.el")
-(load! "packages/mlir-lsp-client.el")
+;;(load! "packages/mlir-lsp-client.el")
 (load! "packages/llvm-mode.el")
 (load! "packages/tablegen-mode.el")
-(after! mlir-mode
-  (lsp-mlir-setup))
-
+;;(after! mlir-mode
+;;  (lsp-mlir-setup))
+;;
 ;; enable input method switch on macos
 ;;(load! "input.el")
 ;;(load! "meow-edit-config.el")
@@ -515,27 +516,27 @@ With a prefix argument, insert only the non-directory part."
 
 (load! "org.el")
 
-(after! lsp-mode
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-tramp-connection "pyright")
-                    :major-modes '(python-mode)
-                    :remote? t
-                    :server-id 'pyright-remote
-                    )
-   ;; (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
-   ;;                  :major-modes '(c++-mode c-mode)
-   ;;                  :priority -1
-   ;;                  :remote? t
-   ;;                  :server-id 'clang-remote))
-   )
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
-                    :major-modes '(c-mode c++-mode)
-                    :remote? t
-                    :server-id 'c-remote
-                    )
-   )
-  )
+;; (after! lsp-mode
+;;   (lsp-register-client
+;;    (make-lsp-client :new-connection (lsp-tramp-connection "pyright")
+;;                     :major-modes '(python-mode)
+;;                     :remote? t
+;;                     :server-id 'pyright-remote
+;;                     )
+;;    ;; (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
+;;    ;;                  :major-modes '(c++-mode c-mode)
+;;    ;;                  :priority -1
+;;    ;;                  :remote? t
+;;    ;;                  :server-id 'clang-remote))
+;;    )
+;;   (lsp-register-client
+;;    (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
+;;                     :major-modes '(c-mode c++-mode)
+;;                     :remote? t
+;;                     :server-id 'c-remote
+;;                     )
+;;    )
+;;   )
 
 ;; Open files in Docker containers like so: /docker:drunk_bardeen:/etc/passwd
 ;; (push
@@ -580,8 +581,8 @@ With a prefix argument, insert only the non-directory part."
 ;;          (getenv "PATH"))
 ;;         )
 
-;; (setq python-shell-interpreter "/home/hyl/System/anaconda3/bin/python3")
-;; (setq python-interpreter "/home/hyl/System/anaconda3/bin/python3")
+(setq python-shell-interpreter "/home/hyl/miniforge3/bin/python3")
+(setq python-interpreter "/home/hyl/miniforge3/bin/python3")
 
 ;; (require 'hledger-mode)
 ;; ;; To open files with .journal extension in hledger-mode
@@ -776,4 +777,64 @@ Writing English explanations is forbidden. ")
           (setq end (- end 3))))
 
       ;; append generated code to prompt
-      (write-region spot end hist 'append 'silent))))
+      (write-region spot end hist 'append 'silent)))
+  (add-to-list 'image-types 'svg))
+
+;;;;;;;;;;; copilot ;;;;;;;;;;;
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+;;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+;; (defvar tramp-version)
+;; (defvar tramp-connection-properties)
+;; (when (version< tramp-version "2.5.0-pre")
+;;   (lsp-warn
+;;    "Your tramp version - %s - might fail to work with remote LSP. Update to version 2.5 or greater (available on elpa)"
+;;    tramp-version))
+;; Force a direct asynchronous process.
+
+
+(connection-local-set-profile-variables 'remote-path-mylinux
+                                        '((tramp-remote-path . ("*/bin" "/usr/local/bin" tramp-default-remote-path "/home/huiying/miniforge3/bin"))))
+
+(connection-local-set-profiles
+ '(:application tramp :machine "mylinux") 'remote-path-mylinux)
+
+(use-package! vterm
+  :bind (:map project-prefix-map
+              ("t" . project-vterm))
+  :config
+  (push (list "find-file-below"
+              (lambda (path)
+                (if-let* ((buf (find-file-noselect path))
+                          (window (display-buffer-below-selected buf nil)))
+                    (select-window window)
+                  (message "Failed to open file: %s" path))))
+        vterm-eval-cmds)
+
+  (defun project-vterm ()
+    (interactive)
+    (defvar vterm-buffer-name)
+    (let* ((default-directory (project-root     (project-current t)))
+           (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+           (vterm-buffer (get-buffer vterm-buffer-name)))
+      (if (and vterm-buffer (not current-prefix-arg))
+          (pop-to-buffer vterm-buffer  (bound-and-true-p display-comint-buffer-action))
+        (vterm))))
+  :init
+  (add-to-list 'project-switch-commands     '(project-vterm "Vterm") t)
+  (add-to-list 'project-kill-buffer-conditions  '(major-mode . vterm-mode))
+  :config
+  (setq vterm-copy-exclude-prompt t)
+  (setq vterm-max-scrollback 100000)
+  (setq vterm-tramp-shells '(("ssh" "/bin/bash")
+                             ("podman" "/bin/bash")))
+
+  )

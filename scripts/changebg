@@ -12,7 +12,7 @@ set_wallpaper() {
             ;;
 	    inode/directory)
             true_pic="$(find "$trueloc" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)"
-            ln -sf $true_pic "$bgloc" && xwallpaper --maximize "$bgloc" && notify-send "Random Wallpaper" "$true_pic" -t 2000
+            ln -sf $true_pic "$bgloc" && xwallpaper --zoom "$bgloc" && notify-send "Random Wallpaper" "$true_pic" -t 2000
             # also change xresource
             wal -i $true_pic --backend colorz
             dwmc xrdb
@@ -21,4 +21,4 @@ set_wallpaper() {
     esac
 }
 
-[[ $# -eq 0 ]] && set_wallpaper ~/.config/X11/Wallpapers || set_wallpaper $1
+[[ $# -eq 0 ]] && set_wallpaper ~/.config/x11/wallpapers || set_wallpaper $1

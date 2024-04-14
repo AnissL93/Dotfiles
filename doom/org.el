@@ -248,7 +248,7 @@
     (defvar org-roam-directory nil)
 
     :config
-    (setq org-roam-database-connector 'sqlite3)
+    ;;(setq org-roam-database-connector 'sqlite3)
     (org-roam-setup)
     (setq org-roam-capture-templates
           '(("d" "default" plain "%?" :target
@@ -570,4 +570,33 @@
    org-agenda-current-time-string
    "◀── now ─────────────────────────────────────────────────")
 
-  (global-org-modern-mode))
+  (global-org-modern-mode)
+
+  (use-package! org-excalidraw)
+  :config
+  (setq org-excalidraw-directory "~/Notes/Excalidraw/")
+  (defun org-excalidraw--handle-file-change (event)
+    "Handle file update EVENT to convert files to svg."
+    ;; (cadr event) can be 'changed or 'renamed
+    ;; e.g. for changed (10 changed /some/where/ID.excalidraw)
+    ;; e.g. for renamed (10 renamed /some/where/ID.excalidraw.crswap /some/where/ID.excalidraw)
+    ;; note we use memq, because comparing symbols
+    (when (memq (cadr event) '(changed renamed))
+      ;; use eq because comparing symbols
+      (let ((filename (if (eq (cadr event) 'changed)
+                          (caddr event)
+                        (cadddr event))))
+        (when (string-suffix-p ".excalidraw" filename)
+          (shell-command (org-excalidraw--shell-cmd-to-svg filename))))))
+
+
+  (use-package! edraw
+    :load-path "~/.config/emacs/.local/straight/repos/el-easydraw/"
+    :config
+    (require 'edraw-org)
+    (edraw-org-setup-default)
+    (with-eval-after-load "ox"
+      (require 'edraw-org)
+      (edraw-org-setup-exporter)))
+
+  )

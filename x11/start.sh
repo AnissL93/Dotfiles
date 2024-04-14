@@ -1,3 +1,4 @@
+exec > ~/.logs/xsession 2>&1
 eval "$(dbus-launch --sh-syntax --exit-with-session)"
 export LANG=zh_CN.UTF-8
 export LC_ALL="en_US.UTF-8"
@@ -21,8 +22,8 @@ xrdb -merge ~/.Xresources
 xset -dpms
 xset s off
 
-xmodmap ~/.config/x11/xmodmap
+#xmodmap ~/.config/x11/xmodmap
 
 emacs --daemon
-dwmblocks & 
-exec dwm
+dwmblocks &
+exec dwm 2> ~/.logs/dwm

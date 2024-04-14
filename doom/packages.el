@@ -148,7 +148,7 @@
 (package! org-transclusion)
 (package! emacsql-sqlite3)
 
-(package! docker-tramp)
+;;(package! tramp-container)
 
 (package! org-remark)
 
@@ -179,3 +179,12 @@
 
 (package! emacs-copilot
   :recipe (:host github :repo "jart/emacs-copilot"))
+
+(package! org-excalidraw
+  :recipe (:host github :repo "wdavew/org-excalidraw"))
+(package! xmind-org)
+
+(package! edraw-org
+  :recipe (:host github :repo "misohena/el-easydraw"))
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
