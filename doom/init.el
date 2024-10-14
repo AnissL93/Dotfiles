@@ -50,7 +50,7 @@
        (window-select +switch-window +number)     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        zen               ; distraction-free coding or writing
-       ligatures
+       ;;ligatures
 
        :editor
        (evil +everywhere); come to the dark side, we have cookies
@@ -103,7 +103,7 @@
        pass                ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
-       rgb               ; creating color strings
+       ;;rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        tmux              ; an API for interacting with tmux
