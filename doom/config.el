@@ -903,3 +903,8 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
 (load! "lsp-proxy.el")
 
 (load! "worknotes.el")
+
+;; Center text in org / markdown buffers (visual-fill-column is already pulled in by nov / zen)
+(setq-default visual-fill-column-width 100
+              visual-fill-column-center-text t)
+(add-hook! (org-mode markdown-mode) #'visual-fill-column-mode)
