@@ -20,5 +20,3 @@ link()
 
 link alacritty
 link skhd
-link yabai
-link sketchybar

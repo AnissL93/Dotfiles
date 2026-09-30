@@ -116,7 +116,7 @@ Python `open()`), otherwise the link is replaced by a plain file and the change 
 
 ### Present in dotfiles but not linked on this machine
 
-`lf/`, `zathura/`, `qutebrowser/`, `nvim*/`, `hledger/`, `thefuck/`, `fcitx/`, `x11/keyd.conf`,
+`lf/`, `zathura/`, `nvim*/`, `hledger/`, `thefuck/`, `fcitx/`, `x11/keyd.conf`,
 `x11/xmodmap*`, and all macOS directories. `fonts/` (except `fonts/desktop`), `wallpapers/` and
 `fcitx/rime-cur/` exist only locally (too large for git).
 Link them by hand when needed, e.g. `ln -s ~/System/dotfiles/lf ~/.config/lf`.
@@ -549,13 +549,12 @@ A new machine is set up with `~/System/personal-infra/bootstrap.sh` (see section
 
 Not used on this machine; kept for the Mac.
 
-- `config_mac.sh` links `alacritty`, `skhd`, `yabai`, `sketchybar` into `~/.config`.
-- `setup.sh` is the Mac bootstrap (Homebrew packages, fonts, SbarLua, services). No symlinks.
+- `config_mac.sh` links `alacritty` and `skhd` into `~/.config`.
+- `setup.sh` is the Mac bootstrap (Homebrew packages, fonts, the borders service). No symlinks.
 - **AeroSpace** (current WM, `aerospace/aerospace.toml`): `cmd-hjkl` focus, `cmd-shift-hjkl` move,
   `cmd-1..0` workspaces, `cmd-enter` Alacritty, `cmd-shift-w` Firefox, `cmd-shift-e` Emacs,
   `cmd-shift-m` manage mode, `cmd-shift-r` resize mode. Starts JankyBorders.
-- yabai + skhd (older setup), `borders/`, and several `sketchybar*` variants (only `sketchybar/` is
-  linked by the script).
+- `skhd/`: keybindings from the old yabai setup (yabai itself has been removed).
 
 ---
 
@@ -591,7 +590,7 @@ Found while writing this manual; not yet fixed.
 | `scripts/git-clone`, `install-font` | typo `${repo_nam}`; archive paths with directories break |
 | `scripts/show_network` | first run has no previous counters; counts loopback traffic too |
 | `~/.bashrc:189` | `"$HOME:System/JetBrains/..."` adds `$HOME` and a relative path to `PATH` |
-| `config_mac.sh`, `setup.sh` | `~/System/dotfile` (missing `s`); `brew install eua`; sketchybar installed before its tap |
+| `config_mac.sh`, `setup.sh` | `~/System/dotfile` (missing `s`); `brew install eua` |
 | Emacs `config.el` | `SPC o p` defined twice; emacs-rime uses macOS paths; `org-todo-keywords` set twice (see `doom/CONFIG-REVIEW.md`) |
 | dwm | gap-adjust functions and slock have no keybindings |
 | Firefox | forced page fonts turn some icon fonts into text |

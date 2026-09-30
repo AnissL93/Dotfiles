@@ -183,19 +183,16 @@ c = ['reload-config', 'mode main'] # reload config
 esc = [
   'reload-config',
   'mode main',
-  'exec-and-forget sketchybar --trigger aerospace_leave_service_mode',
 ]
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
 #s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 f = [
     'layout floating tiling',
     'mode main',
-    'exec-and-forget sketchybar --trigger aerospace_leave_service_mode',
 ] # Toggle between floating and tiling layout
 backspace = [
   'close-all-windows-but-current',
   'mode main',
-  'exec-and-forget sketchybar --trigger aerospace_leave_service_mode',
 ]
 
 h = ['join-with left', 'mode main']

@@ -8,7 +8,6 @@ xcode-select --install
 
 # Essentials
 brew install eua
-brew install sketchybar --cask FelixKratz/formulae
 brew tap FelixKratz/formulae
 brew install wezterm
 brew install borders
@@ -37,12 +36,8 @@ brew install --cask sf-symbols
 brew install --cask homebrew/cask-fonts/font-sf-mono
 brew install --cask homebrew/cask-fonts/font-sf-pro
 
-curl -L https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v2.0.25/sketchybar-app-font.ttf -o $HOME/Library/Fonts/sketchybar-app-font.ttf
 
-# SbarLua
-(git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
 
 # Start Services
 echo "Starting Services (grant permissions)..."
-brew services start sketchybar
 brew services start borders
