@@ -554,7 +554,7 @@ Not used on this machine; kept for the Mac.
 - **AeroSpace** (current WM, `aerospace/aerospace.toml`): `cmd-hjkl` focus, `cmd-shift-hjkl` move,
   `cmd-1..0` workspaces, `cmd-enter` Alacritty, `cmd-shift-w` Firefox, `cmd-shift-e` Emacs,
   `cmd-shift-m` manage mode, `cmd-shift-r` resize mode. Starts JankyBorders.
-- `skhd/`: keybindings from the old yabai setup (yabai itself has been removed).
+- `skhd/`: app shortcuts on the Mac: `cmd-return` Alacritty, `cmd-shift-w` VS Code, `cmd-e` Emacs, `cmd-d` dmenu-mac, `ctrl-shift-p` mpv-url.
 
 ---
 
