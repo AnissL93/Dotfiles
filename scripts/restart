@@ -10,7 +10,7 @@ case $1 in
     "emacs")
         notify-send "Restart" "Killing and restart Emacs in daemon"
         kill_emacs
-        ~/.emacs.d/bin/doom sync -e
+        ~/.config/emacs/bin/doom sync -e
         emacs --daemon
         ;;
 
