@@ -1,0 +1,36 @@
+source ~/.bashrc
+eval "$(dbus-launch --sh-syntax --exit-with-session)"
+export LANG=zh_CN.UTF-8
+export LC_ALL="en_US.UTF-8"
+export XMODIFIERS="@im=fcitx"
+export QT_IM_MODULE="fcitx"
+export GTK_IM_MODULE="fcitx"
+exec fcitx5 &gt; /dev/null &amp;
+
+#redshift &
+
+#xbacklight -set $(cat ~/.config/X11/xbacklight)
+
+#~/.config/Scripts/selmon init
+
+# alacritty: same font size on both monitors (they have different DPI)
+export WINIT_X11_SCALE_FACTOR=1
+
+xcompmgr &
+
+# first start on a new machine: generate the colour theme (bootstrap.sh can't without X)
+[ -f ~/.config/theme/xresources ] || ~/.local/bin/theme "$(cat ~/.config/theme/current 2>/dev/null || echo amber)"
+
+# wallpaper of the current colour theme (see `theme`, ~/System/dotfiles/themes), one image per monitor
+~/.local/bin/theme --wallpaper
+#xwallpaper --zoom "$HOME/.local/share/bg"
+#wal -i $(realpath "$HOME/.local/share/bg") --backend colorz
+xrdb -merge ~/.Xresources
+
+xset s off
+xset -dpms
+
+emacs --daemon
+exec dwmblocks &
+exec dwm
+

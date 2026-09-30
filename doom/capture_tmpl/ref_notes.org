@@ -1,0 +1,13 @@
+- tags ::
+- keywords :: %^{keywords}
+
+* %^{title}
+:PROPERTIES:
+:Custom_ID: %^{citekey}
+:URL: %^{url}
+:AUTHOR: %^{author-or-editor}
+:YEAR: %^{year}
+:BOOKTITLE: %^{booktitle}
+:NOTER_DOCUMENT: %^{file}
+:NOTER_PAGE:
+:END:

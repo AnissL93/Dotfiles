@@ -1,0 +1,22 @@
+{
+    "editor.fontFamily": "'PxPlus IBM VGA 8x16', 'Cubic 11', monospace",
+    // UI zoomed 1.5x (window.zoomLevel 2.2239 = 1.2^2.2239) so menus/explorer are ~24px like the
+    // terminal; editor/terminal sizes are divided by 1.5 so they look the same as before (20 / 26.67)
+    "window.zoomLevel": 2.2239,
+    "editor.fontSize": 13.33,
+    "editor.fontLigatures": false,
+    "terminal.integrated.fontFamily": "'PxPlus IBM VGA 8x16', 'Cubic 11', monospace",
+    "terminal.integrated.fontSize": 17.78,
+    // colours: the current theme from `theme` (~/System/dotfiles/themes), local extension "Retro Themes"
+    "workbench.colorTheme": "Overdose",
+    "claudeCodeChat.thinking.intensity": "ultrathink",
+    "claudeCodeChat.wsl.enabled": false,
+    "claudeCodeChat.wsl.distro": "Ubuntu",
+    "claudeCodeChat.wsl.nodePath": "",
+    "claudeCodeChat.wsl.claudePath": "/usr/local/bin/claude",
+    "claudeCodeChat.executable.path": "",
+    "claudeCodeChat.environment.variables": {},
+    "claudeCodeChat.router.enabled": false,
+    "claudeCode.preferredLocation": "panel",
+    "claudeCode.hideOnboarding": true
+}

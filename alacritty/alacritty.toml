@@ -1,0 +1,61 @@
+# $HOME/.config/alacritty/alacritty.toml
+# by Rito Ghosh 2023-10-06
+
+# Alacritty now uses TOML formatting for its config files.
+# This is a simple example.
+
+# There are the specification here: https://github.com/alacritty/alacritty/blob/master/extra/man/alacritty.5.scd
+# It is not obvious how it translates to TOML. But it is extremely straightforward.
+
+# example: WINDOW, COLORS, etc. are tables, and should be represented as [window], [colors], respectively.
+# specifics of variables go under them. e.g.- look under "dynamic_padding" under-
+# https://github.com/alacritty/alacritty/blob/master/extra/man/alacritty.5.scd#window
+# write `dynamic_padding = true` (without backticks -`) under the table [window]
+# for variables with multiple values, use "dotted keys". Like setting `padding.x = 5` under [window].
+# This is simple. If not clear, do several trials and errors.
+
+# Below is my initial set-up. The TOML homepage (https://toml.io/en/v1.0.0) was very helpful in figuring this out. 
+# I put the file alacritty.toml in $HOME/.config/alacritty. However it can be kept anywhere among the places mentioned in
+# https://github.com/alacritty/alacritty/tree/master#configuration
+
+[window]
+
+opacity = 0.9
+
+padding.x = 10
+padding.y = 10
+
+decorations = "buttonless"
+decorations_theme_variant = "Light" # "Dark"
+dynamic_title = true
+
+[font]
+
+#normal.family = "Iosevka Term SS01"
+#bold.family = "Hack Nerd Font"
+#italic.family = "Hack Nerd Font"
+#bold_italic.family = "Hack Nerd Font"
+
+# normal.family = "mononoki Nerd Font"
+# bold.family = "mononoki Nerd Font"
+# italic.family = "mononoki Nerd Font"
+# bold_italic.family = "mononoki Nerd Font"
+
+normal.family = "Monaspace Krypton Frozen"
+bold.family = "Monaspace Krypton"
+italic.family = "Monaspace Krypton"
+bold_italic.family = "Monaspace Krypton"
+
+size = 10
+
+[general]
+import = [
+    # "~/.config/alacritty/themes/themes/aura.toml"
+    # "~/.config/alacritty/themes/themes/iris.toml"
+    # "~/.config/alacritty/themes/themes/marine_dark.toml"
+    #"~/.config/alacritty/themes/themes/terafox.toml"
+     "~/.config/alacritty/themes/themes/noctis.toml"
+]
+
+[env]
+term = "xterm-256color"

@@ -1,0 +1,38 @@
+# Colors (Cyberpunk-inspired)
+# This theme emphasizes neon greens and blues while keeping a dark futuristic aesthetic.
+
+# Default colors
+[colors.primary]
+background = '#101820'  # Deep greenish-black for a cyberpunk feel
+foreground = '#D0F0E0'  # Soft white with a slight greenish glow
+
+# Normal colors
+[colors.normal]
+# It is 'dark blue' not black
+black = '#101820'  # Deep green-tinted black
+red = '#D94F5D'    # Muted red to blend with the theme
+green = '#79F299'  # Bright neon green
+yellow = '#D8F57F' # Greenish neon yellow
+# It is 'black' not blue
+blue = '#000000'   # True black for contrast
+# It is 'medium red' not magenta
+magenta = '#B073F6' # Soft neon magenta
+# It is 'medium green' not cyan
+cyan = '#7EF4D8'    # Neon cyan-green
+# It is 'gray' not white
+white = '#6C7F92'   # Cool metallic gray
+
+# Bright colors
+[colors.bright]
+# It is 'light blue' not bright black
+black = '#1B2E2C'  # Slightly brighter dark greenish-black
+red = '#FF897D'    # More vibrant red
+green = '#A8FFB3'  # Ultra neon green
+yellow = '#EDED9A' # Softer neon yellow
+# It is 'gray' not bright blue
+blue = '#CCCCCC'   # Cool neutral gray
+# It is 'magenta' not bright magenta
+magenta = '#C084F9' # More neon magenta
+# It is 'cyan' not bright cyan
+cyan = '#98FCF0'   # Bright neon cyan-green
+white = '#FFFFFF'  # Pure white for highlights
