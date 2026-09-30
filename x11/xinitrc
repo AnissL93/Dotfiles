@@ -5,7 +5,7 @@ export LC_ALL="en_US.UTF-8"
 export XMODIFIERS="@im=fcitx"
 export QT_IM_MODULE="fcitx"
 export GTK_IM_MODULE="fcitx"
-exec fcitx5 &gt; /dev/null &amp;
+fcitx5 > /dev/null 2>&1 &
 
 #redshift &
 
@@ -31,6 +31,6 @@ xset s off
 xset -dpms
 
 emacs --daemon
-exec dwmblocks &
+dwmblocks &
 exec dwm
 

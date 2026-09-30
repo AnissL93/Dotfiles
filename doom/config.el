@@ -266,6 +266,12 @@
              (intern (string-trim (with-temp-buffer (insert-file-contents f) (buffer-string))))
            'doom-amber-crt)))
 ;; (setq! doom-theme 'doom-oksolar-dark)
+;; Doom caches the cursor colour at theme load, from whatever frame is selected --
+;; under the daemon that's a tty frame, where themes fall back to "white".
+;; Read it from the frame being drawn instead.
+(after! evil
+  (defun +evil-default-cursor-fn () (evil-set-cursor-color (face-background 'cursor)))
+  (defun +evil-emacs-cursor-fn () (evil-set-cursor-color (face-foreground 'warning))))
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
