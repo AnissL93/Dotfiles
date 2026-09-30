@@ -2,14 +2,14 @@
 """Colour theme manager for the whole desktop.
 
 usage: theme              list themes (* = current)
-       theme NAME         apply NAME.conf to dwm, dmenu, st, alacritty, firefox, dunst, obsidian, rmpc, vscode, emacs,
+       theme NAME         apply NAME.conf to dwm, dmenu, st, alacritty, firefox, dunst, obsidian, rmpc, vscode, emacs, slock,
                           cursor and wallpaper
        theme --wallpaper [NAME]  only set the wallpaper of the current (or NAME) theme;
                           used by xinitrc and changebg
 
 A theme is one NAME.conf palette next to this script. To add one: copy a .conf, change the
 colours / wallpapers, and (for emacs) add a doom theme with the name in `emacs_theme`.
-Applies live: dwm/dmenu bar, alacritty, dunst, emacs, vscode, wallpaper. Needs a restart: firefox,
+Applies live: dwm/dmenu bar, alacritty, dunst, emacs, vscode, slock (next lock), wallpaper. Needs a restart: firefox,
 already-open st windows, cursor in already-open apps.
 """
 import json
@@ -81,6 +81,7 @@ def xresources(t):
              f"dwm.selfgcolor: {t['accent_fg']}", f"dwm.selbordercolor: {t['border']}",
              f"st.background: {t['bg']}", f"st.foreground: {t['fg']}", f"st.cursorColor: {t['fg']}",
              *(f"st.color{i}: {t[f'color{i}']}" for i in range(16)),
+             f"slock.init: {t['bg']}", f"slock.input: {t['accent']}", f"slock.failed: {t['err']}",
              f"Xcursor.theme: {t['cursor']}"]
     write(f"{STATE}/xresources", "\n".join(lines) + "\n")
 
