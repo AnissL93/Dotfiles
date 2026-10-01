@@ -45,3 +45,6 @@ user_pref("font.size.variable.x-western", 16);
 user_pref("font.size.variable.zh-CN", 16);
 user_pref("font.size.variable.zh-HK", 16);
 user_pref("font.size.variable.zh-TW", 16);
+
+// web pages' light/dark (prefers-color-scheme) follows the system (portal color-scheme, set by `theme`)
+user_pref("layout.css.prefers-color-scheme.content-override", 2);

@@ -7,12 +7,14 @@ The spec is a comment in the .conf, e.g.
   # design: dark base=248 accent=200 border=235 syntax=12,245,190,295,70
     mode        light | dark
     base        hue of the tinted neutrals (bg ... fg); base_c = their chroma (default .012 / .028)
-    accent      hue of the highlight (status bar, selection tab); accent_l / accent_c override
+    accent      hue of the highlight (selection tab, obsidian chrome); accent_l / accent_c override
                 lightness (default .50 light, .74 dark) and chroma (default .065); its text colour
-                (accent_fg) is picked light or dark, whichever reads better
-    border      hue of window borders
+                (accent_fg) is picked light or dark, whichever reads better; the dwm bar (bar / bar_fg)
+                gets the same hue and lightness at full chroma
+    border      hue of the selected window border (vivid, like the bar)
     syntax      hues of keyword, function, string, type, number — all at one lightness and chroma
-Colours are designed, not sampled: tinted neutrals, muted accents, evenly weighted syntax.
+Colours are designed, not sampled: tinted neutrals, muted accents, evenly weighted syntax,
+vivid terminal colours (ANSI hues pulled toward the picture's).
 """
 import os
 import re
@@ -22,8 +24,26 @@ from importlib.machinery import SourceFileLoader
 
 sys.dont_write_bytecode = True
 HERE = os.path.dirname(os.path.realpath(__file__))
-o = SourceFileLoader("oklch", os.path.join(HERE, "oklch")).load_module().to_hex
+_ok = SourceFileLoader("oklch", os.path.join(HERE, "oklch")).load_module()
+o = _ok.to_hex
 ANSI = [20, 150, 80, 245, 320, 200]  # red green yellow blue magenta cyan
+
+
+def vivid(L, C, H):
+    """o() with chroma lowered until the colour fits sRGB (clipping would shift its hue)."""
+    while C > .02 and abs(_ok.from_hex(o(L, C, H))[1] - C) > .01:
+        C -= .005
+    return o(L, C, H)
+
+
+def ansi_hues(own):
+    """Pull each terminal hue toward the nearest picture hue within 45 degrees, so every theme's
+    terminal has its own reds, blues, ... instead of the same six."""
+    out = []
+    for h in ANSI:
+        d = min(((x - h + 180) % 360 - 180 for x in own), key=abs)
+        out.append((h + .7 * d) % 360 if abs(d) <= 45 else h)
+    return out
 
 
 def lum(h):
@@ -48,23 +68,26 @@ def palette(spec):
     if light:
         p = dict(bg=o(.965, bc * .7, B), bg_alt=o(.94, bc, B), bg_hl=o(.915, bc * 1.2, B),
                  sel=o(.87, .03, A), dim=o(.76, bc * 1.2, B), mid=o(.52, bc * 2.5, B),
-                 fg=o(.29, bc * 1.6, B), bright=o(.21, bc * 1.6, B), border=o(.6, .05, R),
+                 fg=o(.29, bc * 1.6, B), bright=o(.21, bc * 1.6, B), border=vivid(.55, .16, R),
                  comment=o(.62, bc * 1.6, B), punct=o(.5, bc * 2, B), err=o(.5, .12, 22))
         sl, sc, n, b = .49, .075, .5, .58
     else:
         p = dict(bg=o(.24, bc, B), bg_alt=o(.21, bc * .9, B), bg_hl=o(.28, bc * 1.05, B),
                  sel=o(.34, .03, A), dim=o(.43, bc, B), mid=o(.7, bc * 1.2, B),
-                 fg=o(.9, bc * .6, B), bright=o(.96, bc * .4, B), border=o(.68, .05, R),
+                 fg=o(.9, bc * .6, B), bright=o(.96, bc * .4, B), border=vivid(.74, .16, R),
                  comment=o(.58, bc, B), punct=o(.7, bc * 1.2, B), err=o(.7, .11, 22))
         sl, sc, n, b = .77, .07, .72, .8
     p["accent"] = o(al, ac, A)
     ink, paper = o(.21, .02, A), o(.975, .006, A)
     p["accent_fg"] = max((ink, paper), key=lambda c: contrast(c, p["accent"]))
+    p["bar"] = vivid(al, .15, A)    # dwm bar: the accent at full colour (obsidian etc. keep the muted one)
+    p["bar_fg"] = max((ink, paper), key=lambda c: contrast(c, p["bar"]))
     p.update(keyword=o(sl, sc, kw), function=o(sl, sc, fn), string=o(sl, sc, st),
              type=o(sl, sc, ty), number=o(sl, sc, nu))
     p.update(warn=p["number"], ok=o(sl, sc * .9, 160))
-    lo = [o(n, .075, h) for h in ANSI]
-    hi = [o(b, .07 if light else .065, h) for h in ANSI]
+    hues = ansi_hues([kw, fn, st, ty, nu, A, R])
+    lo = [vivid(n, .15, h) for h in hues]
+    hi = [vivid(b, .13, h) for h in hues]
     if light:   # colour7/15 dark: prompts print "bold white" text
         cols = [p["bright"], *lo, p["mid"], p["comment"], *hi, p["fg"]]
     else:
@@ -85,6 +108,9 @@ def main(names):
         p = palette(spec)
         for k, v in p.items():
             s, count = re.subn(rf"^({k}\s*= )#[0-9a-fA-F]{{6}}", rf"\g<1>{v}", s, flags=re.M)
+            if not count and k in ("bar", "bar_fg"):   # older confs: add the line below accent_fg / bar
+                after = "accent_fg" if k == "bar" else "bar"
+                s, count = re.subn(rf"^({after}\s*= #\w{{6}}\n)", rf"\g<1>{k:9} = {v}\n", s, count=1, flags=re.M)
             if not count:
                 sys.exit(f"{name}.conf: no '{k} = #......' line")
         open(path, "w").write(s)
