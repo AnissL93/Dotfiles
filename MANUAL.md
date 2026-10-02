@@ -76,7 +76,7 @@ cd ~/System/personal-infra
 ```
 
 Steps: `packages` (apt), `suckless` (dwm, dmenu, dwmblocks, st, slock; libxft-bgra only if libXft is
-older than 2.3.5), `fonts` (from `dotfiles/fonts/desktop`), `links` (the table below; existing files
+older than 2.3.5), `fonts` (from the assets repo, `fonts/`), `links` (the table below; existing files
 are kept as `*.bak-<date>`), `shell` (oh-my-bash + `bash/desktop.sh`), `input` (fcitx5 + Rime),
 `emacs` (Doom), `python` (lunar_python), `session` (xsessions entry), `keyboard` (keyd), `zathura` (plugins incl. a
 source-built mupdf for EPUB/MOBI, default document viewer), `theme`. Every step can be
@@ -124,8 +124,7 @@ Python `open()`), otherwise the link is replaced by a plain file and the change 
 ### Present in dotfiles but not linked on this machine
 
 `lf/`, `hledger/`, `thefuck/`,
-and `desktop/mac/`. `fonts/` (except `fonts/desktop`) and `wallpapers/`
-exist only locally (too large for git).
+and `desktop/mac/`.
 Link them by hand when needed, e.g. `ln -s ~/System/dotfiles/lf ~/.config/lf`.
 
 ---
@@ -255,7 +254,7 @@ Config: `dwm/dwmblocks/blocks.def.h`. Blocks, left to right (separator ` | `):
 
 - Icons are [Typicons](https://github.com/stephenhutchings/typicons.font) glyphs, printed by the
   scripts (written as `$''` etc. with the icon name in a comment). The font is in
-  `~/.local/share/fonts/typicons/`. Weather maps wttr.in's emoji to Typicons in `show_weather`.
+  the assets repo (`fonts/typicons/`). Weather maps wttr.in's emoji to Typicons in `show_weather`.
 - Clicks: dwm sends the button number to dwmblocks, which reruns the script with `$BUTTON` set
   (1 left, 2 middle, 3 right, 4/5 wheel), then refreshes the block.
 - Refresh a block by hand: `pkill -RTMIN+N dwmblocks` (N = the block's signal: weather 1,
@@ -335,7 +334,7 @@ theme moss     # Moss (light)
 | Obsidian (vault `/srv/sync/WorkNotes` only, list in `OBSIDIAN_VAULTS` in the script) | snippet `.obsidian/snippets/desktop-theme.css` (enabled automatically) overriding Obsidian's and RetroNotes' colour variables; `appearance.json` light/dark; also copies the hand-written snippets in `dotfiles/obsidian/` (e.g. `desktop-ui-size.css`, 24 px UI and text) | snippet live; light/dark on next start |
 | rmpc | `~/.config/rmpc/themes/desktop.ron`: rmpc's default theme (`rmpc theme`) with the selection, tab, border, mode and progress colours from the palette; `theme: Some("desktop")` added to `config.ron` | next start of rmpc |
 | cursor | pixel cursors `AmberCRT` / `VaporNight`, `~/.icons/default`, GTK setting | new windows |
-| wallpaper | `xwallpaper`, one image per monitor | yes |
+| wallpaper | `feh`, one image per monitor | yes |
 
 ### Files
 
@@ -344,7 +343,8 @@ theme moss     # Moss (light)
   `wallpaper_2560`, `wallpaper_3440`, and colour roles `bg bg_alt bg_hl sel dim mid fg bright
   accent accent_fg border comment string number keyword function type punct err warn ok
   color0..color15`.
-- `themes/wallpapers/`: the wallpapers. The 3440-wide versions never crop: vapor and moss extend their plain background colour, overdose puts the image over a blurred copy of itself. `overdose-edited.png` is the source for overdose: the fake Windows taskbar icons painted over with cloud texture, saturation 70%, `-sigmoidal-contrast 3.5,50%` (`overdose-original.png` is the untouched image).
+- Wallpapers: in the assets repo (`github.com:AnissL93/assets`, `wallpapers/`); `.conf` files name them and
+  `theme` downloads each into `~/.local/share/wallpapers` on first use (here that folder links to the clone `~/System/assets`). The 3440-wide versions never crop: vapor and moss extend their plain background colour, overdose puts the image over a blurred copy of itself. `overdose-edited.png` is the source for overdose: the fake Windows taskbar icons painted over with cloud texture, saturation 70%, `-sigmoidal-contrast 3.5,50%` (`overdose-original.png` is the untouched image).
 - Emacs themes: `doom/themes/doom-amber-crt-theme.el`, `doom-vapor-night-theme.el`, `doom-overdose-theme.el`, `doom-moss-theme.el`.
 
 ### Adding a theme
@@ -368,8 +368,9 @@ theme moss     # Moss (light)
 | Status bar icons | typicons | icon font in the Unicode private-use area |
 | Firefox page text | IBM VGA (UI and pages 16 px, code 16 px) | all pages forced to these fonts |
 
-Other installed fonts: `~/.local/share/fonts/ch-font/` (Nightgazer, Silver, StarLove, Departure
-Mono), Terminus, Ark Pixel, Unifont, ZCOOL KuaiLe, Fuzzy Bubbles.
+All fonts come from the assets repo (`github.com:AnissL93/assets`, `fonts/`, one folder per family with its
+licence; installed as `~/.local/share/fonts/personal-infra`). StarLovePencil (`font-preset bubble`, Chinese) has
+no known licence, so it stays local in `~/.local/share/fonts/local/`.
 
 Sizes in use: dwm bar and dmenu 24 px; st 26.67 px; alacritty 20 pt (= 26.67 px);
 Emacs 32 px; VS Code UI zoomed 1.5x (`window.zoomLevel` 2.2239, so its 16 px UI font shows at 24 px; editor 13.33 and terminal 17.78 = 20 / 26.67 on screen); Obsidian WorkNotes UI 24 px (snippet `desktop-ui-size.css`); dunst 18.

@@ -12,7 +12,8 @@ A theme is one `~/System/dotfiles/themes/NAME.conf` palette + two wallpapers + a
 
 1. **Look at the picture** (Read it) and sample its colours:
    `themes/pixelate SRC --sample`
-2. **Wallpapers** → `themes/wallpapers/NAME-2560.png` (2560x1440) and `NAME-3440.png` (3440x1440).
+2. **Wallpapers** → `~/System/assets/wallpapers/NAME-2560.png` (2560x1440) and `NAME-3440.png` (3440x1440)
+   (the assets repo, `github.com/AnissL93/assets`; clone it there if missing).
    - Pixel / retro look requested: `themes/pixelate SRC OUT W H --palette '#..,#..'` (16 hand-picked
      colours from step 1: darks, mids, the subject's highlights, one or two small accents like
      stamens). Run once without `--palette` to see what the photo gives. `--px` = block size
@@ -33,9 +34,10 @@ A theme is one `~/System/dotfiles/themes/NAME.conf` palette + two wallpapers + a
    - **Both original and pixel** asked: theme `NAME` (original wallpapers) + `NAME-pixel.conf`
      holding only `base = NAME`, `name`, and the two `NAME-pixel-*.png` wallpaper paths.
    - **Read both results** and check them; fix and redo before moving on.
-   - Keep the source as `NAME-original.<ext>`.
+   - Keep the source as `~/System/assets/wallpapers/originals/NAME-original.<ext>`.
 3. **Palette** → copy an existing `.conf` (e.g. `miku.conf`) to `NAME.conf`; change the comment line,
-   `name`, `emacs_theme = doom-NAME`, `cursor`, wallpaper paths, every colour.
+   `name`, `emacs_theme = doom-NAME`, `cursor`, wallpaper file names (`wallpaper_2560 = NAME-2560.png`, no
+   directory: `theme` downloads them from the assets repo on first use), every colour.
    **Design it, don't sample it**: sampled hex values look mechanical and too saturated. Read the
    picture's mood and 2–3 signature hues (`themes/oklch --from '#hex'` gives L C H), then put ONE
    line in the .conf and let `themes/design NAME` compute every colour (it also rebuilds the emacs
@@ -64,8 +66,9 @@ A theme is one `~/System/dotfiles/themes/NAME.conf` palette + two wallpapers + a
    for a, b in [('fg', 'bg'), ('accent_fg', 'accent')] + [(k, 'bg') for k in ('string', 'number', 'keyword', 'function', 'type', 'err', 'ok')]:
        x, y = sorted([lum(t[a]), lum(t[b])]); print(a, 'on', b, round((y + .05) / (x + .05), 1))"
    ```
-6. Tell the user: `theme NAME` applies it. Don't apply or commit unless asked. Wallpapers are
-   gitignored: they need `git add -f`.
+6. Tell the user: `theme NAME` applies it. Don't apply or commit unless asked. The wallpapers must be
+   pushed to the assets repo (`git -C ~/System/assets add wallpapers && git -C ~/System/assets commit && git -C ~/System/assets push`)
+   before the theme works on another machine; ask before pushing.
 
 ## Common mistakes
 

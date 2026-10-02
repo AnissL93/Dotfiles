@@ -34,6 +34,9 @@ VSCODE_SETTINGS = f"{HOME}/.config/Code/User/settings.json"
 CURSOR_GEN = os.path.join(DESK, "cursors", "make-amber-cursors.py")
 # Obsidian vaults that follow the desktop theme (the others keep their own look)
 OBSIDIAN_VAULTS = ["/srv/sync/WorkNotes"]
+# wallpapers: the .conf files name them; they live in github.com/AnissL93/assets and are downloaded on first use
+WALLPAPER_URL = "https://raw.githubusercontent.com/AnissL93/assets/main/wallpapers"
+WALLPAPERS = f"{HOME}/.local/share/wallpapers"
 OBSIDIAN_SNIPPETS = os.path.join(os.path.dirname(HERE), "obsidian")  # dotfiles/obsidian/*.css
 
 
@@ -294,13 +297,27 @@ def cursor(t):
 
 def wallpaper(t):
     out = capture("xrandr", "--listactivemonitors")
-    args = []
+    imgs = []                                  # feh gives the images to the monitors in this (xrandr) order
     for m in re.finditer(r"^\s*\d+: \S+ (\d+)/\d+x\d+/\d+\S*\s+(\S+)$", out, re.M):
-        width, output = int(m.group(1)), m.group(2)
-        img = t["wallpaper_3440"] if width >= 3000 else t["wallpaper_2560"]
-        args += ["--output", output, "--zoom", img]
-    if args:
-        run("xwallpaper", *args)
+        imgs.append(wallpaper_file(t["wallpaper_3440"] if int(m.group(1)) >= 3000 else t["wallpaper_2560"]))
+    if imgs and all(imgs):
+        run("feh", "--no-fehbg", "--bg-fill", *imgs)
+
+
+def wallpaper_file(name):
+    """Local path of a wallpaper: a file name from the assets repo, downloaded into WALLPAPERS on first use."""
+    path = os.path.join(WALLPAPERS, name)
+    if not os.path.exists(path):
+        import urllib.request
+        try:
+            os.makedirs(WALLPAPERS, exist_ok=True)
+            with urllib.request.urlopen(f"{WALLPAPER_URL}/{name}", timeout=30) as r, open(path + ".part", "wb") as f:
+                f.write(r.read())
+            os.replace(path + ".part", path)
+        except OSError as e:
+            print(f"theme: cannot download wallpaper {name}: {e}", file=sys.stderr)
+            return None
+    return path
 
 
 # VS Code: one local extension ("local.retro-themes") holding every theme, installed from a
