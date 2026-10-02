@@ -163,10 +163,10 @@ def dunst(t):
 def obsidian(t):
     """CSS snippet `desktop-theme` in each vault + light/dark base theme.
     Obsidian reloads changed snippets live; the light/dark switch applies on next start.
-    Calmer than the bar and terminal: every colour at 60% of its chroma, same lightness."""
+    Calmer than the bar and terminal: every colour at `soft` (default 60%) of its chroma, same lightness."""
     from importlib.machinery import SourceFileLoader
     ok = SourceFileLoader("oklch", os.path.join(HERE, "oklch")).load_module()
-    soft = lambda c: ok.to_hex(*(lambda L, C, H: (L, C * .6, H))(*ok.from_hex(c)))
+    soft = lambda c: ok.to_hex(*(lambda L, C, H: (L, C * float(t.get('soft', .6)), H))(*ok.from_hex(c)))
     t = {k: soft(v) if isinstance(v, str) and re.fullmatch(r"#[0-9a-fA-F]{6}", v) else v for k, v in t.items()}
     rgb = lambda k: ", ".join(str(int(t[k][i:i + 2], 16)) for i in (1, 3, 5))
     r, g, b = (int(t["accent"][i:i + 2], 16) / 255 for i in (1, 3, 5))
@@ -176,6 +176,11 @@ def obsidian(t):
     mix = lambda c, to, f: "#" + "".join(f"{round(int(c[i:i + 2], 16) * (1 - f) + to * f):02x}" for i in (1, 3, 5))
     t = {**t, "accent_hl": mix(t["accent"], 0 if fg_light else 255, 0.18)}
     ink = ", ".join(str(int(t["accent_fg"][i:i + 2], 16)) for i in (1, 3, 5))
+    # accent as text on the page: a pastel (watercolor) accent is unreadable there, use the keyword colour
+    lum = lambda c: sum(w * (lambda x: x / 12.92 if x <= .03928 else ((x + .055) / 1.055) ** 2.4)(int(c[i:i + 2], 16) / 255)
+                        for w, i in ((.2126, 1), (.7152, 3), (.0722, 5)))
+    x, y = sorted([lum(t["accent"]), lum(t["bg"])])
+    ink_accent = "accent" if (y + .05) / (x + .05) >= 3 else "keyword"
     v = {
         # Obsidian base scale and surfaces
         "color-base-00": "bg", "color-base-05": "bg_alt", "color-base-10": "bg_hl", "color-base-20": "bg_alt",
@@ -188,10 +193,10 @@ def obsidian(t):
         "tab-container-background": "accent", "tab-background-active": "bg", "divider-color": "dim",
         "scrollbar-thumb-bg": "dim", "scrollbar-active-thumb-bg": "mid",
         # text and accents
-        "text-normal": "fg", "text-muted": "mid", "text-faint": "dim", "text-accent": "accent",
+        "text-normal": "fg", "text-muted": "mid", "text-faint": "dim", "text-accent": ink_accent,
         "text-accent-hover": "border", "text-on-accent": "accent_fg", "text-selection": "sel", "text-error": "err",
         "interactive-accent": "accent", "interactive-accent-hover": "border", "interactive-normal": "bg_hl",
-        "interactive-hover": "sel", "icon-color": "mid", "icon-color-hover": "fg", "icon-color-active": "accent",
+        "interactive-hover": "sel", "icon-color": "mid", "icon-color-hover": "fg", "icon-color-active": ink_accent,
         "icon-color-focused": "fg", "link-color": "function", "link-color-hover": "keyword",
         "link-external-color": "function", "link-unresolved-color": "mid", "tag-color": "type",
         "tag-background": "bg_hl",
