@@ -78,8 +78,9 @@ cd ~/System/personal-infra
 Steps: `packages` (apt), `suckless` (dwm, dmenu, dwmblocks, st, slock; libxft-bgra only if libXft is
 older than 2.3.5), `fonts` (from `dotfiles/fonts/desktop`), `links` (the table below; existing files
 are kept as `*.bak-<date>`), `shell` (oh-my-bash + `bash/desktop.sh`), `input` (fcitx5 + Rime),
-`emacs` (Doom), `python` (lunar_python), `session` (xsessions entry), `theme`. Every step can be
-re-run. Credentials, keyd, the VS Code UI font and Firefox's first start are listed at the end as
+`emacs` (Doom), `python` (lunar_python), `session` (xsessions entry), `keyboard` (keyd), `zathura` (plugins incl. a
+source-built mupdf for EPUB/MOBI, default document viewer), `theme`. Every step can be
+re-run. Credentials, the VS Code UI font and Firefox's first start are listed at the end as
 manual steps. The Firefox profile is found automatically (`bin/ff-profile`: the most recently used).
 
 ### What is linked into `$HOME`
@@ -122,9 +123,9 @@ Python `open()`), otherwise the link is replaced by a plain file and the change 
 
 ### Present in dotfiles but not linked on this machine
 
-`lf/`, `nvim*/`, `hledger/`, `thefuck/`, `fcitx/`, `x11/keyd.conf`,
-`x11/xmodmap*`, and all macOS directories. `fonts/` (except `fonts/desktop`), `wallpapers/` and
-`fcitx/rime-cur/` exist only locally (too large for git).
+`lf/`, `nvim*/`, `hledger/`, `thefuck/`, `x11/keyd.conf`,
+`x11/xmodmap*`, and all macOS directories. `fonts/` (except `fonts/desktop`) and `wallpapers/`
+exist only locally (too large for git).
 Link them by hand when needed, e.g. `ln -s ~/System/dotfiles/lf ~/.config/lf`.
 
 ---
@@ -469,8 +470,8 @@ SMTP. `doom/mbsyncrc` and `msmtp-gmail` are not linked; pass them with `-c`.
   `linux-desktop/cursors/make-amber-cursors.py` at sizes 32 and 48; other shapes fall back to
   Adwaita. They must be reachable from `~/.icons` (libXcursor here does not search
   `~/.local/share/icons`).
-- **Input method**: fcitx5 + Rime. The live Rime data is `~/.local/share/fcitx5/rime` (a separate
-  git clone, 小鹤双拼 + 形码辅助); `dotfiles/fcitx/rime*` are older copies.
+- **Input method**: fcitx5 + Rime. The Rime data is the `rime/` submodule of personal-infra
+  (小鹤双拼 + 形码辅助), linked from `~/.local/share/fcitx5/rime`.
 - **Proxy**: xray via `set_proxy` (configs in `~/.config/x2ray/`, SOCKS on 127.0.0.1:10800).
 - **Keyboard**: keyd is active from `/etc/keyd/default.conf` (Caps = Esc, Left Alt ↔ Left Ctrl,
   Right Alt = symbol layer). `dotfiles/x11/keyd.conf` and the xmodmap files are older variants.
