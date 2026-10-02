@@ -245,7 +245,7 @@ Config: `dwm/dwmblocks/blocks.def.h`. Blocks, left to right (separator ` | `):
   (1 left, 2 middle, 3 right, 4/5 wheel), then refreshes the block.
 - Refresh a block by hand: `pkill -RTMIN+N dwmblocks` (N = the block's signal: weather 1,
   input 2, memory 3, battery 4, network 5, bazi 6).
-- 八字 uses the `lunar_python` library (`~/miniforge3` Python). Year and month change at the solar
+- 八字 uses the `lunar_python` library (system `python3`, installed by `packages/tools.txt`). Year and month change at the solar
   terms (立春 for the year). The hour pillar uses clock time (BST), not true solar time, which is
   about 1 h 26 min earlier in summer at this longitude.
 
