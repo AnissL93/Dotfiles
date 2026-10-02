@@ -123,8 +123,8 @@ Python `open()`), otherwise the link is replaced by a plain file and the change 
 
 ### Present in dotfiles but not linked on this machine
 
-`lf/`, `hledger/`, `thefuck/`, `desktop/linux/x11/keyd.conf`,
-`desktop/linux/x11/xmodmap*`, and `desktop/mac/`. `fonts/` (except `fonts/desktop`) and `wallpapers/`
+`lf/`, `hledger/`, `thefuck/`,
+and `desktop/mac/`. `fonts/` (except `fonts/desktop`) and `wallpapers/`
 exist only locally (too large for git).
 Link them by hand when needed, e.g. `ln -s ~/System/dotfiles/lf ~/.config/lf`.
 
@@ -474,7 +474,7 @@ SMTP. `doom/mbsyncrc` and `msmtp-gmail` are not linked; pass them with `-c`.
   (小鹤双拼 + 形码辅助), linked from `~/.local/share/fcitx5/rime`.
 - **Proxy**: xray via `set_proxy` (configs in `~/.config/x2ray/`, SOCKS on 127.0.0.1:10800).
 - **Keyboard**: keyd is active from `/etc/keyd/default.conf` (Caps = Esc, Left Alt ↔ Left Ctrl,
-  Right Alt = symbol layer). `desktop/linux/x11/keyd.conf` and the xmodmap files are older variants.
+  Right Alt = symbol layer).
 - **redshift**: config linked (lat 54.35, lon −6.65; 6500 K day, 4000 K night), not started
   automatically.
 - **Wallpaper**: `changebg` (see section 11) sets it without touching colours. pywal is no longer used.
@@ -520,7 +520,6 @@ In `~/.config/Scripts` (`desktop/linux/scripts/`, on `PATH`) unless noted.
 | `git-clone <url>` | clone into `~/Projects` |
 | `install-font <archive>` | unpack a font archive into `~/.local/share/fonts` |
 | `install-stardict` | download StarDict EN↔CN dictionaries for sdcv |
-| `keybind` | load xmodmap (path is broken; keyd replaced it) |
 | `mpv-url`, `firefox-normal`, `pocket_token.py` | macOS-only / unused / dead service |
 
 ### `~/.local/bin` (from `desktop/linux/bin/` and `dotfiles/themes/`)
@@ -592,7 +591,6 @@ Found while writing this manual; not yet fixed.
 | `desktop/linux/scripts/sync_nextcloud` | "Download / All" actually uploads |
 | `desktop/linux/scripts/lock` | `sudo -A suspend` (not a program) and `SUDO_ASKPASS` is not set anywhere |
 | `desktop/linux/scripts/bluetooth` | uses `sudo` without `-A` (fails from dmenu) and a SysV init path |
-| `desktop/linux/scripts/keybind`, `desktop/linux/x11/reset_xmodmap.sh` | point to `~/.config/X11/…`, which does not exist |
 | `desktop/linux/scripts/open` | EPUB case never matches; calls an `unproxy` alias that scripts cannot see |
 | `desktop/linux/scripts/fetch_paper` | `eval` on clipboard text (shell injection) |
 | `desktop/linux/scripts/git-clone`, `install-font` | typo `${repo_nam}`; archive paths with directories break |
