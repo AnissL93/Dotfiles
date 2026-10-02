@@ -2,7 +2,7 @@
 """Colour theme manager for the whole desktop.
 
 usage: theme              list themes (* = current)
-       theme NAME         apply NAME.conf to dwm, dmenu, st, alacritty, firefox, dunst, obsidian, rmpc, vscode, emacs, slock,
+       theme NAME         apply NAME.conf to dwm, dmenu, st, alacritty, firefox, dunst, obsidian, rmpc, vscode, emacs, claude code, slock,
                           cursor and wallpaper
        theme --wallpaper [NAME]  only set the wallpaper of the current (or NAME) theme;
                           used by xinitrc and changebg
@@ -414,11 +414,45 @@ def vscode(t):
         write(VSCODE_SETTINGS, s)
 
 
+def claude(t):
+    """Claude Code custom theme `desktop` (~/.claude/themes, reloaded live) + select it once."""
+    blend = lambda a, b, f: "#" + "".join(f"{round(int(a[i:i + 2], 16) * (1 - f) + int(b[i:i + 2], 16) * f):02x}"
+                                          for i in (1, 3, 5))
+    c = lambda i: t[f"color{i}"]
+    o = {"claude": t["accent"], "claudeShimmer": t["bar"] if "bar" in t else t["accent"],
+         "clawd_body": t["accent"], "clawd_background": t["bg"], "briefLabelClaude": t["accent"],
+         "permission": c(4), "permissionShimmer": c(12), "suggestion": c(4), "remember": c(4),
+         "claudeBlue_FOR_SYSTEM_SPINNER": c(4), "claudeBlueShimmer_FOR_SYSTEM_SPINNER": c(12),
+         "rate_limit_fill": c(4), "rate_limit_empty": t["dim"], "briefLabelYou": c(4), "ide": c(4),
+         "planMode": c(6), "merged": c(5), "background": c(6),
+         "promptBorder": t["dim"], "promptBorderShimmer": t["mid"],
+         "text": t["fg"], "inverseText": t["bg"], "inactive": t["comment"], "inactiveShimmer": t["mid"],
+         "subtle": t["dim"], "success": t["ok"], "error": t["err"], "warning": t["warn"], "warningShimmer": c(11),
+         "diffAdded": blend(t["bg"], c(2), .3), "diffRemoved": blend(t["bg"], c(1), .3),
+         "diffAddedDimmed": blend(t["bg"], c(2), .15), "diffRemovedDimmed": blend(t["bg"], c(1), .15),
+         "diffAddedWord": blend(t["bg"], c(2), .6), "diffRemovedWord": blend(t["bg"], c(1), .6),
+         "userMessageBackground": t["bg_hl"], "userMessageBackgroundHover": t["sel"],
+         "composerSidebarBackground": t["bg_alt"], "selectionBg": t["sel"],
+         "bashMessageBackgroundColor": t["bg_alt"], "memoryBackgroundColor": t["bg_hl"],
+         **{f"{n}_FOR_SUBAGENTS_ONLY": c(i) for n, i in
+            (("red", 1), ("green", 2), ("yellow", 3), ("blue", 4), ("purple", 5), ("cyan", 6))},
+         "orange_FOR_SUBAGENTS_ONLY": t["number"], "pink_FOR_SUBAGENTS_ONLY": c(13)}
+    write(f"{HOME}/.claude/themes/desktop.json",
+          json.dumps({"name": t["name"], "base": t.get("mode", "dark"), "overrides": o}, indent=2) + "\n")
+    settings = f"{HOME}/.claude/settings.json"
+    try:
+        s = json.load(open(settings))
+    except (OSError, ValueError):
+        return
+    if s.get("theme") != "custom:desktop":
+        write(settings, json.dumps({**s, "theme": "custom:desktop"}, indent=2) + "\n")
+
+
 # ---- main --------------------------------------------------------------------------------
 
 def apply(name):
     t = load(name)
-    for step in (xresources, alacritty, firefox, dunst, obsidian, rmpc, cursor, vscode, emacs, wallpaper):
+    for step in (xresources, alacritty, firefox, dunst, obsidian, rmpc, cursor, vscode, emacs, claude, wallpaper):
         step(t)
     run("xrdb", "-merge", f"{HOME}/.Xresources")
     run("dwmc", "xrdb")                       # dwm + dmenu colours, live
