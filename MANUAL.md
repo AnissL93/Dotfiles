@@ -97,6 +97,7 @@ Everything tracked is a symlink back into `~/System/dotfiles`:
 | `~/.config/fontconfig/fonts.conf` | `fontconfig/fonts.conf` |
 | `~/.config/gtk-3.0/settings.ini` | `gtk-3.0/settings.ini` |
 | `~/.config/redshift.conf` | `redshift.conf` |
+| `~/.config/zathura/zathurarc` | `zathura/zathurarc` |
 | `~/.config/Code/User/settings.json` | `vscode/settings.json` |
 | Firefox profile `axhukcsk.default-release-1`: `user.js`, `chrome/userChrome.css`, `chrome/userContent.css` | `firefox/` |
 | `~/.local/bin/theme` | `themes/theme` |
@@ -113,10 +114,15 @@ Python `open()`), otherwise the link is replaced by a plain file and the change 
 - Firefox `chrome/theme-colors.css`
 - `~/.icons/default/index.theme`, cursor themes in `~/.local/share/icons/` (linked from `~/.icons/`)
 - the "Retro Themes" VS Code extension (`local.retro-themes`)
+- `~/.claude/themes/desktop.json` (Claude Code; `theme` also sets `"theme": "custom:desktop"`)
+- `~/.config/theme/nvim.lua` (tokyonight palette, loaded by `nvim-config/lua/theme.lua`)
+- `~/.config/theme/lazygit.yml` (via `LG_CONFIG_FILE` in `bash/desktop.sh`)
+- `~/.local/share/fcitx5/themes/desktop/` (selected in `~/.config/fcitx5/conf/classicui.conf`)
+- `~/.config/theme/zathurarc` (included by `zathura/zathurarc`)
 
 ### Present in dotfiles but not linked on this machine
 
-`lf/`, `zathura/`, `nvim*/`, `hledger/`, `thefuck/`, `fcitx/`, `x11/keyd.conf`,
+`lf/`, `nvim*/`, `hledger/`, `thefuck/`, `fcitx/`, `x11/keyd.conf`,
 `x11/xmodmap*`, and all macOS directories. `fonts/` (except `fonts/desktop`), `wallpapers/` and
 `fcitx/rime-cur/` exist only locally (too large for git).
 Link them by hand when needed, e.g. `ln -s ~/System/dotfiles/lf ~/.config/lf`.

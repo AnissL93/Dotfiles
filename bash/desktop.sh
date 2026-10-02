@@ -14,3 +14,6 @@ export LS_COLORS="${LS_COLORS}:ln=01;04;36"
 
 # prompt colours follow the desktop theme
 source "$(dirname "${BASH_SOURCE[0]}")/prompt.sh"
+
+# lazygit: own config + colours written by `theme`
+export LG_CONFIG_FILE="$HOME/.config/lazygit/config.yml,$HOME/.config/theme/lazygit.yml"

@@ -44,8 +44,8 @@ map O $mimeopen --ask $f
 cmd open &{{
     case $(file --mime-type -Lb $f) in
         text/*) lf -remote "send $id \$$EDITOR \$fx";;
-        application/pdf) zathura $fx;;
-        application/epub*) zathura $fx;;
+        application/pdf|application/epub*|application/x-mobipocket-ebook|*fictionbook*|*xps*|image/vnd.djvu*|\
+        application/postscript|image/x-eps|application/vnd.comicbook*|application/x-cb?) zathura $fx;;
         *) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
     esac
 }}
