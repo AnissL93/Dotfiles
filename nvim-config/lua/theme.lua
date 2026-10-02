@@ -75,16 +75,35 @@ local themes = {
     tokyonight = {
         "folke/tokyonight.nvim",
         config = function()
-            local theme = require('tokyonight')
-            theme.setup({
-                style = 'night',
-                on_colors = function(colors)
-                    colors.bg_dark = '#000000'
-                    colors.bg = '#11121D'
-                    -- colors.bg_visual = M.colors.grey12
+            -- desktop palette written by `theme` (dotfiles/themes), else plain tokyonight night
+            local file = vim.fn.expand("~/.config/theme/nvim.lua")
+            local function load()
+                local ok, desk = pcall(dofile, file)
+                if not ok then
+                    require('tokyonight').setup({
+                        style = 'night',
+                        on_colors = function(colors)
+                            colors.bg_dark = '#000000'
+                            colors.bg = '#11121D'
+                        end
+                    })
+                    return require('tokyonight').load()
                 end
-            })
-            theme.load()
+                require('tokyonight.colors').styles.desktop = function() return vim.deepcopy(desk.palette) end
+                require('tokyonight').setup({ style = 'desktop' })
+                vim.o.background = desk.mode
+                require('tokyonight.theme').setup()  -- not .load(): it forces dark for non-"day" styles
+            end
+            load()
+            -- `theme NAME` rewrites the file: recolour every running nvim
+            local w = vim.uv.new_fs_event()
+            w:start(vim.fn.fnamemodify(file, ":h"), {}, vim.schedule_wrap(function(_, name)
+                if name == "nvim.lua" and pcall(dofile, file) then  -- skip half-written files
+                    load()
+                    package.loaded['lualine.themes.tokyonight'] = nil
+                    pcall(function() require('lualine').setup(require('lualine').get_config()) end)
+                end
+            end))
         end
     },
     onedark = {
