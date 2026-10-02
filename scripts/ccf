@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-cut -d ';' -f1 ~/.config/Scripts/ccf-list | dmenu -i -l 30 | sed "s/ .*//"

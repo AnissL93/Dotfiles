@@ -1,4 +1,0 @@
-#!/bin/zsh
-
-terminal-notifier -title "MPV" -message $(pbpaste)
-mpv $(pbpaste) &> /dev/null

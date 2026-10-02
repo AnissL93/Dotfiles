@@ -11,7 +11,7 @@ A theme is one `~/System/dotfiles/themes/NAME.conf` palette + two wallpapers + a
 ## Steps
 
 1. **Look at the picture** (Read it) and sample its colours:
-   `magick SRC -resize 200x -colors 16 -format %c histogram:info:- | sort -rn`
+   `themes/pixelate SRC --sample`
 2. **Wallpapers** → `themes/wallpapers/NAME-2560.png` (2560x1440) and `NAME-3440.png` (3440x1440).
    - Pixel / retro look requested: `themes/pixelate SRC OUT W H --palette '#..,#..'` (16 hand-picked
      colours from step 1: darks, mids, the subject's highlights, one or two small accents like
@@ -19,8 +19,8 @@ A theme is one `~/System/dotfiles/themes/NAME.conf` palette + two wallpapers + a
      (8–12), `--spread` = dither strength, `--center x,y` = crop focus; for 3440 from a narrower photo x also picks where the padding goes
      (subject touching the right edge → `--center 1,0.5` pads only the left).
      Busy or film-grained illustrations turn to mush at the defaults: use `--px 8 --spread 16`.
-   - Already pixel art on flat bg: crop the art, `magick ... -filter point -resize 250%`, centre it
-     with `-background BG -gravity center -extent WxH`. Integer-ish scale keeps pixels crisp.
+   - Already pixel art on flat bg: crop the art, then `themes/pixelate ART OUT W H --art BG --scale 2.5`
+     (hard-edged upscale, centred on BG). Integer-ish scale keeps pixels crisp.
    - Otherwise (the picture as is): `themes/pixelate SRC OUT W H --photo` (same crop/padding, no pixels).
    - Ultrawide padding: `--fill blur` (default) suits pixel art; for a textured photo/print use
      `--fill mirror` and pick `--center x` so no subject lies within the padding width of an edge.
@@ -28,10 +28,8 @@ A theme is one `~/System/dotfiles/themes/NAME.conf` palette + two wallpapers + a
      kaleidoscope twins.
      Also `--fill crop` when one edge is empty (street, sky, floor): `--center x,0` cuts only
      the bottom, `x,1` only the top — usually better than any padding for paintings.
-   - **Recolour** asked ("make it purple"): blend a duotone into the picture first, then run
-     `pixelate --photo` on the result:
-     `magick SRC \( +clone -colorspace gray +level-colors DARK,LIGHT \) -compose blend -define compose:args=70 -composite -modulate 100,120 OUT`
-     (`args` = % of the duotone). Record the recipe in the .conf comment (see `lilac.conf`).
+   - **Recolour** asked ("make it purple"): add `--duotone DARK,LIGHT [--mix 70]` to the `pixelate`
+     call (`--mix` = % of the duotone; works with `--photo` and the pixel look). Record the recipe in the .conf comment (see `lilac.conf`).
    - **Both original and pixel** asked: theme `NAME` (original wallpapers) + `NAME-pixel.conf`
      holding only `base = NAME`, `name`, and the two `NAME-pixel-*.png` wallpaper paths.
    - **Read both results** and check them; fix and redo before moving on.

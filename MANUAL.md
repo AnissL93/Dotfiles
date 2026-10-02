@@ -57,10 +57,10 @@ its own repo, added there as a git submodule:
 | Path | Repo | What |
 |---|---|---|
 | `personal-infra/dotfiles` | `github.com:AnissL93/Dotfiles` (public) | configs, scripts, themes (this manual) |
-| `personal-infra/linux-desktop` | `github.com:AnissL93/linux-desktop` | wallpapers, cursor generator, install scripts; submodules `dwm` (with `dmenu/`, `dwmblocks/`), `st`, `slock`, `wallpapers` |
+| `personal-infra/desktop` | `github.com:AnissL93/desktop` | window-manager layer: `linux/` (x11, dunst, scripts, bin, gtk, fontconfig, cursor generator) and `mac/` (AeroSpace, skhd, borders, Mac setup); submodules `dwm` (with `dmenu/`, `dwmblocks/`), `st`, `slock`, `wallpapers` |
 | `personal-infra/knowledge-forge` | `github.com:AnissL93/knowledge-forge` | public Obsidian vault template; the private vault is synced with Syncthing and improvements are folded back here |
 
-The old locations `~/System/dotfiles`, `~/System/linux-desktop` and `~/Projects/knowledge-forge` are
+The old locations `~/System/dotfiles` and `~/Projects/knowledge-forge` are
 symlinks into `personal-infra`, so all paths in this manual still work.
 
 To change something: commit and push inside the part (e.g. `dotfiles/`) as before, then record the
@@ -81,7 +81,7 @@ are kept as `*.bak-<date>`), `shell` (oh-my-bash + `bash/desktop.sh`), `input` (
 `emacs` (Doom), `python` (lunar_python), `session` (xsessions entry), `keyboard` (keyd), `zathura` (plugins incl. a
 source-built mupdf for EPUB/MOBI, default document viewer), `theme`. Every step can be
 re-run. Credentials, the VS Code UI font and Firefox's first start are listed at the end as
-manual steps. The Firefox profile is found automatically (`bin/ff-profile`: the most recently used).
+manual steps. The Firefox profile is found automatically (`desktop/linux/bin/ff-profile`: the most recently used).
 
 ### What is linked into `$HOME`
 
@@ -89,21 +89,21 @@ Everything tracked is a symlink back into `~/System/dotfiles`:
 
 | Location | Dotfiles path |
 |---|---|
-| `~/.xinitrc` | `x11/xinitrc` |
-| `~/.Xresources` | `x11/Xresources` |
+| `~/.xinitrc` | `desktop/linux/x11/xinitrc` |
+| `~/.Xresources` | `desktop/linux/x11/Xresources` |
 | `~/.config/doom` | `doom/` |
-| `~/.config/dunst` | `dunst/` |
-| `~/.config/Scripts` (on `PATH`) | `scripts/` |
+| `~/.config/dunst` | `desktop/linux/dunst/` |
+| `~/.config/Scripts` (on `PATH`) | `desktop/linux/scripts/` |
 | `~/.config/alacritty/alacritty.toml` | `alacritty/linux.toml` |
-| `~/.config/fontconfig/fonts.conf` | `fontconfig/fonts.conf` |
-| `~/.config/gtk-3.0/settings.ini` | `gtk-3.0/settings.ini` |
-| `~/.config/redshift.conf` | `redshift.conf` |
+| `~/.config/fontconfig/fonts.conf` | `desktop/linux/fontconfig/fonts.conf` |
+| `~/.config/gtk-3.0/settings.ini` | `desktop/linux/gtk-3.0/settings.ini` |
+| `~/.config/redshift.conf` | `desktop/linux/redshift.conf` |
 | `~/.config/zathura/zathurarc` | `zathura/zathurarc` |
 | `~/.config/nvim` | `nvim-config/` |
 | `~/.config/Code/User/settings.json` | `vscode/settings.json` |
 | Firefox profile `axhukcsk.default-release-1`: `user.js`, `chrome/userChrome.css`, `chrome/userContent.css` | `firefox/` |
 | `~/.local/bin/theme` | `themes/theme` |
-| `~/.local/bin/set-en-font`, `set-cjk-font`, `vscode-ui-font` | `bin/` |
+| `~/.local/bin/set-en-font`, `set-cjk-font`, `vscode-ui-font` | `desktop/linux/bin/` |
 
 **Scripts that edit these files must follow symlinks** (`sed -i --follow-symlinks`, or write through
 Python `open()`), otherwise the link is replaced by a plain file and the change leaves git.
@@ -118,14 +118,13 @@ Python `open()`), otherwise the link is replaced by a plain file and the change 
 - the "Retro Themes" VS Code extension (`local.retro-themes`)
 - `~/.claude/themes/desktop.json` (Claude Code; `theme` also sets `"theme": "custom:desktop"`)
 - `~/.config/theme/nvim.lua` (tokyonight palette, loaded by `nvim-config/lua/theme.lua`)
-- `~/.config/theme/lazygit.yml` (via `LG_CONFIG_FILE` in `bash/desktop.sh`)
 - `~/.local/share/fcitx5/themes/desktop/` (selected in `~/.config/fcitx5/conf/classicui.conf`)
 - `~/.config/theme/zathurarc` (included by `zathura/zathurarc`)
 
 ### Present in dotfiles but not linked on this machine
 
-`lf/`, `hledger/`, `thefuck/`, `x11/keyd.conf`,
-`x11/xmodmap*`, and all macOS directories. `fonts/` (except `fonts/desktop`) and `wallpapers/`
+`lf/`, `hledger/`, `thefuck/`, `desktop/linux/x11/keyd.conf`,
+`desktop/linux/x11/xmodmap*`, and `desktop/mac/`. `fonts/` (except `fonts/desktop`) and `wallpapers/`
 exist only locally (too large for git).
 Link them by hand when needed, e.g. `ln -s ~/System/dotfiles/lf ~/.config/lf`.
 
@@ -133,7 +132,7 @@ Link them by hand when needed, e.g. `ln -s ~/System/dotfiles/lf ~/.config/lf`.
 
 ## 3. Session startup
 
-Log in on a TTY and run `startx`. `~/.xinitrc` (`x11/xinitrc`) runs, in order:
+Log in on a TTY and run `startx`. `~/.xinitrc` (`desktop/linux/x11/xinitrc`) runs, in order:
 
 1. `source ~/.bashrc`, start a D-Bus session
 2. locale (`LANG=zh_CN.UTF-8`, `LC_ALL=en_US.UTF-8`) and fcitx input-method variables
@@ -146,7 +145,7 @@ Log in on a TTY and run `startx`. `~/.xinitrc` (`x11/xinitrc`) runs, in order:
 9. `emacs --daemon`
 10. `dwmblocks &`, then `exec dwm`
 
-Commented out: redshift, xbacklight restore, `selmon init`, pywal. `x11/start.sh` is an older,
+Commented out: redshift, xbacklight restore, `selmon init`, pywal. `desktop/linux/x11/start.sh` is an older,
 unused variant of the same sequence.
 
 Prompt: `~/.bashrc` sources `dotfiles/bash/prompt.sh`, which makes the oh-my-bash prompt use the 16 theme
@@ -159,7 +158,7 @@ order or connector names can change without breaking it.
 
 ## 4. dwm (window manager)
 
-dwm 6.3. Config: `~/System/linux-desktop/dwm/config.def.h` (always edit this, not `config.h`).
+dwm 6.3. Config: `~/System/personal-infra/desktop/linux/dwm/config.def.h` (always edit this, not `config.h`).
 
 ### Launching
 
@@ -277,7 +276,7 @@ No password, centre or fuzzy patches.
 
 ### st (default terminal)
 
-Config: `~/System/linux-desktop/st/config.h` (no `config.def.h`, edit `config.h` directly).
+Config: `~/System/personal-infra/desktop/linux/st/config.h` (no `config.def.h`, edit `config.h` directly).
 Fonts and colours come from `~/.Xresources` (`st.*`), so a rebuild is rarely needed.
 `Alt` is st's modifier:
 
@@ -355,7 +354,7 @@ theme moss     # Moss (light)
    add a `load!` line for it in `doom/config.el` next to the others. For a light theme set `mode = light`
    and pick dark text colours (the art's darker shades) so code stays readable.
 3. `theme mytheme`. The cursor theme is generated automatically on first use
-   (`~/System/linux-desktop/cursors/make-amber-cursors.py dest fill outline name`).
+   (`~/System/personal-infra/desktop/linux/cursors/make-amber-cursors.py dest fill outline name`).
 
 ---
 
@@ -466,16 +465,16 @@ SMTP. `doom/mbsyncrc` and `msmtp-gmail` are not linked; pass them with `-c`.
   "Retro Themes" extension that `theme` builds and installs.
 - **alacritty**: `alacritty/linux.toml` (font, padding, block cursor), colours imported from the
   generated `theme.toml`. `alacritty/alacritty.toml` in the repo is the macOS config.
-- **dunst**: `dunst/dunstrc` holds layout and font; colours from `dunstrc.d/theme.conf`.
+- **dunst**: `desktop/linux/dunst/dunstrc` holds layout and font; colours from `dunstrc.d/theme.conf`.
 - **Cursor**: pixel-art cursors (arrow, I-beam, hand, hourglass, crosshair) generated by
-  `linux-desktop/cursors/make-amber-cursors.py` at sizes 32 and 48; other shapes fall back to
+  `desktop/linux/cursors/make-amber-cursors.py` at sizes 32 and 48; other shapes fall back to
   Adwaita. They must be reachable from `~/.icons` (libXcursor here does not search
   `~/.local/share/icons`).
 - **Input method**: fcitx5 + Rime. The Rime data is the `rime/` submodule of personal-infra
   (小鹤双拼 + 形码辅助), linked from `~/.local/share/fcitx5/rime`.
 - **Proxy**: xray via `set_proxy` (configs in `~/.config/x2ray/`, SOCKS on 127.0.0.1:10800).
 - **Keyboard**: keyd is active from `/etc/keyd/default.conf` (Caps = Esc, Left Alt ↔ Left Ctrl,
-  Right Alt = symbol layer). `dotfiles/x11/keyd.conf` and the xmodmap files are older variants.
+  Right Alt = symbol layer). `desktop/linux/x11/keyd.conf` and the xmodmap files are older variants.
 - **redshift**: config linked (lat 54.35, lon −6.65; 6500 K day, 4000 K night), not started
   automatically.
 - **Wallpaper**: `changebg` (see section 11) sets it without touching colours. pywal is no longer used.
@@ -484,7 +483,7 @@ SMTP. `doom/mbsyncrc` and `msmtp-gmail` are not linked; pass them with `-c`.
 
 ## 11. Scripts reference
 
-In `~/.config/Scripts` (`dotfiles/scripts/`, on `PATH`) unless noted.
+In `~/.config/Scripts` (`desktop/linux/scripts/`, on `PATH`) unless noted.
 
 ### Status bar
 
@@ -524,7 +523,7 @@ In `~/.config/Scripts` (`dotfiles/scripts/`, on `PATH`) unless noted.
 | `keybind` | load xmodmap (path is broken; keyd replaced it) |
 | `mpv-url`, `firefox-normal`, `pocket_token.py` | macOS-only / unused / dead service |
 
-### `~/.local/bin` (from `dotfiles/bin/` and `themes/`)
+### `~/.local/bin` (from `desktop/linux/bin/` and `dotfiles/themes/`)
 
 `theme`, `set-en-font`, `set-cjk-font`, `vscode-ui-font`: see sections 7 and 8.
 
@@ -558,12 +557,12 @@ A new machine is set up with `~/System/personal-infra/bootstrap.sh` (see section
 
 Not used on this machine; kept for the Mac.
 
-- `config_mac.sh` links `alacritty` and `skhd` into `~/.config`.
-- `setup.sh` is the Mac bootstrap (Homebrew packages, fonts, the borders service). No symlinks.
-- **AeroSpace** (current WM, `aerospace/aerospace.toml`): `cmd-hjkl` focus, `cmd-shift-hjkl` move,
+- `desktop/mac/config_mac.sh` links `alacritty` and `skhd` into `~/.config`.
+- `desktop/mac/setup.sh` is the Mac bootstrap (Homebrew packages, fonts, the borders service). No symlinks.
+- **AeroSpace** (current WM, `desktop/mac/aerospace/aerospace.toml`): `cmd-hjkl` focus, `cmd-shift-hjkl` move,
   `cmd-1..0` workspaces, `cmd-enter` Alacritty, `cmd-shift-w` Firefox, `cmd-shift-e` Emacs,
   `cmd-shift-m` manage mode, `cmd-shift-r` resize mode. Starts JankyBorders.
-- `skhd/`: app shortcuts on the Mac: `cmd-return` Alacritty, `cmd-shift-w` VS Code, `cmd-e` Emacs, `cmd-d` dmenu-mac, `ctrl-shift-p` mpv-url.
+- `desktop/mac/skhd/`: app shortcuts on the Mac: `cmd-return` Alacritty, `cmd-shift-w` VS Code, `cmd-e` Emacs, `cmd-d` dmenu-mac, `ctrl-shift-p` mpv-url.
 
 ---
 
@@ -587,19 +586,19 @@ Found while writing this manual; not yet fixed.
 
 | Where | Problem |
 |---|---|
-| `x11/xinitrc`, `x11/start.sh` | `exec fcitx5 &gt; /dev/null &amp;` contains HTML entities; should be `fcitx5 > /dev/null &` |
-| `scripts/battery` | `main` call is commented out, so the battery block is always empty |
-| `scripts/selmon` | `[ $1 > 1 ]` is a redirect, not a comparison: the single-monitor branch never runs and a file named `1` is created |
-| `scripts/sync_nextcloud` | "Download / All" actually uploads |
-| `scripts/lock` | `sudo -A suspend` (not a program) and `SUDO_ASKPASS` is not set anywhere |
-| `scripts/bluetooth` | uses `sudo` without `-A` (fails from dmenu) and a SysV init path |
-| `scripts/keybind`, `x11/reset_xmodmap.sh` | point to `~/.config/X11/…`, which does not exist |
-| `scripts/open` | EPUB case never matches; calls an `unproxy` alias that scripts cannot see |
-| `scripts/fetch_paper` | `eval` on clipboard text (shell injection) |
-| `scripts/git-clone`, `install-font` | typo `${repo_nam}`; archive paths with directories break |
-| `scripts/show_network` | first run has no previous counters; counts loopback traffic too |
+| `desktop/linux/x11/xinitrc`, `desktop/linux/x11/start.sh` | `exec fcitx5 &gt; /dev/null &amp;` contains HTML entities; should be `fcitx5 > /dev/null &` |
+| `desktop/linux/scripts/battery` | `main` call is commented out, so the battery block is always empty |
+| `desktop/linux/scripts/selmon` | `[ $1 > 1 ]` is a redirect, not a comparison: the single-monitor branch never runs and a file named `1` is created |
+| `desktop/linux/scripts/sync_nextcloud` | "Download / All" actually uploads |
+| `desktop/linux/scripts/lock` | `sudo -A suspend` (not a program) and `SUDO_ASKPASS` is not set anywhere |
+| `desktop/linux/scripts/bluetooth` | uses `sudo` without `-A` (fails from dmenu) and a SysV init path |
+| `desktop/linux/scripts/keybind`, `desktop/linux/x11/reset_xmodmap.sh` | point to `~/.config/X11/…`, which does not exist |
+| `desktop/linux/scripts/open` | EPUB case never matches; calls an `unproxy` alias that scripts cannot see |
+| `desktop/linux/scripts/fetch_paper` | `eval` on clipboard text (shell injection) |
+| `desktop/linux/scripts/git-clone`, `install-font` | typo `${repo_nam}`; archive paths with directories break |
+| `desktop/linux/scripts/show_network` | first run has no previous counters; counts loopback traffic too |
 | `~/.bashrc:189` | `"$HOME:System/JetBrains/..."` adds `$HOME` and a relative path to `PATH` |
-| `config_mac.sh`, `setup.sh` | `~/System/dotfile` (missing `s`); `brew install eua` |
+| `desktop/mac/config_mac.sh`, `desktop/mac/setup.sh` | `~/System/dotfile` (missing `s`); `brew install eua` |
 | Emacs `config.el` | `SPC o p` defined twice; emacs-rime uses macOS paths; `org-todo-keywords` set twice (see `doom/CONFIG-REVIEW.md`) |
 | dwm | gap-adjust functions and slock have no keybindings |
 | Firefox | forced page fonts turn some icon fonts into text |

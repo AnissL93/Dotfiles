@@ -1,2 +1,0 @@
-#!/bin/bash
-sudo -A openfortivpn webvpn.comp.nus.edu.sg --username=hy.lan
