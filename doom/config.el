@@ -329,13 +329,17 @@
   (setq deft-default-extension "org"
         deft-recursive t))
 
+;; Rime data: the personal-infra rime/ submodule, linked to where Squirrel (macOS) and fcitx5 (Linux)
+;; read it. macOS: librime and the module header from Homebrew; Linux: apt's librime-dev.
 (use-package! rime
   :custom
-  (rime-emacs-module-header-root  "/opt/homebrew/opt/emacs-plus@30/include")
-  (rime-librime-root "~/.config/emacs/librime/dist")
   (rime-show-candidate 'posframe)
-  (rime-user-data-dir "/Users/hyl/Library/Rime")
-  (default-input-method "rime"))
+  (default-input-method "rime")
+  (rime-user-data-dir (if (featurep :system 'macos) "~/Library/Rime" "~/.local/share/fcitx5/rime"))
+  :config
+  (when (featurep :system 'macos)
+    (setq rime-librime-root "/opt/homebrew/opt/librime"
+          rime-emacs-module-header-root "/opt/homebrew/opt/emacs-plus@30/include")))
 
 ;;; config org ref
 

@@ -75,35 +75,21 @@ cd ~/System/personal-infra
 ./bootstrap.sh                # everything; or single steps, e.g. ./bootstrap.sh links theme
 ```
 
-Steps: `packages` (apt), `suckless` (dwm, dmenu, dwmblocks, st, slock; libxft-bgra only if libXft is
-older than 2.3.5), `fonts` (from the assets repo, `fonts/`), `links` (the table below; existing files
-are kept as `*.bak-<date>`), `shell` (oh-my-bash + `bash/desktop.sh`), `input` (fcitx5 + Rime),
-`emacs` (Doom), `python` (lunar_python), `session` (xsessions entry), `keyboard` (keyd), `zathura` (plugins incl. a
-source-built mupdf for EPUB/MOBI, default document viewer), `theme`. Every step can be
-re-run. Credentials, the VS Code UI font and Firefox's first start are listed at the end as
-manual steps. The Firefox profile is found automatically (`desktop/linux/bin/ff-profile`: the most recently used).
+It works on Linux and macOS and runs that platform's steps (`./bootstrap.sh --help` lists them).
+What it installs is listed in files, not in the script: `packages/apt.txt` / `packages/Brewfile`
+(system packages), `packages/tools.txt` (uv, cargo, go, npm, pip tools), `packages/opt.txt` (apps
+downloaded into `/opt`), `builds/*.sh` (Emacs, zathura-pdf-mupdf, mix-mpd, built from source) and
+`links.txt` (config symlinks, with a platform column). To add software, add a line to one of those
+files and a row to `SOFTWARE.md`. Every step can be re-run; credentials, vendor apt repos and
+Firefox's first start are listed at the end as manual steps. The Firefox profile is found
+automatically (`desktop/linux/bin/ff-profile`: the most recently used).
 
 ### What is linked into `$HOME`
 
-Everything tracked is a symlink back into `~/System/dotfiles`:
-
-| Location | Dotfiles path |
-|---|---|
-| `~/.xinitrc` | `desktop/linux/x11/xinitrc` |
-| `~/.Xresources` | `desktop/linux/x11/Xresources` |
-| `~/.config/doom` | `doom/` |
-| `~/.config/dunst` | `desktop/linux/dunst/` |
-| `~/.config/Scripts` (on `PATH`) | `desktop/linux/scripts/` |
-| `~/.config/alacritty/alacritty.toml` | `alacritty/linux.toml` |
-| `~/.config/fontconfig/fonts.conf` | `desktop/linux/fontconfig/fonts.conf` |
-| `~/.config/gtk-3.0/settings.ini` | `desktop/linux/gtk-3.0/settings.ini` |
-| `~/.config/redshift.conf` | `desktop/linux/redshift.conf` |
-| `~/.config/zathura/zathurarc` | `zathura/zathurarc` |
-| `~/.config/nvim` | `nvim-config/` |
-| `~/.config/Code/User/settings.json` | `vscode/settings.json` |
-| Firefox profile `axhukcsk.default-release-1`: `user.js`, `chrome/userChrome.css`, `chrome/userContent.css` | `firefox/` |
-| `~/.local/bin/theme` | `themes/theme` |
-| `~/.local/bin/set-en-font`, `set-cjk-font`, `vscode-ui-font` | `desktop/linux/bin/` |
+Every config is a symlink back into `~/System/personal-infra`; the full list, per platform, is
+`links.txt` (`bootstrap.sh links` creates the rows for the machine it runs on). Firefox's profile
+files (`dotfiles/firefox/`: `user.js`, `chrome/userChrome.css`, `chrome/userContent.css`) are linked
+by the step itself, since the profile folder name differs per machine.
 
 **Scripts that edit these files must follow symlinks** (`sed -i --follow-symlinks`, or write through
 Python `open()`), otherwise the link is replaced by a plain file and the change leaves git.
@@ -557,8 +543,9 @@ A new machine is set up with `~/System/personal-infra/bootstrap.sh` (see section
 
 Not used on this machine; kept for the Mac.
 
-- `desktop/mac/config_mac.sh` links `alacritty` and `skhd` into `~/.config`.
-- `desktop/mac/setup.sh` is the Mac bootstrap (Homebrew packages, fonts, the borders service). No symlinks.
+- Set up by the same `bootstrap.sh` as Linux: `packages/Brewfile` (AeroSpace, skhd, borders, Squirrel,
+  emacs-plus, …), the `M` rows of `links.txt`, the assets fonts, Doom, and the skhd/borders services.
+- Rime: Squirrel reads `~/Library/Rime`, a link to the `rime/` submodule (the same data as fcitx5).
 - **AeroSpace** (current WM, `desktop/mac/aerospace/aerospace.toml`): `cmd-hjkl` focus, `cmd-shift-hjkl` move,
   `cmd-1..0` workspaces, `cmd-enter` Alacritty, `cmd-shift-w` Firefox, `cmd-shift-e` Emacs,
   `cmd-shift-m` manage mode, `cmd-shift-r` resize mode. Starts JankyBorders.
@@ -597,7 +584,6 @@ Found while writing this manual; not yet fixed.
 | `desktop/linux/scripts/git-clone`, `install-font` | typo `${repo_nam}`; archive paths with directories break |
 | `desktop/linux/scripts/show_network` | first run has no previous counters; counts loopback traffic too |
 | `~/.bashrc:189` | `"$HOME:System/JetBrains/..."` adds `$HOME` and a relative path to `PATH` |
-| `desktop/mac/config_mac.sh`, `desktop/mac/setup.sh` | `~/System/dotfile` (missing `s`); `brew install eua` |
-| Emacs `config.el` | `SPC o p` defined twice; emacs-rime uses macOS paths; `org-todo-keywords` set twice (see `doom/CONFIG-REVIEW.md`) |
+| Emacs `config.el` | `SPC o p` defined twice; `org-todo-keywords` set twice (see `doom/CONFIG-REVIEW.md`) |
 | dwm | gap-adjust functions and slock have no keybindings |
 | Firefox | forced page fonts turn some icon fonts into text |
