@@ -364,7 +364,7 @@ theme moss     # Moss (light)
 |---|---|---|
 | English monospace | PxPlus IBM VGA 8x16 | pixel font from the oldschool PC font pack; sharp only at multiples of 16 px |
 | Chinese | Cubic 11 (俐方體11號) | 12 px grid: sharp at 24 / 36 px; strokes as thick as IBM VGA |
-| Obsidian code blocks | Ac437 IBM CGA | from the same oldschool PC font pack |
+| Obsidian code blocks | PxPlus IBM VGA 8x16 | same as everywhere else |
 | Status bar icons | typicons | icon font in the Unicode private-use area |
 | Firefox page text | IBM VGA (UI and pages 16 px, code 16 px) | all pages forced to these fonts |
 
