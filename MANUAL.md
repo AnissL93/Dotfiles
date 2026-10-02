@@ -99,6 +99,7 @@ Everything tracked is a symlink back into `~/System/dotfiles`:
 | `~/.config/gtk-3.0/settings.ini` | `gtk-3.0/settings.ini` |
 | `~/.config/redshift.conf` | `redshift.conf` |
 | `~/.config/zathura/zathurarc` | `zathura/zathurarc` |
+| `~/.config/nvim` | `nvim-config/` |
 | `~/.config/Code/User/settings.json` | `vscode/settings.json` |
 | Firefox profile `axhukcsk.default-release-1`: `user.js`, `chrome/userChrome.css`, `chrome/userContent.css` | `firefox/` |
 | `~/.local/bin/theme` | `themes/theme` |
@@ -123,7 +124,7 @@ Python `open()`), otherwise the link is replaced by a plain file and the change 
 
 ### Present in dotfiles but not linked on this machine
 
-`lf/`, `nvim*/`, `hledger/`, `thefuck/`, `x11/keyd.conf`,
+`lf/`, `hledger/`, `thefuck/`, `x11/keyd.conf`,
 `x11/xmodmap*`, and all macOS directories. `fonts/` (except `fonts/desktop`) and `wallpapers/`
 exist only locally (too large for git).
 Link them by hand when needed, e.g. `ln -s ~/System/dotfiles/lf ~/.config/lf`.

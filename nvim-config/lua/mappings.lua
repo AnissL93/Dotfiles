@@ -163,8 +163,8 @@ wk.add({
 
     -- Errors and diagnostics
 	{ "<leader>e", group = "[Errors and diagnostics]" },
-	{ "<leader>en", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "[DIAG] Go to next error" },
-	{ "<leader>ep", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "[DIAG] Go to previous error" },
+	{ "<leader>en", "<cmd>lua vim.diagnostic.jump({ count = 1, float = true })<cr>", desc = "[DIAG] Go to next error" },
+	{ "<leader>ep", "<cmd>lua vim.diagnostic.jump({ count = -1, float = true })<cr>", desc = "[DIAG] Go to previous error" },
 
     -- Git
 	{ "<leader>g", group = "[GIT]" },
