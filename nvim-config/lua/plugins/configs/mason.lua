@@ -21,7 +21,7 @@ return {
 					"dockerls",
 					"docker_compose_language_service",
 				},
-				automatic_installation = true,
+				automatic_enable = false, -- lua/lsp/init.lua decides which servers autostart
 			})
 		end,
 	},

@@ -30,13 +30,11 @@ build/x2ray/__pycache__
 build/x2ray/config.json
 tmp/*
 tar/*
-fcitx/rime/user.yaml
 
 # credentials: keep local, never commit
 tokens/
 
 # large assets kept local only (repo must stay small for GitHub)
 wallpapers/
-fcitx/rime-cur/
 fonts/*
 !fonts/desktop/

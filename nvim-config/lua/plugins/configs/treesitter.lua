@@ -1,8 +1,10 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
+	-- `main` is an incompatible rewrite (no nvim-treesitter.configs); refactor/playground need master
+	branch = "master",
 	dependencies = {
 		"hiphish/rainbow-delimiters.nvim",
-		"nvim-treesitter/nvim-treesitter-textobjects",
+		{ "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" },
 		"windwp/nvim-ts-autotag",
 		"nvim-treesitter/nvim-treesitter-refactor",
 		"nvim-treesitter/playground", -- View treesitter information directly in Neovim

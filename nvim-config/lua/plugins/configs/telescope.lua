@@ -4,13 +4,12 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-		"nvim-telescope/telescope-frecency.nvim",
+		{ "nvim-telescope/telescope-frecency.nvim", version = "^1.0.0" }, -- 2.x requires nvim 0.11.7
 		"jvgrootveld/telescope-zoxide",
-		"nvim-telescope/telescope.nvim",
 		"nvim-telescope/telescope-dap.nvim",
 	},
 	config = function()
-		telescope = require("telescope")
+		local telescope = require("telescope")
 		telescope.setup({
 			picker = {
 				hidden = true,

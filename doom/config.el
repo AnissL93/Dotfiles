@@ -194,7 +194,7 @@
 ;; retro setup, matches alacritty / dwm / firefox
 (setq cur-font "PxPlus IBM VGA 8x16"  ; pixel font: keep size a multiple of 16
       ch-font "Cubic 11"
-      en-font-size 32)
+      en-font-size 27)
 (setq doom-font (font-spec :family cur-font :size en-font-size)
       doom-variable-pitch-font (font-spec :family "Fuzzy Bubbles" :size 28)
       doom-big-font cur-font

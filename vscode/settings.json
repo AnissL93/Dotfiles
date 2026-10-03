@@ -8,7 +8,7 @@
     "terminal.integrated.fontFamily": "'PxPlus IBM VGA 8x16', 'Cubic 11', monospace",
     "terminal.integrated.fontSize": 17.78,
     // colours: the current theme from `theme` (~/System/dotfiles/themes), local extension "Retro Themes"
-    "workbench.colorTheme": "Miku Crowd",
+    "workbench.colorTheme": "Overdose Dark",
     "claudeCodeChat.thinking.intensity": "ultrathink",
     "claudeCodeChat.wsl.enabled": false,
     "claudeCodeChat.wsl.distro": "Ubuntu",

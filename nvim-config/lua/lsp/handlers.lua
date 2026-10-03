@@ -32,16 +32,15 @@ local function set_signature_helper(client, bufnr)
     end
 end
 
-local function set_hover_border(client)
-    local hp = client.server_capabilities.hoverProvider
-    if hp == true or (type(hp) == "table" and next(hp) ~= nil) then
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
+local function set_hover_border(client, bufnr)
+    if client:supports_method("textDocument/hover") then
+        vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = border }) end, { buffer = bufnr })
     end
 end
 
 M.on_attach = function(client, bufnr)
     set_signature_helper(client, bufnr)
-    set_hover_border(client)
+    set_hover_border(client, bufnr)
 end
 
 M.capabilities = require("cmp_nvim_lsp").default_capabilities()

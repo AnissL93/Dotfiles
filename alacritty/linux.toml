@@ -4,7 +4,7 @@ import = ["~/.config/alacritty/theme.toml"]
 
 [font]
 normal = { family = "PxPlus IBM VGA 8x16" }
-size = 20   # pt; = 26.67px like st (needs WINIT_X11_SCALE_FACTOR=1, set in xinitrc)
+size = 20.0025   # pt, = 26.67px
 
 [window]
 padding = { x = 24, y = 24 }   # CRT bezel feel

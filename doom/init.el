@@ -55,7 +55,8 @@
        ligatures
 
        :editor
-       (evil +everywhere)               ; come to the dark side, we have cookies
+       (evil +everywhere)
+                                        ; come to the dark side, we have cookies
        ;;(meow +override +keypad)
        file-templates                   ; auto-snippets for empty files
        fold                             ; (nigh) universal code folding

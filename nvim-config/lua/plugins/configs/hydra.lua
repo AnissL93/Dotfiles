@@ -1,9 +1,9 @@
 return {
 	-- Custom modes tu run commands with a common prefix
-	"anuvyklack/hydra.nvim",
+	"nvimtools/hydra.nvim", -- maintained fork; anuvyklack/hydra.nvim breaks on nvim 0.11
 	config = function()
 		-- local ok, hydra = pcall(require, "hydra")
-		hydra = require("hydra")
+		local hydra = require("hydra")
 		hydra({
 			name = "Window resize/focus",
 			mode = "n",
@@ -57,7 +57,7 @@ return {
 				invoke_on_body = true,
 				hint = {
 					position = "bottom",
-					border = "rounded",
+					float_opts = { border = "rounded" },
 				},
 			},
 			name = "DAP",
@@ -88,6 +88,5 @@ return {
 				{ "q", nil, { exit = true, nowait = true } },
 			},
 		})
-		require("plugins.configs.hydra")
 	end,
 }
