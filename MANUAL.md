@@ -355,8 +355,9 @@ theme moss     # Moss (light)
 | Firefox page text | IBM VGA (UI and pages 16 px, code 16 px) | all pages forced to these fonts |
 
 All fonts come from the assets repo (`github.com:AnissL93/assets`, `fonts/`, one folder per family with its
-licence; installed as `~/.local/share/fonts/personal-infra`). StarLovePencil (`font-preset bubble`, Chinese) has
-no known licence, so it stays local in `~/.local/share/fonts/local/`.
+licence; installed as `~/.local/share/fonts/personal-infra`), StarLovePencil (`font-preset bubble`, Chinese) included.
+Original links and previews of every font: `fonts/README.md` in the assets repo, and the
+[website](https://anissl93.github.io/personal-infra/#fonts).
 
 Sizes in use: dwm bar and dmenu 24 px; st 26.67 px; alacritty 20 pt (= 26.67 px);
 Emacs 32 px; VS Code UI zoomed 1.5x (`window.zoomLevel` 2.2239, so its 16 px UI font shows at 24 px; editor 13.33 and terminal 17.78 = 20 / 26.67 on screen); Obsidian WorkNotes UI 24 px (snippet `desktop-ui-size.css`); dunst 18.
