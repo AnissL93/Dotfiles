@@ -3,9 +3,9 @@
 ;;    Insert timestamp    ;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq org_notes (concat (getenv "HOME") "/Notes/Org/")
-      roam_notes (concat (getenv "HOME") "/Notes/RoamNotes/")
-      org_notes_base (concat (getenv "HOME") "/Notes"))
+(setq org_notes (concat my/notes "Org/")
+      roam_notes (concat my/notes "RoamNotes/")
+      org_notes_base (directory-file-name my/notes))
 
 
 (setq org-directory org_notes
@@ -24,7 +24,7 @@
       +org-capture-journal-file (concat org_notes "journal.org"))  
 
 ;; (setq reftex-default-bibliography '("~/Notes/References/ref.bib"))
-(setq reftex-bibpath-environment-variables '(".:~/Notes/References//"))
+(setq reftex-bibpath-environment-variables (list (concat ".:" my/notes "References//")))
 
 (defun aniss/open-bib-file ()
   (interactive)
@@ -273,12 +273,12 @@
    org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-bibtex-completion
 
    bibtex-completion-bibliography (directory-files-recursively
-                                   "~/Notes/References/"
+                                   (concat my/notes "References/")
                                    ".*\.bib")
    ;; directory-files-no-dot-files-regexp false)
 
    bibtex-completion-library-path '("~/DataBase/Papers/")
-   bibtex-completion-notes-path "~/Notes/Org/"
+   bibtex-completion-notes-path (concat my/notes "Org/")
    bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
    bibtex-completion-pdf-field "file"
 
@@ -383,7 +383,7 @@
 
 (use-package! easy-hugo
   :init
-  (setq easy-hugo-basedir "~/Notes/AnissL93.github.io/")
+  (setq easy-hugo-basedir (concat my/notes "AnissL93.github.io/"))
   (setq easy-hugo-sshdomain "server")
   (setq easy-hugo-default-ext "org")
   (setq easy-hugo-postdir "content/posts")
@@ -530,7 +530,7 @@
 
 (use-package! org-excalidraw
   :config
-  (setq org-excalidraw-directory "~/Notes/Assets/")
+  (setq org-excalidraw-directory (concat my/notes "Assets/"))
   (defun org-excalidraw--handle-file-change (event)
     "Handle file update EVENT to convert files to svg."
     ;; (cadr event) can be 'changed or 'renamed
@@ -574,7 +574,7 @@
   :bind (
          ("H-v" . org-media-note-show-interface))  ;; 主功能入口
   :config
-  (setq org-media-note-screenshot-image-dir "~/Notes/Assets/")  ;; 用于存储视频截图的目录
+  (setq org-media-note-screenshot-image-dir (concat my/notes "Assets/"))  ;; 用于存储视频截图的目录
   (setq org-media-note-use-refcite-first t)  ;; 插入链接时，优先使用refcite链接
   )
 
@@ -739,7 +739,7 @@
   (require 'org-protocol)
   (require 'org-protocol-capture-html)
   (defun my/org-web-capture-file ()
-    (let* ((dir (expand-file-name "~/Notes/Org/Web/Pages"))
+    (let* ((dir (concat my/notes "Org/Web/Pages"))
            (title (or (plist-get org-store-link-plist :description) ""))
            (name (string-trim title))
            (name (replace-regexp-in-string "[/\\:*?\"<>|\n\r\t]" "" name))
@@ -751,7 +751,7 @@
       (expand-file-name (concat name ".org") dir)))
 
   (setq org-capture-templates
-        '(
+        `(                              ; backquoted: the notes paths below are computed
 
           ("i" "Inbox" entry
            (file+headline "~/Agenda/inbox.org" "Inbox")
@@ -779,10 +779,10 @@
           ;; ── Web (org-protocol) ──
           ("w" "Web")
           ("wl" "Web link capture" entry
-           (file+headline "~/Notes/Org/org-linkz/Linkz.org" "INBOX")
+           (file+headline ,(concat my/notes "Org/org-linkz/Linkz.org") "INBOX")
            "* %a %U" :immediate-finish t)
           ("wa" "Web annotation" entry
-           (file+headline "~/Notes/Org/Web/Annotation.org" "Annotations")
+           (file+headline ,(concat my/notes "Org/Web/Annotation.org") "Annotations")
            "* %:description\n%:annotation\n%U\n\n#+begin_quote\n%i\n#+end_quote\n\n%?")
           ("ws" "Web link + selection" entry
            (file+headline "~/Agenda/inbox.org" "Web")
@@ -802,7 +802,7 @@
 
           ;; -- Citation --
           ("c" "Citation" plain
-           (file "~/Notes/References/ref.bib")
+           (file ,(concat my/notes "References/ref.bib"))
            "%:initial"
            :empty-lines 1
            :prepend t

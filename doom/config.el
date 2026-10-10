@@ -7,6 +7,10 @@
 (defvar my/work-email nil)
 (load (expand-file-name "secrets.el" doom-user-dir) t)
 
+;; notes root: ~/Notes on Linux; on macOS the live notes are in ~/DataBase/Notes
+;; (~/Notes there is an older, separate git clone)
+(defvar my/notes (expand-file-name (if (featurep :system 'macos) "~/DataBase/Notes/" "~/Notes/")))
+
 (setq user-full-name "Huiying Lan"
       user-mail-address my/email)
 
@@ -192,11 +196,12 @@
 ;; (setq ch-font "Source Han Serif SC Medium")
 ;; (setq ch-font "HanaMinA")
 ;; retro setup, matches alacritty / dwm / firefox
-(setq cur-font "PxPlus IBM VGA 8x16"  ; pixel font: keep size a multiple of 16
+(setq cur-font "PxPlus IBM VGA 8x16"  ; pixel font: 16 logical px, an exact multiple of its grid
       ch-font "Cubic 11"
-      en-font-size 27)
+      ;; same look on both: Linux screen is scaled 5/3 (27 px), the Mac Retina 2x (16 px)
+      en-font-size (if (featurep :system 'macos) 16 27))
 (setq doom-font (font-spec :family cur-font :size en-font-size)
-      doom-variable-pitch-font (font-spec :family "Fuzzy Bubbles" :size 28)
+      doom-variable-pitch-font (font-spec :family "Fuzzy Bubbles" :size (if (featurep :system 'macos) 17 28))
       doom-big-font cur-font
       doom-unicode-font (font-spec :family ch-font)) 
 ;; doom-unicode-font only covers symbols; map Chinese to ch-font explicitly
@@ -339,7 +344,7 @@
   :config
   (when (featurep :system 'macos)
     (setq rime-librime-root "/opt/homebrew/opt/librime"
-          rime-emacs-module-header-root "/opt/homebrew/opt/emacs-plus@30/include")))
+          rime-emacs-module-header-root "/opt/homebrew/opt/emacs-plus@31/include")))
 
 ;;; config org ref
 
@@ -387,7 +392,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 (use-package elfeed-org
   :after elfeed
-  :custom (rmh-elfeed-org-files '("~/Notes/Org/elfeed.org"))
+  :custom (rmh-elfeed-org-files (list (concat my/notes "Org/elfeed.org")))
   :config
   (elfeed-org))
 
@@ -483,7 +488,7 @@ With a prefix argument, insert only the non-directory part."
 
 (defun hyl-goto-project ()
   (interactive)
-  (find-file "~/Notes/Org/Projects"))
+  (find-file (concat my/notes "Org/Projects")))
 
 (map!
  :leader
@@ -581,7 +586,7 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
             t)))
 
 
-      (setq mu4e-org-contacts-file "~/Notes/Org/contacts.org")
+      (setq mu4e-org-contacts-file (concat my/notes "Org/contacts.org"))
       (setq mu4e-mu-binary "~/System/mu/build/mu/mu")
       (setq mu4e-get-mail-command "true")
       (setq mu4e-attachment-dir "~/Documents/Attachments")
@@ -694,7 +699,7 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
          ("M-n" . hledger/next-entry))
   :init
   (setq hledger-jfile
-        (expand-file-name "~/Notes/Ledger/account.journal")
+        (concat my/notes "Ledger/account.journal")
         ;; hledger-email-secrets-file (expand-file-name "secrets.el"
         ;;                                              emacs-assets-directory)
         )
@@ -896,3 +901,33 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
 (setq-default visual-fill-column-width 100
               visual-fill-column-center-text t)
 (add-hook! (org-mode markdown-mode) #'visual-fill-column-mode)
+
+;; ---- macOS only ----------------------------------------------------------------
+(when (featurep :system 'macos)
+  (use-package! copilot
+    :hook (prog-mode . copilot-mode)
+    :bind (:map copilot-completion-map
+                ("<tab>" . 'copilot-accept-completion)
+                ("TAB" . 'copilot-accept-completion)
+                ("C-TAB" . 'copilot-accept-completion-by-word)
+                ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+  (use-package! eat
+    :defer t)
+
+  (use-package! claude-code
+    :defer t
+    :config
+    (map! :map claude-code-mode-map
+          :localleader
+          "M" #'claude-code-cycle-mode)
+    (defvar my-claude-code-repeat-map
+      (let ((map (make-sparse-keymap)))
+        (define-key map "M" #'claude-code-cycle-mode)
+        map)
+      "Repeat map for claude-code commands")
+    (put 'claude-code-cycle-mode 'repeat-map 'my-claude-code-repeat-map)
+    (claude-code-mode 1))
+
+  (after! tramp
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)))

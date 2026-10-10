@@ -266,3 +266,16 @@
 (package! lsp-proxy
   :recipe (:host github :repo "jadestrong/lsp-proxy" :files ("*.el")))
 
+;; macOS only (see the macOS block at the end of config.el)
+(when (featurep :system 'macos)
+  (package! eat
+    :recipe (:host codeberg
+             :repo "akib/emacs-eat"
+             :files ("*.el" ("term" "term/*.el") "*.texi"
+                     "*.ti" ("terminfo/e" "terminfo/e/*")
+                     ("terminfo/65" "terminfo/65/*")
+                     ("integration" "integration/*")
+                     (:exclude ".dir-locals.el" "*-tests.el"))))
+  (package! claude-code
+    :recipe (:host github :repo "stevemolitor/claude-code.el" :branch "main"
+             :files ("*.el" (:exclude "images/*")))))

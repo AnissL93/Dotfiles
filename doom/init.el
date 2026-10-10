@@ -101,7 +101,6 @@
        ;;gist              ; interacting with github gists
        lookup                         ; navigate your code and its documentation
        (lsp +eglot)
-       ;;macos             ; MacOS-specific commands
        (magit +forge)                   ; a git porcelain for Emacs
        make                             ; run make tasks from Emacs
        pass                             ; password manager for nerds
@@ -112,6 +111,9 @@
        ;;terraform         ; infrastructure as code
        tmux                           ; an API for interacting with tmux
        upload                         ; map local to remote projects via ssh/ftp
+
+       :os
+       (:if (featurep :system 'macos) macos)  ; improve compatibility with macOS
 
        :lang
        ;;agda              ; types of types of types of types...
