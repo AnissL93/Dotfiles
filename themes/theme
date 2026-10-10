@@ -5,7 +5,7 @@ usage: theme              list themes (* = current)
        theme NAME         apply NAME.conf to alacritty, firefox, obsidian, rmpc, vscode, emacs, claude code, neovim,
                           wallpaper, and per platform:
                             Linux: dwm, dmenu, st, dunst, fcitx5, zathura, slock, cursor
-                            macOS: light/dark mode, sketchybar, borders, CodeIsland
+                            macOS: light/dark mode, sketchybar, borders, CodeIsland, pointer
        theme --wallpaper [NAME]  only set the wallpaper of the current (or NAME) theme;
                           used by xinitrc and changebg
        theme --random [light|dark]  apply a random theme (other than the current one)
@@ -631,6 +631,23 @@ def codeisland(t):
         run("sh", "-c", "osascript -e 'quit app \"CodeIsland\"'; sleep 1; open -g /Applications/CodeIsland.app")
 
 
+def cursor_mac(t):
+    """pointer fill/outline = accent/bg; size stays as set in System Settings; live.
+    The values must be a dict of reals: a string there crashes every app that sets the cursor."""
+    ua = "com.apple.universalaccess"
+    for key, c in (("cursorFill", t["accent"]), ("cursorOutline", t["bg"])):
+        rgb = [int(c.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+        args = [a for k, v in zip(("red", "green", "blue", "alpha"), rgb + [1]) for a in (k, "-float", str(v))]
+        run("defaults", "write", ua, key, "-dict", *args)
+        xml = subprocess.run(f"defaults export {ua} - | plutil -extract {key} xml1 -o - -",
+                             shell=True, capture_output=True, text=True).stdout
+        if xml.count("<real>") != 4:          # not what macOS expects: back to the default pointer
+            run("defaults", "delete", ua, "cursorFill")
+            run("defaults", "delete", ua, "cursorOutline")
+            print(f"theme: could not set {key} (needs Full Disk Access for the terminal?); pointer reset")
+            return
+
+
 def wallpaper_mac(t):
     res = re.findall(r"Resolution: (\d+) x (\d+)", capture("system_profiler", "SPDisplaysDataType"))
     # ponytail: one image on every screen, the ultrawide one if any screen is wider than 2:1;
@@ -645,7 +662,7 @@ def wallpaper_mac(t):
 
 SHARED = (alacritty, firefox, obsidian, rmpc, vscode, emacs, claude, nvim)
 LINUX = (xresources, gtk_scheme, dunst, cursor, fcitx5, zathura, wallpaper, x11_reload)
-MACOS = (dark_mode, sketchybar, borders, codeisland, wallpaper_mac)
+MACOS = (dark_mode, sketchybar, borders, codeisland, cursor_mac, wallpaper_mac)
 
 
 def apply(name):
