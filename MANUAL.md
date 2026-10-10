@@ -1,7 +1,7 @@
 # Desktop & Dotfiles Manual
 
-Personal manual for the Linux desktop (dwm on X11) and the dotfiles repo.
-Last reviewed: 2026-09-29.
+Personal manual for the Linux desktop (dwm on X11), its macOS counterpart (section 13) and the dotfiles repo.
+Last reviewed: 2026-10-10.
 
 - [1. Quick reference](#1-quick-reference)
 - [2. Where things live](#2-where-things-live)
@@ -15,7 +15,7 @@ Last reviewed: 2026-09-29.
 - [10. Other applications](#10-other-applications)
 - [11. Scripts reference](#11-scripts-reference)
 - [12. Building and installing](#12-building-and-installing)
-- [13. macOS configs](#13-macos-configs)
+- [13. macOS](#13-macos)
 - [14. Credentials and security](#14-credentials-and-security)
 - [15. Known issues](#15-known-issues)
 
@@ -317,10 +317,11 @@ theme moss     # Moss (light)
 | Emacs | `~/.config/theme/emacs-theme` + `load-theme` in the daemon | yes |
 | VS Code | local extension "Retro Themes" (both themes) + `workbench.colorTheme` | yes |
 | Firefox | `chrome/theme-colors.css` (`--t-*` variables used by `userChrome.css` / `userContent.css`) | restart Firefox |
-| Obsidian (vault `/srv/sync/WorkNotes` only, list in `OBSIDIAN_VAULTS` in the script) | snippet `.obsidian/snippets/desktop-theme.css` (enabled automatically) overriding Obsidian's and RetroNotes' colour variables; `appearance.json` light/dark; also copies the hand-written snippets in `dotfiles/obsidian/` (e.g. `desktop-ui-size.css`, 24 px UI and text) | snippet live; light/dark on next start |
+| Obsidian (vault `/srv/sync/WorkNotes`, on macOS `~/Sync/WorkNotes`, list in `OBSIDIAN_VAULTS` in the script) | snippet `.obsidian/snippets/desktop-theme.css` (enabled automatically) overriding Obsidian's and RetroNotes' colour variables; `appearance.json` light/dark; also copies the hand-written snippets in `dotfiles/obsidian/` (e.g. `desktop-ui-size.css`, 24 px UI and text) | snippet live; light/dark on next start |
 | rmpc | `~/.config/rmpc/themes/desktop.ron`: rmpc's default theme (`rmpc theme`) with the selection, tab, border, mode and progress colours from the palette; `theme: Some("desktop")` added to `config.ron` | next start of rmpc |
 | cursor | pixel cursors `AmberCRT` / `VaporNight`, `~/.icons/default`, GTK setting | new windows |
-| wallpaper | `feh`, one image per monitor | yes |
+| wallpaper | `feh`, one image per monitor (macOS: System Events, one image on all screens) | yes |
+| macOS only | light/dark mode, SketchyBar, borders, dmenu, CodeIsland: see [section 13](#13-macos) | yes |
 
 ### Files
 
@@ -540,17 +541,86 @@ A new machine is set up with `~/System/personal-infra/bootstrap.sh` (see section
 
 ---
 
-## 13. macOS configs
+## 13. macOS
 
-Not used on this machine; kept for the Mac.
+The Mac runs the same setup as far as macOS allows: same fonts, themes, Emacs and keys, with a
+Mac tool in place of each Linux one. Linux and macOS parts stay separate: `desktop/linux/` vs
+`desktop/mac/`, the `L`/`M` rows of `links.txt` and `tools.txt`, `apt.txt` vs `Brewfile`.
 
-- Set up by the same `bootstrap.sh` as Linux: `packages/Brewfile` (AeroSpace, skhd, borders, Squirrel,
-  emacs-plus, …), the `M` rows of `links.txt`, the assets fonts, Doom, and the skhd/borders services.
-- Rime: Squirrel reads `~/Library/Rime`, a link to the `rime/` submodule (the same data as fcitx5).
-- **AeroSpace** (current WM, `desktop/mac/aerospace/aerospace.toml`): `cmd-hjkl` focus, `cmd-shift-hjkl` move,
-  `cmd-1..0` workspaces, `cmd-enter` Alacritty, `cmd-shift-w` Firefox, `cmd-shift-e` Emacs,
-  `cmd-shift-m` manage mode, `cmd-shift-r` resize mode. Starts JankyBorders.
-- `desktop/mac/skhd/`: app shortcuts on the Mac: `cmd-return` Alacritty, `cmd-shift-w` VS Code, `cmd-e` Emacs, `cmd-d` dmenu-mac, `ctrl-shift-p` mpv-url.
+### Setup
+
+`./bootstrap.sh` runs the macOS steps: `packages tools builds fonts links emacs defaults services theme`.
+
+- `packages/Brewfile`; apps installed by hand first need `HOMEBREW_CASK_OPTS=--adopt brew bundle --file packages/Brewfile`.
+  Casks that ask for a password (Squirrel, Karabiner, Docker, Tailscale, Bitwarden) must be installed from a terminal.
+- `builds`: dmenu (`desktop/mac/dmenu/dmenu.swift`, compiled with `swiftc` into `~/.local/bin`) and
+  CodeIsland (`builds/codeisland.sh`). Neither needs Xcode, only the command-line tools.
+- `defaults`: Skim opens PDFs (`duti`).
+- `services`: skhd, borders, SketchyBar.
+- By hand once: enable the "keymap" rules in Karabiner, allow SketchyBar/AeroSpace/skhd under Accessibility,
+  and in VS Code run "Shell Command: Install 'code' in PATH" if `code` is missing.
+
+### Linux → Mac
+
+| Linux | Mac | Config |
+|---|---|---|
+| dwm | AeroSpace (+ skhd for `cmd-arrows`) | `desktop/mac/aerospace/`, `desktop/mac/skhd/` |
+| dwm borders | JankyBorders | `desktop/mac/borders/` (colours from `theme`) |
+| dwmblocks | SketchyBar | `desktop/mac/sketchybar/` |
+| dmenu | own dmenu in Swift, same flags and keys | `desktop/mac/dmenu/`, `desktop/mac/bin/dmenu_run` |
+| `getpass` | `getpass` (pass + dmenu, `pinentry-mac`) | `desktop/mac/bin/getpass`, `desktop/mac/gnupg/` |
+| keyd | Karabiner-Elements, rules generated from `keyd.conf` | `keymap/mac/` |
+| fcitx5 + Rime | Squirrel | `rime/` (`~/Library/Rime`) |
+| st | Alacritty | `dotfiles/alacritty/alacritty.toml` |
+| zathura | Skim | |
+| dunst, slock, flameshot | Notification Center, `ctrl-cmd-q`, `cmd-shift-5` | |
+| redshift | f.lux | |
+| playerctl, pulsemixer | nowplaying-cli, switchaudio-osx | |
+| — | CodeIsland: Claude Code / Codex status around the notch | `builds/codeisland.sh` |
+
+### Keys
+
+AeroSpace uses the dwm keys with `cmd` as the dwm `Super` (full list: `desktop/mac/aerospace/README.md`):
+`cmd-d` dmenu, `cmd-enter` Alacritty, `cmd-e` Emacs, `cmd-shift-e` emacs-everywhere, `cmd-shift-w` Firefox,
+`cmd-shift-d` emoji, `cmd-j/k` focus next/previous, `cmd-shift-j/k` swap, `cmd-h/l` resize,
+`cmd-1..0` workspaces (summoned onto the focused monitor, like dwm tags), `cmd-shift-1..0` send window,
+`cmd-shift-comma/period` window to monitor, `cmd-shift-space` layout, `cmd-shift-b` hide the bar,
+`cmd-q` close window, `cmd-shift-f5` reload. Core macOS app shortcuts (`cmd-c/v/x/z/s/t/w/f`, `cmd-space`
+Spotlight, `cmd-tab`) are unchanged; `alt-tab` toggles the last two workspaces.
+
+### Status bar (SketchyBar)
+
+32 px, PxPlus font, theme bar colours (`~/.config/theme/sketchybar.sh`).
+
+- Left: workspaces 1–10, always shown, as dwm tags: a number icon followed by one icon per app on it (dwm's
+  `tagicons[]`); the focused one uses the selection colours. Then the focused app.
+- Left of the notch: weather (wttr.in; click for the full report).
+- Right, in dwmblocks order: network rate, input method (`中` / `EN`), memory (click: btop), battery, date.
+- Plugins in `desktop/mac/sketchybar/plugins/`; edits apply after `sketchybar --reload` (`cmd-shift-f5`).
+
+### Themes and fonts
+
+`theme NAME` also sets on the Mac: macOS light/dark mode, SketchyBar, the window borders, dmenu (reads the
+bar colours on every run), CodeIsland (restarted to take the bar colours) and the wallpaper (one image on
+every screen, through System Events). Everything shared (Alacritty, Emacs, VS Code, Firefox, Obsidian
+vault `~/Sync/WorkNotes`, rmpc, Claude Code, Neovim) works as on Linux.
+
+The fonts are the same; on Retina sizes are in points (1 pt = 2 px), so PxPlus is 16 everywhere
+(the native 8x16 grid): Alacritty 16, Emacs 16 (Linux 27), VS Code 16 with no zoom
+(`dotfiles/vscode/settings-mac.json`), Obsidian 16 (`body.mod-macos` in `desktop-ui-size.css`),
+SketchyBar and dmenu 16. CodeIsland uses Cubic 11 at 11/22 (its grid).
+
+### Emacs
+
+emacs-plus@31 (`Brewfile`), same Doom config. Mac-only parts are behind `(featurep :system 'macos)`:
+notes in `~/DataBase/Notes/` (variable `my/notes`), the `macos` module, copilot, eat and claude-code.
+
+### CodeIsland
+
+`builds/codeisland.sh` checks out the latest release of github.com/wxtsky/CodeIsland in
+`~/System/CodeIsland`, patches it (`builds/codeisland-pixel.py`: Cubic 11 pixel font, the theme bar colours
+for its panel and text, no self-update) and installs it to `/Applications`. Re-run it to update. If a new
+release breaks the patch, the script says so; the counts it prints show how many calls were patched.
 
 ---
 
