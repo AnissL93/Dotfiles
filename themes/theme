@@ -289,7 +289,8 @@ def rmpc(t):
 
 def emacs(t):
     write(f"{STATE}/emacs-theme", t["emacs_theme"] + "\n")
-    run("emacsclient", "--eval", f"(progn (mapc #'disable-theme custom-enabled-themes)"
+    # keep `user': it holds custom-set-faces from doom/config.el
+    run("emacsclient", "--eval", f"(progn (mapc #'disable-theme (remq 'user custom-enabled-themes))"
         f" (load-theme '{t['emacs_theme']} t))")
 
 

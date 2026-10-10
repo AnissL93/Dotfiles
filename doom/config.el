@@ -270,6 +270,11 @@
          (if (file-exists-p f)
              (intern (string-trim (with-temp-buffer (insert-file-contents f) (buffer-string))))
            'doom-amber-crt)))
+;; doom-themes makes gnus-group-news-low-empty inherit gnus-group-news-low, but gives news-low specs only
+;; for 16+ colours. The daemon's tty frame (0 colours) then falls back to gnus's default, which inherits
+;; news-low-empty again: an inheritance cycle that fails load-theme and every `emacsclient -c'.
+(custom-set-faces '(gnus-group-news-low ((t :inherit gnus-group-mail-1)))
+                  '(gnus-group-news-low-empty ((t :inherit gnus-group-mail-1-empty))))
 ;; (setq! doom-theme 'doom-oksolar-dark)
 ;; Doom caches the cursor colour at theme load, from whatever frame is selected --
 ;; under the daemon that's a tty frame, where themes fall back to "white".
