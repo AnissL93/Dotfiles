@@ -553,9 +553,10 @@ Mac tool in place of each Linux one. Linux and macOS parts stay separate: `deskt
 
 - `packages/Brewfile`; apps installed by hand first need `HOMEBREW_CASK_OPTS=--adopt brew bundle --file packages/Brewfile`.
   Casks that ask for a password (Squirrel, Karabiner, Docker, Tailscale, Bitwarden) must be installed from a terminal.
-- `builds`: dmenu (`desktop/mac/dmenu/dmenu.swift`, compiled with `swiftc` into `~/.local/bin`) and
-  CodeIsland (`builds/codeisland.sh`). Neither needs Xcode, only the command-line tools.
-- `defaults`: Skim opens PDFs (`duti`).
+- `builds`: dmenu (`desktop/mac/dmenu/dmenu.swift`, compiled with `swiftc` into `~/.local/bin`),
+  `~/Applications/Zathura.app` (an AppleScript applet that hands Finder's files to zathura) and
+  CodeIsland (`builds/codeisland.sh`). None needs Xcode, only the command-line tools.
+- `defaults`: zathura opens PDF, EPUB and MOBI (`duti`). AZW3 is not supported (MuPDF cannot read it).
 - `services`: skhd, borders, SketchyBar.
 - By hand once: enable the "keymap" rules in Karabiner, allow SketchyBar/AeroSpace/skhd under Accessibility,
   and in VS Code run "Shell Command: Install 'code' in PATH" if `code` is missing.
@@ -572,7 +573,7 @@ Mac tool in place of each Linux one. Linux and macOS parts stay separate: `deskt
 | keyd | Karabiner-Elements, rules generated from `keyd.conf` | `keymap/mac/` |
 | fcitx5 + Rime | Squirrel | `rime/` (`~/Library/Rime`) |
 | st | Alacritty | `dotfiles/alacritty/alacritty.toml` |
-| zathura | Skim | |
+| zathura | zathura (Homebrew) + `Zathura.app` | `dotfiles/zathura/`, `desktop/mac/zathura/` |
 | dunst, slock, flameshot | Notification Center, `ctrl-cmd-q`, `cmd-shift-5` | |
 | redshift | f.lux | |
 | playerctl, pulsemixer | nowplaying-cli, switchaudio-osx | |

@@ -2,9 +2,9 @@
 """Colour theme manager for the whole desktop.
 
 usage: theme              list themes (* = current)
-       theme NAME         apply NAME.conf to alacritty, firefox, obsidian, rmpc, vscode, emacs, claude code, neovim,
+       theme NAME         apply NAME.conf to alacritty, firefox, obsidian, rmpc, vscode, emacs, claude code, neovim, zathura,
                           wallpaper, and per platform:
-                            Linux: dwm, dmenu, st, dunst, fcitx5, zathura, slock, cursor
+                            Linux: dwm, dmenu, st, dunst, fcitx5, slock, cursor
                             macOS: light/dark mode, sketchybar, borders, CodeIsland, pointer
        theme --wallpaper [NAME]  only set the wallpaper of the current (or NAME) theme;
                           used by xinitrc and changebg
@@ -661,8 +661,8 @@ def wallpaper_mac(t):
 
 # ---- main --------------------------------------------------------------------------------
 
-SHARED = (alacritty, firefox, obsidian, rmpc, vscode, emacs, claude, nvim)
-LINUX = (xresources, gtk_scheme, dunst, cursor, fcitx5, zathura, wallpaper, x11_reload)
+SHARED = (alacritty, firefox, obsidian, rmpc, vscode, emacs, claude, nvim, zathura)
+LINUX = (xresources, gtk_scheme, dunst, cursor, fcitx5, wallpaper, x11_reload)
 MACOS = (dark_mode, sketchybar, borders, codeisland, cursor_mac, wallpaper_mac)
 
 
