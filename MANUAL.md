@@ -572,8 +572,9 @@ Mac tool in place of each Linux one. Linux and macOS parts stay separate: `deskt
 | `getpass` | `getpass` (pass + dmenu, `pinentry-mac`) | `desktop/mac/bin/getpass`, `desktop/mac/gnupg/` |
 | keyd | Karabiner-Elements, rules generated from `keyd.conf` | `keymap/mac/` |
 | fcitx5 + Rime | Squirrel | `rime/` (`~/Library/Rime`) |
-| st | Alacritty | `dotfiles/alacritty/alacritty.toml` |
+| st | kitty (`alt-l/y/o` as in st; Alacritty kept) | `dotfiles/kitty/kitty.conf` |
 | zathura | zathura (Homebrew) + `Zathura.app` | `dotfiles/zathura/`, `desktop/mac/zathura/` |
+| dwm swallow | `desktop/mac/bin/swallow` (AeroSpace rule + zsh hook) | `desktop/mac/zsh/swallow.zsh` |
 | dunst, slock, flameshot | Notification Center, `ctrl-cmd-q`, `cmd-shift-5` | |
 | redshift | f.lux | |
 | playerctl, pulsemixer | nowplaying-cli, switchaudio-osx | |
@@ -582,7 +583,7 @@ Mac tool in place of each Linux one. Linux and macOS parts stay separate: `deskt
 ### Keys
 
 AeroSpace uses the dwm keys with `cmd` as the dwm `Super` (full list: `desktop/mac/aerospace/README.md`):
-`cmd-d` dmenu, `cmd-enter` Alacritty, `cmd-e` Emacs, `cmd-shift-e` emacs-everywhere, `cmd-shift-w` Firefox,
+`cmd-d` dmenu, `cmd-enter` kitty, `cmd-e` Emacs, `cmd-shift-e` emacs-everywhere, `cmd-shift-w` Firefox,
 `cmd-shift-d` emoji, `cmd-j/k` focus next/previous, `cmd-shift-j/k` swap, `cmd-h/l` resize,
 `cmd-1..0` workspaces (summoned onto the focused monitor, like dwm tags), `cmd-shift-1..0` send window,
 `cmd-shift-comma/period` window to monitor, `cmd-shift-space` layout, `cmd-shift-b` hide the bar,
