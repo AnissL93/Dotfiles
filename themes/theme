@@ -575,13 +575,20 @@ Image=arrow.png
         "--method", "org.fcitx.Fcitx.Controller1.ReloadAddonConfig", "classicui")
 
 
+def rgba(c, a):
+    return "rgba({},{},{},{})".format(*(int(c.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)), a)
+
+
 def zathura(t):
     """colours for zathura (dotfiles/zathura/zathurarc includes ../theme/zathurarc); new windows."""
     c = {"default-bg": t["bg"], "default-fg": t["fg"], "statusbar-bg": t["bg_alt"], "statusbar-fg": t["fg"],
          "inputbar-bg": t["bg_alt"], "inputbar-fg": t["fg"], "notification-bg": t["bg_alt"],
          "notification-fg": t["fg"], "notification-error-bg": t["bg_alt"], "notification-error-fg": t["err"],
          "notification-warning-bg": t["bg_alt"], "notification-warning-fg": t["warn"],
-         "highlight-color": t["sel"], "highlight-fg": t["fg"], "highlight-active-color": t["accent"],
+         # highlights are drawn over the page text: opaque colours hide it (this zathura has no
+         # highlight-transparency), so they carry their own alpha
+         "highlight-color": rgba(t["accent"], 0.4), "highlight-fg": t["fg"],
+         "highlight-active-color": rgba(t["warn"], 0.5),
          "completion-bg": t["bg_alt"], "completion-fg": t["fg"], "completion-group-bg": t["bg_hl"],
          "completion-group-fg": t["mid"], "completion-highlight-bg": t["accent"],
          "completion-highlight-fg": t["accent_fg"], "index-bg": t["bg"], "index-fg": t["fg"],
