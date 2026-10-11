@@ -106,6 +106,7 @@ Python `open()`), otherwise the link is replaced by a plain file and the change 
 - `~/.config/theme/nvim.lua` (tokyonight palette, loaded by `nvim-config/lua/theme.lua`)
 - `~/.local/share/fcitx5/themes/desktop/` (selected in `~/.config/fcitx5/conf/classicui.conf`)
 - `~/.config/theme/zathurarc` (included by `zathura/zathurarc`)
+- `~/.config/theme/kitty.conf` (included by `kitty/kitty.conf`)
 
 ### Present in dotfiles but not linked on this machine
 
@@ -313,6 +314,8 @@ theme moss     # Moss (light)
 | dwm bar, borders, dmenu | `dwm.*` X resources + `dwmc xrdb` | yes |
 | st | `st.*` X resources | new windows |
 | alacritty | `~/.config/alacritty/theme.toml` (imported) | yes |
+| kitty | `~/.config/theme/kitty.conf` (included), then `SIGUSR1` makes kitty reload | yes |
+| zathura | `~/.config/theme/zathurarc` (included); highlights are translucent so selected text stays readable | new windows |
 | dunst | `dunstrc.d/theme.conf`, then every dunst is restarted (one can run per D-Bus session) | next notification |
 | Emacs | `~/.config/theme/emacs-theme` + `load-theme` in the daemon | yes |
 | VS Code | local extension "Retro Themes" (both themes) + `workbench.colorTheme` | yes |
@@ -321,7 +324,7 @@ theme moss     # Moss (light)
 | rmpc | `~/.config/rmpc/themes/desktop.ron`: rmpc's default theme (`rmpc theme`) with the selection, tab, border, mode and progress colours from the palette; `theme: Some("desktop")` added to `config.ron` | next start of rmpc |
 | cursor | pixel cursors `AmberCRT` / `VaporNight`, `~/.icons/default`, GTK setting | new windows |
 | wallpaper | `feh`, one image per monitor (macOS: System Events, one image on all screens) | yes |
-| macOS only | light/dark mode, SketchyBar, borders, dmenu, CodeIsland: see [section 13](#13-macos) | yes |
+| macOS only | light/dark mode, SketchyBar, borders, dmenu, CodeIsland, the pointer (accent fill, bg outline): see [section 13](#13-macos) | yes |
 
 ### Files
 
@@ -559,6 +562,10 @@ Mac tool in place of each Linux one. Linux and macOS parts stay separate: `deskt
   CodeIsland (`builds/codeisland.sh`). None needs Xcode, only the command-line tools.
 - `defaults`: zathura opens PDF, EPUB and MOBI (`duti`). AZW3 is not supported (MuPDF cannot read it).
 - `services`: skhd, borders, SketchyBar.
+- Wallpapers: `theme` downloads each one on first use. To have them all (and the fonts `docs/build.py`
+  needs), clone the assets repo and link its wallpapers, as on Linux:
+  `git clone https://github.com/AnissL93/assets ~/System/assets && ln -s ~/System/assets/wallpapers ~/.local/share/wallpapers`
+  (about 2 GB; move an existing `~/.local/share/wallpapers` aside first).
 - By hand once: enable the "keymap" rules in Karabiner, allow SketchyBar/AeroSpace/skhd under Accessibility,
   and in VS Code run "Shell Command: Install 'code' in PATH" if `code` is missing.
 
@@ -566,10 +573,10 @@ Mac tool in place of each Linux one. Linux and macOS parts stay separate: `deskt
 
 | Linux | Mac | Config |
 |---|---|---|
-| dwm | AeroSpace (+ skhd for `cmd-arrows`) | `desktop/mac/aerospace/`, `desktop/mac/skhd/` |
+| dwm | AeroSpace (+ skhd for `cmd-left/right`) | `desktop/mac/aerospace/`, `desktop/mac/skhd/` |
 | dwm borders | JankyBorders | `desktop/mac/borders/` (colours from `theme`) |
 | dwmblocks | SketchyBar | `desktop/mac/sketchybar/` |
-| dmenu | own dmenu in Swift, same flags and keys | `desktop/mac/dmenu/`, `desktop/mac/bin/dmenu_run` |
+| dmenu | own dmenu in Swift, same flags and keys; `dmenu_run` opens Firefox in a new window | `desktop/mac/dmenu/`, `desktop/mac/bin/dmenu_run` |
 | `getpass` | `getpass` (pass + dmenu, `pinentry-mac`) | `desktop/mac/bin/getpass`, `desktop/mac/gnupg/` |
 | keyd | Karabiner-Elements, rules generated from `keyd.conf` | `keymap/mac/` |
 | fcitx5 + Rime | Squirrel | `rime/` (`~/Library/Rime`) |
@@ -591,9 +598,25 @@ AeroSpace uses the dwm keys with `cmd` as the dwm `Super` (full list: `desktop/m
 `cmd-q` close window, `cmd-shift-f5` reload. Core macOS app shortcuts (`cmd-c/v/x/z/s/t/w/f`, `cmd-space`
 Spotlight, `cmd-tab`) are unchanged; `cmd-comma/period` (Settings, cancel) go to the monitor keys, as in dwm; `alt-tab` toggles the last two workspaces.
 
+### Terminal (kitty) and swallow
+
+kitty (`dotfiles/kitty/kitty.conf`) stands in for st: same font, `alt-l` opens a link and `alt-y` copies
+one (letter labels on every URL; press the label), `alt-o` copies the last command's output (kitty's shell
+integration marks the prompts). One kitty process serves every window: `cmd-enter` runs
+`desktop/mac/bin/term`, which asks the running kitty for a window over its socket (0.2 s; starting kitty
+takes ~1.3 s). So `cmd-q` in kitty closes every kitty window. `term CMD` opens a window running CMD.
+Alacritty stays installed and themed; its config is shared with Linux (`alacritty/alacritty.toml` plus
+`linux.toml` / `macos.toml`).
+
+Swallow works as in dwm: an app started from a shell (`zathura book.epub`, `mpv video.mkv`) moves the
+terminal to the hidden workspace `S`; when the app exits, the terminal comes back and is focused. The
+shell notes its window at its first command (`desktop/mac/zsh/swallow.zsh`, added to `~/.zshrc` by step
+`shell`), and an AeroSpace rule runs `desktop/mac/bin/swallow` for every new window. Apps started with
+`open`, and `emacsclient` frames (they belong to the Emacs daemon), are not swallowed.
+
 ### Status bar (SketchyBar)
 
-32 px, PxPlus font, theme bar colours (`~/.config/theme/sketchybar.sh`).
+36 pt, PxPlus 24 pt, theme bar colours (`~/.config/theme/sketchybar.sh`).
 
 - Left: workspaces 1–10, always shown, as dwm tags: a number icon followed by one icon per app on it (dwm's
   `tagicons[]`); the focused one uses the selection colours. Then the focused app.
@@ -604,13 +627,15 @@ Spotlight, `cmd-tab`) are unchanged; `cmd-comma/period` (Settings, cancel) go to
 ### Themes and fonts
 
 `theme NAME` also sets on the Mac: macOS light/dark mode, SketchyBar, the window borders, dmenu (reads the
-bar colours on every run), CodeIsland (restarted to take the bar colours) and the wallpaper (one image on
-every screen, through System Events). Everything shared (Alacritty, Emacs, VS Code, Firefox, Obsidian
-vault `~/Sync/WorkNotes`, rmpc, Claude Code, Neovim) works as on Linux.
+bar colours on every run), CodeIsland (restarted to take the bar colours), the pointer colours (System
+Settings → Accessibility; its size stays as set there) and the wallpaper (one image on
+every screen, through System Events). Everything shared (Alacritty, kitty, zathura, Emacs, VS Code, Firefox, Obsidian
+vault `~/Sync/WorkNotes`, rmpc, Claude Code, Neovim) works as on Linux. Firefox reads its colours only at
+startup: quit it (`cmd-q`) and reopen after `theme`.
 
 The fonts are the same. macOS sizes are in points; both Mac screens are small and dense (built-in
 14" Retina ≈ 128 pt/in, the 15" 1080p USB-C screen ≈ 143 pt/in), so one size fits both: 24 pt
-everywhere (48 px on Retina, 3x PxPlus's 8x16 grid, so crisp there). Alacritty 24, Emacs 24
+everywhere (48 px on Retina, 3x PxPlus's 8x16 grid, so crisp there). Alacritty and kitty 24, Emacs 24
 (Linux 27), VS Code 16 zoomed 1.5x as on Linux (`dotfiles/vscode/settings-mac.json`), Obsidian 24
 (same snippet as Linux), SketchyBar and dmenu 24 in a 36 pt bar. CodeIsland uses Cubic 11 at 11/22
 (its grid, limited by the notch). Firefox pages stay at 16: use its default zoom (Settings → Zoom).
