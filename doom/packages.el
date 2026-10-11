@@ -224,11 +224,6 @@
 
 (package! gt)
 
-(package! conda
-  :recipe (:host github :repo "necaris/conda.el"))
-
-(package! micromamba
-  :recipe (:host github :repo "SqrtMinusOne/micromamba.el"))
 
 
 (package! rainbow-mode
