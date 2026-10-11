@@ -549,7 +549,8 @@ Mac tool in place of each Linux one. Linux and macOS parts stay separate: `deskt
 
 ### Setup
 
-`./bootstrap.sh` runs the macOS steps: `packages tools builds fonts links emacs defaults services theme`.
+`./bootstrap.sh` runs the macOS steps: `packages tools builds fonts links shell emacs defaults services theme`
+(`shell`: adds the swallow hook to `~/.zshrc`, which is not in git).
 
 - `packages/Brewfile`; apps installed by hand first need `HOMEBREW_CASK_OPTS=--adopt brew bundle --file packages/Brewfile`.
   Casks that ask for a password (Squirrel, Karabiner, Docker, Tailscale, Bitwarden) must be installed from a terminal.
