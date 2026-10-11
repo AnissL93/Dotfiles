@@ -198,10 +198,10 @@
 ;; retro setup, matches alacritty / dwm / firefox
 (setq cur-font "PxPlus IBM VGA 8x16"  ; pixel font: 16 logical px, an exact multiple of its grid
       ch-font "Cubic 11"
-      ;; same look on both: Linux screen is scaled 5/3 (27 px), the Mac Retina 2x (16 px)
-      en-font-size (if (featurep :system 'macos) 16 27))
+      ;; Linux: 27 px on a 5/3-scaled screen; macOS: 24 pt (48 px on Retina, 3x the font's grid)
+      en-font-size (if (featurep :system 'macos) 24 27))
 (setq doom-font (font-spec :family cur-font :size en-font-size)
-      doom-variable-pitch-font (font-spec :family "Fuzzy Bubbles" :size (if (featurep :system 'macos) 17 28))
+      doom-variable-pitch-font (font-spec :family "Fuzzy Bubbles" :size (if (featurep :system 'macos) 25 28))
       doom-big-font cur-font
       doom-unicode-font (font-spec :family ch-font)) 
 ;; doom-unicode-font only covers symbols; map Chinese to ch-font explicitly

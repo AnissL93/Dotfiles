@@ -11,15 +11,3 @@ body {
   /* note text; !important because Obsidian sets the base font size inline */
   --font-text-size: 24px !important;
 }
-
-/* macOS (Retina 2x): the same apparent size is 16px; 16 is also IBM VGA's native size, so it stays crisp */
-body.mod-macos {
-  --font-ui-smaller: 14px;
-  --font-ui-small: 16px;
-  --font-ui-medium: 16px;
-  --font-ui-large: 18px;
-  --nav-item-size: 16px;
-  --tab-font-size: 16px;
-  --file-header-font-size: 16px;
-  --font-text-size: 16px !important;
-}
