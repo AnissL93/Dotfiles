@@ -1,0 +1,12 @@
+# Linux part of alacritty.toml (linked to ~/.config/alacritty/platform.toml)
+[font]
+size = 20.0025   # pt, = 26.67px
+
+[window]
+padding = { x = 24, y = 24 }   # CRT bezel feel
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+
+[colors]
+draw_bold_text_with_bright_colors = true

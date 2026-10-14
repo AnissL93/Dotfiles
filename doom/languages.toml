@@ -1,0 +1,25 @@
+# lsp-proxy language configuration — LOCAL machine.
+#
+# This file is MERGED on top of lsp-proxy's built-in languages.toml, so only
+# the differences belong here.  The built-in defaults already map:
+#
+#   python              -> basedpyright   (basedpyright-langserver --stdio)
+#   go                  -> gopls
+#   rust                -> rust-analyzer
+#   typescript/tsx/js   -> vtsls (+ eslint, only when an eslint config exists)
+#
+# and they invoke each server by bare name, resolved through PATH.  lsp-proxy.el
+# puts ~/.local/bin, ~/.cargo/bin, ~/go/bin and the current nvm node bin on PATH,
+# which is where those servers are installed here:
+#
+#   basedpyright-langserver  ~/.local/bin
+#   gopls                    ~/.local/bin
+#   rust-analyzer            ~/.cargo/bin
+#   vtsls                    ~/.nvm/versions/node/<ver>/bin
+#
+# So no overrides are needed.  Add them below to customise, e.g.:
+#
+#   [language-server.basedpyright.config.basedpyright.analysis]
+#   typeCheckingMode = "standard"
+#
+# Only the keys you set are overridden; the rest of the defaults are kept.

@@ -1,0 +1,7 @@
+- tags ::
+- keywords :: %^{keywords}
+
+* %^{title}
+** Date
+** Topic
+** Attend

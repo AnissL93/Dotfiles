@@ -1,0 +1,13 @@
+# macOS part of alacritty.toml (linked to ~/.config/alacritty/platform.toml)
+[font]
+size = 24   # 3x IBM VGA's 8x16 grid on Retina (48 px), crisp there
+
+[window]
+opacity = 0.9
+padding = { x = 10, y = 10 }
+decorations = "buttonless"
+decorations_theme_variant = "Light"
+dynamic_title = true
+
+[env]
+term = "xterm-256color"
