@@ -196,8 +196,8 @@
 ;; (setq ch-font "Source Han Serif SC Medium")
 ;; (setq ch-font "HanaMinA")
 ;; retro setup, matches alacritty / dwm / firefox
-(setq cur-font "Fizzy Bubbles Code"  ; pixel font: 16 logical px, an exact multiple of its grid
-      ch-font "StarLovePencil"
+(setq cur-font "PxPlus IBM VGA 8x16"  ; pixel font: 16 logical px, an exact multiple of its grid
+      ch-font "Cubic 11"
       ;; Linux: 27 px on a 5/3-scaled screen; macOS: 24 pt (48 px on Retina, 3x the font's grid)
       en-font-size (if (featurep :system 'macos) 24 27))
 (setq doom-font (font-spec :family cur-font :size en-font-size)

@@ -3,7 +3,7 @@
 
 /* UI: IBM VGA for Latin, Cubic 11 for Chinese */
 * {
-  font-family: "Fizzy Bubbles Code", "StarLovePencil", monospace !important;
+  font-family: "PxPlus IBM VGA 8x16", "Cubic 11", monospace !important;
   font-size: 16px !important;  /* pixel font: 16 = native, crisp */
 }
 
