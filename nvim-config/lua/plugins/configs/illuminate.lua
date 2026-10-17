@@ -25,5 +25,8 @@ return {
 			-- If nil, vim-illuminate will be disabled for large files.
 			large_file_overrides = nil,
 		})
+		-- ]] / [[ jump between usages (replaces deprecated nvim-treesitter-refactor)
+		vim.keymap.set("n", "]]", function() require("illuminate").goto_next_reference(false) end, { desc = "Next usage" })
+		vim.keymap.set("n", "[[", function() require("illuminate").goto_prev_reference(false) end, { desc = "Previous usage" })
 	end,
 }

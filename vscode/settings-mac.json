@@ -8,7 +8,7 @@
     "terminal.integrated.fontFamily": "'Fizzy Bubbles Code', 'StarLovePencil', monospace",
     "terminal.integrated.fontSize": 16,
     // colours: the current theme from `theme` (~/System/dotfiles/themes), local extension "Retro Themes"
-    "workbench.colorTheme": "Neon Canal",
+    "workbench.colorTheme": "Overdose",
     // key codes, not characters: shortcuts keep working with the Karabiner layout (keymap/mac)
     "keyboard.dispatch": "keyCode",
     "claudeCode.preferredLocation": "panel",

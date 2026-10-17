@@ -1,6 +1,7 @@
 return {
-    "VidocqH/lsp-lens.nvim",
+    "Wansmer/symbol-usage.nvim",
+    event = "LspAttach",
     config = function()
-        require("lsp-lens").setup()
+        require("symbol-usage").setup()
     end,
 }
