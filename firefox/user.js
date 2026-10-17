@@ -48,3 +48,8 @@ user_pref("font.size.variable.zh-TW", 16);
 
 // web pages' light/dark (prefers-color-scheme) follows the system (portal color-scheme, set by `theme`)
 user_pref("layout.css.prefers-color-scheme.content-override", 2);
+
+// hardware video decoding through VA-API (nvidia-vaapi-driver; env vars in desktop/linux/x11/xinitrc)
+user_pref("media.ffmpeg.vaapi.enabled", true);
+user_pref("media.hardware-video-decoding.force-enabled", true);
+user_pref("widget.dmabuf.force-enabled", true);

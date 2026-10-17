@@ -14,3 +14,9 @@ export LS_COLORS="${LS_COLORS}:ln=01;04;36"
 
 # prompt colours follow the desktop theme
 source "$(dirname "${BASH_SOURCE[0]}")/prompt.sh"
+
+# ydl URL...: yt-dlp with Firefox cookies (Bilibili logged-in qualities); notifies when each file is done or the run fails
+ydl() {
+    yt-dlp --cookies-from-browser firefox --exec 'notify-send -i video-x-generic -- "下载完成" {}' "$@" \
+        || notify-send -u critical -- "下载失败" "$*"
+}

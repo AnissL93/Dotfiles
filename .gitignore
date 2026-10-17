@@ -38,3 +38,6 @@ tokens/
 wallpapers/
 fonts/*
 !fonts/desktop/
+
+# mpv: uosc_danmaku writes its on/off state and per-video sources here
+mpv/danmaku-history.json
