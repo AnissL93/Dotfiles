@@ -314,6 +314,8 @@
 
 (map! "C-:" #'set-input-method-to-rime)
 
+(load! "input")
+
 (map! :leader
       (:prefix-map ("j" . "Easy motion movement")
        ;; easy motion jumping

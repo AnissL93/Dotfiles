@@ -1,37 +1,21 @@
 ;;; ../Projects/Dotfiles/doom-emacs/input.el -*- lexical-binding: t; -*-
 
-(when (string-equal system-type "darwin")
-  (setq input-switch-method0 "com.apple.keylayout.ABC")
-  (setq input-switch-method1 "com.sogou.inputmethod.sogou.pinyin")
-  (setq input-switch-is-on nil)
+;; macOS: 离开 insert（Esc）切到英文，再进 insert 恢复之前的输入法。依赖 macism。
+(when (and (eq system-type 'darwin) (executable-find "macism"))
+  (defvar my/im-english "com.apple.keylayout.ABC")
+  (defvar my/im-last nil "上次 insert 模式下的输入法")
 
-  (setq input-methods-in-insert-mode nil)
+  (defun my/im-set (id) (call-process "macism" nil 0 nil id)) ; 异步，不卡 Esc
 
-  ;; 通过运行命令切换输入法
-  (defun input-switch-use-method (method)
-    (when input-switch-is-on
-      (shell-command (replace-regexp-in-string "method" method "im-select method"))))
-
-  (defun store-current-input-method ()
-    (setq input-methods-in-insert-mode (shell-command-to-string "im-select")))
-
-  ;; 开启或关闭输入法切换
-  (defun input-switch-enable () (interactive) (setq input-switch-is-on t))
-  (defun input-switch-disable () (interactive) (setq input-switch-is-on nil))
-
-  ;; 进入insert mode, 换成之前的input method
-  (add-hook 'evil-insert-state-entry-hook
-            (lambda ()
-              (when (not (equal input-methods-in-insert-mode nil))
-                (input-switch-use-method input-methods-in-insert-mode))))
-
-  ;; 退出insert mode切换第一输入法（英文）
   (add-hook 'evil-insert-state-exit-hook
             (lambda ()
-              (store-current-input-method)
-              (input-switch-use-method input-switch-method0)))
+              (setq my/im-last (car (process-lines "macism")))
+              (unless (equal my/im-last my/im-english) (my/im-set my/im-english))))
 
-  (input-switch-enable))
+  (add-hook 'evil-insert-state-entry-hook
+            (lambda ()
+              (when (and my/im-last (not (equal my/im-last my/im-english)))
+                (my/im-set my/im-last)))))
 
 
 (when (string-equal system-type "gnu/linux")
