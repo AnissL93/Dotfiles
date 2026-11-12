@@ -168,7 +168,6 @@
 ;; (setq cur-font "ProggyCrossed")
 (setq ch-font "LXGW WenKai Mono")  
 (setq cur-font "Ligamit")  
-(setq cur-font "Iosevka SS14") 
 (setq cur-font "Monaspace Neon Frozen")  
 (setq cur-font "VictorMono Nerd Font Mono")   
 (setq cur-font "Pragmata Pro Mono") 
@@ -200,6 +199,7 @@
       ch-font "Sarasa Mono SC"
       ;; Linux: 27 px on a 5/3-scaled screen; macOS: 24 pt (48 px on Retina, 3x the font's grid)
       en-font-size (if (featurep :system 'macos) 20 27))
+(setq cur-font "Iosevka SS14")  
 (setq doom-font (font-spec :family cur-font :size en-font-size)
       doom-variable-pitch-font (font-spec :family "Fizzy Bubbles Code" :size (if (featurep :system 'macos) 25 28))
       doom-big-font cur-font
@@ -636,6 +636,11 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
 
 (load! "org.el")
 
+;; Knowledge Forge: the WorkNotes vault as org-roam (~/Projects/knowledge-forge-emacs)
+(load! "~/Projects/knowledge-forge-emacs/lisp/kf.el")
+(map! :leader :desc "Knowledge Forge" "n k" kf-map)
+
+
 (use-package! hledger-mode
   :after htmlize
   :mode ("\\.journal\\'" "\\.hledger\\'")
@@ -859,18 +864,36 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
 (setq auth-sources '("~/.authinfo"))
 
 (use-package! msgpack)
-(use-package! tramp-rpc)
+(use-package! tramp-rpc
+  ;; straight installs a git checkout, so the default 'auto refuses to fetch a
+  ;; server binary on file ops ("needs a server binary for this git checkout").
+  :init (setq tramp-rpc-deploy-git-build-policy 'release))
 
 
 ;; LSP via lsp-proxy for python / go / rust / typescript (eglot keeps cc + latex)
 (load! "lsp-proxy.el")
 
-(load! "worknotes.el")
+;; Replaced by Knowledge Forge (kf.el, ~/Sync/WorkNotesOrg) on 2026-11-11
+;; (load! "worknotes.el")
 
 ;; Center text in org / markdown buffers (visual-fill-column is already pulled in by nov / zen)
 (setq-default visual-fill-column-width 100
               visual-fill-column-center-text t)
 (add-hook! (org-mode markdown-mode) #'visual-fill-column-mode)
+
+;; Prettier markdown: hidden markup (toggle with C-c C-x C-m), scaled headings,
+;; natively highlighted code blocks, proportional body text.
+(after! markdown-mode
+  ;; buffer-local var: setq here would only hit the buffer that triggered the load
+  (setq-default markdown-hide-markup t)
+  (setq markdown-header-scaling t
+        markdown-fontify-code-blocks-natively t
+        markdown-enable-wiki-links t
+        markdown-italic-underscore t)
+  (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+  ;; org-modern look (heading glyphs, bullets, checkboxes, org faces); M-x md-modern-mode toggles
+  (load! "md-modern")
+  (add-hook 'markdown-mode-hook #'md-modern-mode))
 
 ;; ---- macOS only ----------------------------------------------------------------
 (when (featurep :system 'macos)
@@ -887,7 +910,9 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
 
   (use-package! claude-code
     :defer t
+    :bind-keymap ("C-c c" . claude-code-command-map)
     :config
+    (setq claude-code-eat-never-truncate-claude-buffer t)
     (map! :map claude-code-mode-map
           :localleader
           "M" #'claude-code-cycle-mode)
@@ -899,5 +924,24 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
     (put 'claude-code-cycle-mode 'repeat-map 'my-claude-code-repeat-map)
     (claude-code-mode 1))
 
+  ;; settings.json has "tui": "fullscreen" (alternate screen = no scrollback);
+  ;; Claude Code started from Emacs terminals uses the classic renderer so history scrolls.
+  (setenv "CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN" "1")
+
   (after! tramp
-    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)))
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+
+  ;; Terminals in /rpc: (tramp-rpc) directories run on the remote host: eat (also
+  ;; claude-code's terminal) and vterm only know a remote shell for ssh/scp/docker.
+  (after! eat
+    (add-to-list 'eat-tramp-shells '("rpc" . "/bin/bash"))
+    (setq eat-term-scrollback-size nil)   ; unlimited history (default 128K chars)
+    ;; Cmd+Up: leave terminal input for Emacs mode and scroll back (C-c C-j returns).
+    (define-key eat-semi-char-mode-map (kbd "s-<up>")
+                (lambda () (interactive) (eat-emacs-mode) (scroll-down-command))))
+  (after! vterm
+    (add-to-list 'vterm-tramp-shells '("rpc" login-shell "/bin/bash"))
+    (setq vterm-max-scrollback 100000)    ; vterm's hard maximum (default 1000 lines)
+    ;; Cmd+Up: copy mode and scroll back (C-c C-t or RET returns).
+    (define-key vterm-mode-map (kbd "s-<up>")
+                (lambda () (interactive) (vterm-copy-mode 1) (scroll-down-command)))))

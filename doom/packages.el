@@ -253,7 +253,10 @@
   :recipe (:host github :repo "ichernyshovvv/org-timeblock"))
 
 (package! msgpack)
-(package! tramp-rpc :recipe (:host github :repo "ArthurHeymans/emacs-tramp-rpc" :files ("lisp/*.el")))
+;; Pinned to the v0.16.0 release: with tramp-rpc-deploy-git-build-policy 'release
+;; the client must match a released server (an unreleased checkout expects a newer protocol).
+(package! tramp-rpc :recipe (:host github :repo "ArthurHeymans/emacs-tramp-rpc" :files ("lisp/*.el"))
+  :pin "543b3bf30b8a80b8cd0200c98d00f22a4e0220ac")
 
 
 ;; Rust-based LSP client (alternative to eglot/lsp-mode) used for
@@ -274,3 +277,10 @@
   (package! claude-code
     :recipe (:host github :repo "stevemolitor/claude-code.el" :branch "main"
              :files ("*.el" (:exclude "images/*")))))
+
+;; Knowledge Forge: paste images into the vault (SPC n k p)
+(package! org-download :recipe (:host github :repo "abo-abo/org-download"))
+;; Knowledge Forge P4: mermaid blocks (SPC n k m), graph (SPC n k g), AI presets (SPC n k A)
+(package! ob-mermaid)
+(package! org-roam-ui)
+(package! gptel)
