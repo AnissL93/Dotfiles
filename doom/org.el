@@ -272,9 +272,12 @@
    org-ref-notes-function 'orb-edit-note
    org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-bibtex-completion
 
-   bibtex-completion-bibliography (directory-files-recursively
-                                   (concat my/notes "References/")
-                                   ".*\.bib")
+   ;; zotero.bib: Better BibTeX "keep updated" export of the Zotero library;
+   ;; its notes are the kf Paper notes (kf-zotero.el advises orb)
+   bibtex-completion-bibliography (cons "~/Sync/WorkNotesOrg/References/zotero.bib"
+                                        (directory-files-recursively
+                                         (concat my/notes "References/")
+                                         ".*\.bib"))
    ;; directory-files-no-dot-files-regexp false)
 
    bibtex-completion-library-path '("~/DataBase/Papers/")
