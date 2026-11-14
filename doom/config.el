@@ -639,8 +639,11 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
 (load! "org.el")
 
 ;; Knowledge Forge: the WorkNotes vault as org-roam (~/Projects/knowledge-forge-emacs)
-(load! "~/Projects/knowledge-forge-emacs/lisp/kf.el")
-(map! :leader :desc "Knowledge Forge" "n k" kf-map)
+;; Skipped on machines without the repo.
+(when (load "~/Projects/knowledge-forge-emacs/lisp/kf.el" 'noerror 'nomessage)
+  (unless (featurep :system 'macos)     ; kf defaults to the macOS path
+    (setq kf-koreader-directories (list (expand-file-name "~/.config/koreader/docsettings"))))
+  (map! :leader :desc "Knowledge Forge" "n k" kf-map))
 
 
 (use-package! hledger-mode
