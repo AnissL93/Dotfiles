@@ -2,13 +2,13 @@
     // macOS copy of settings.json (Linux): same fonts; UI zoomed 1.5x as on Linux
     // (window.zoomLevel 2.2239 = 1.2^2.2239), so 16 shows at 24 pt. `theme` rewrites workbench.colorTheme in both.
     "window.zoomLevel": 2.2239,
-    "editor.fontFamily": "'Iosevka SS14', 'Sarasa Mono SC', monospace",
+    "editor.fontFamily": "'MonoLisa', 'Sarasa Mono SC', monospace",
     "editor.fontSize": 16,
     "editor.fontLigatures": false,
-    "terminal.integrated.fontFamily": "'Iosevka SS14', 'Sarasa Mono SC', monospace",
+    "terminal.integrated.fontFamily": "'MonoLisa', 'Sarasa Mono SC', monospace",
     "terminal.integrated.fontSize": 16,
     // colours: the current theme from `theme` (~/System/dotfiles/themes), local extension "Retro Themes"
-    "workbench.colorTheme": "Whale",
+    "workbench.colorTheme": "Reef",
     // key codes, not characters: shortcuts keep working with the Karabiner layout (keymap/mac)
     "keyboard.dispatch": "keyCode",
     "claudeCode.preferredLocation": "panel",

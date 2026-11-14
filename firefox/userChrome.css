@@ -3,7 +3,7 @@
 
 /* UI: IBM VGA for Latin, StarLovePencil for Chinese */
 * {
-  font-family: "Iosevka SS14", "Sarasa Mono SC", monospace !important;
+  font-family: "MonoLisa", "Sarasa Mono SC", monospace !important;
   font-size: 16px !important;  /* pixel font: 16 = native, crisp */
 }
 

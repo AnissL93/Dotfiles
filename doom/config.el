@@ -195,16 +195,18 @@
 ;; (setq ch-font "Source Han Serif SC Medium")
 ;; (setq ch-font "HanaMinA")
 ;; retro setup, matches alacritty / dwm / firefox
-(setq cur-font "Iosevka SS14"  ; pixel font: 16 logical px, an exact multiple of its grid
+(setq cur-font "MonoLisa"  ; pixel font: 16 logical px, an exact multiple of its grid
       ch-font "Sarasa Mono SC"
       ;; Linux: 27 px on a 5/3-scaled screen; macOS: 24 pt (48 px on Retina, 3x the font's grid)
-      en-font-size (if (featurep :system 'macos) 20 27))
-(setq cur-font "Iosevka SS14")  
+      en-font-size (if (featurep :system 'macos) 18 27)) 
+(setq cur-font "MonoLisa")  
+(setq cur-font "MonoLisa")
+
 (setq doom-font (font-spec :family cur-font :size en-font-size)
-      doom-variable-pitch-font (font-spec :family "Fizzy Bubbles Code" :size (if (featurep :system 'macos) 25 28))
+      doom-variable-pitch-font (font-spec :family "MonoLisa" :size (if (featurep :system 'macos) 25 28))
       doom-big-font cur-font
-      doom-unicode-font (font-spec :family ch-font)) 
-;; doom-unicode-font only covers symbols; map Chinese to ch-font explicitly
+      doom-unicode-font (font-spec :family ch-font))    
+;; doom-unicode-font only covers symbols; map Chinese to ch-font explicitly 
 (add-hook! 'after-setting-font-hook
   (dolist (script '(han cjk-misc bopomofo kana))
     (set-fontset-font t script (font-spec :family ch-font))))
