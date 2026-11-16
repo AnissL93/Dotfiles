@@ -902,6 +902,19 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
   (load! "md-modern")
   (add-hook 'markdown-mode-hook #'md-modern-mode))
 
+;; Remote hosts: keep the remote user's own PATH.
+(after! tramp
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+
+;; Terminals in /rpc: (tramp-rpc) directories run on the remote host: vterm only knows a
+;; remote shell for ssh/scp/docker.
+(after! vterm
+  (add-to-list 'vterm-tramp-shells '("rpc" login-shell "/bin/bash"))
+  (setq vterm-max-scrollback 100000)    ; vterm's hard maximum (default 1000 lines)
+  ;; Cmd/Super+Up: copy mode and scroll back (C-c C-t or RET returns).
+  (define-key vterm-mode-map (kbd "s-<up>")
+              (lambda () (interactive) (vterm-copy-mode 1) (scroll-down-command))))
+
 ;; ---- macOS only ----------------------------------------------------------------
 (when (featurep :system 'macos)
   (use-package! copilot
@@ -935,20 +948,10 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
   ;; Claude Code started from Emacs terminals uses the classic renderer so history scrolls.
   (setenv "CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN" "1")
 
-  (after! tramp
-    (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
-
-  ;; Terminals in /rpc: (tramp-rpc) directories run on the remote host: eat (also
-  ;; claude-code's terminal) and vterm only know a remote shell for ssh/scp/docker.
+  ;; eat (also claude-code's terminal) in /rpc: directories; vterm: see above the macOS block.
   (after! eat
     (add-to-list 'eat-tramp-shells '("rpc" . "/bin/bash"))
     (setq eat-term-scrollback-size nil)   ; unlimited history (default 128K chars)
     ;; Cmd+Up: leave terminal input for Emacs mode and scroll back (C-c C-j returns).
     (define-key eat-semi-char-mode-map (kbd "s-<up>")
-                (lambda () (interactive) (eat-emacs-mode) (scroll-down-command))))
-  (after! vterm
-    (add-to-list 'vterm-tramp-shells '("rpc" login-shell "/bin/bash"))
-    (setq vterm-max-scrollback 100000)    ; vterm's hard maximum (default 1000 lines)
-    ;; Cmd+Up: copy mode and scroll back (C-c C-t or RET returns).
-    (define-key vterm-mode-map (kbd "s-<up>")
-                (lambda () (interactive) (vterm-copy-mode 1) (scroll-down-command)))))
+                (lambda () (interactive) (eat-emacs-mode) (scroll-down-command)))))
