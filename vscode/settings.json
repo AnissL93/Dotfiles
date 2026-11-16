@@ -1,14 +1,14 @@
 {
-    "editor.fontFamily": "'Fizzy Bubbles Code', 'StarLovePencil', monospace",
+    "editor.fontFamily": "'Iosevka SS18', 'Sarasa Mono SC', monospace",
     // UI zoomed 1.5x (window.zoomLevel 2.2239 = 1.2^2.2239) so menus/explorer are ~24px like the
     // terminal; editor/terminal sizes are divided by 1.5 so they look the same as before (20 / 26.67)
     "window.zoomLevel": 2.2239,
     "editor.fontSize": 20,
     "editor.fontLigatures": false,
-    "terminal.integrated.fontFamily": "'Fizzy Bubbles Code', 'StarLovePencil', monospace",
+    "terminal.integrated.fontFamily": "'Iosevka Term SS18', 'Sarasa Mono SC', monospace",
     "terminal.integrated.fontSize": 17.78,
     // colours: the current theme from `theme` (~/System/dotfiles/themes), local extension "Retro Themes"
-    "workbench.colorTheme": "Whale",
+    "workbench.colorTheme": "Plum Blossom",
     "claudeCodeChat.thinking.intensity": "ultrathink",
     "claudeCodeChat.wsl.enabled": false,
     "claudeCodeChat.wsl.distro": "Ubuntu",

@@ -6,4 +6,4 @@ import = ["~/.config/alacritty/theme.toml", "~/.config/alacritty/platform.toml"]
 
 [font]
 # Chinese falls back to the system CJK font (alacritty has no fallback setting)
-normal.family = "MonoLisa"
+normal.family = "Iosevka Term SS18"

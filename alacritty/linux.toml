@@ -1,6 +1,6 @@
 # Linux part of alacritty.toml (linked to ~/.config/alacritty/platform.toml)
 [font]
-size = 20.0025   # pt, = 26.67px
+size = 15   # pt, = 20px
 
 [window]
 padding = { x = 24, y = 24 }   # CRT bezel feel

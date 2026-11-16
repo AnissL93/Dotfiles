@@ -195,15 +195,15 @@
 ;; (setq ch-font "Source Han Serif SC Medium")
 ;; (setq ch-font "HanaMinA")
 ;; retro setup, matches alacritty / dwm / firefox
-(setq cur-font "MonoLisa"  ; pixel font: 16 logical px, an exact multiple of its grid
+(setq cur-font "Iosevka SS18"  ; pixel font: 16 logical px, an exact multiple of its grid
       ch-font "Sarasa Mono SC"
       ;; Linux: 27 px on a 5/3-scaled screen; macOS: 24 pt (48 px on Retina, 3x the font's grid)
-      en-font-size (if (featurep :system 'macos) 18 27)) 
-(setq cur-font "MonoLisa")  
-(setq cur-font "MonoLisa")
+      en-font-size (if (featurep :system 'macos) 18 27))  
+;; prose (org, markdown via mixed-pitch): set by set-en-font, PROSE_FONT or the code font
+(setq prose-font "Iosevka SS18")
 
 (setq doom-font (font-spec :family cur-font :size en-font-size)
-      doom-variable-pitch-font (font-spec :family "MonoLisa" :size (if (featurep :system 'macos) 25 28))
+      doom-variable-pitch-font (font-spec :family prose-font :size (if (featurep :system 'macos) 25 28))
       doom-big-font cur-font
       doom-unicode-font (font-spec :family ch-font))    
 ;; doom-unicode-font only covers symbols; map Chinese to ch-font explicitly 
@@ -885,6 +885,8 @@ Supports TO, SUBJECT, TEXT-BODY, optional HTML-BODY, and ATTACHMENT-FILES."
 (setq-default visual-fill-column-width 100
               visual-fill-column-center-text t)
 (add-hook! (org-mode markdown-mode) #'visual-fill-column-mode)
+;; proportional body text in prose buffers; code, tables and markup stay in the code font
+(add-hook 'org-mode-hook #'mixed-pitch-mode)
 
 ;; Prettier markdown: hidden markup (toggle with C-c C-x C-m), scaled headings,
 ;; natively highlighted code blocks, proportional body text.
