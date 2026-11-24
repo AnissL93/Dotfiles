@@ -274,10 +274,13 @@
 
    ;; zotero.bib: Better BibTeX "keep updated" export of the Zotero library;
    ;; its notes are the kf Paper notes (kf-zotero.el advises orb)
-   bibtex-completion-bibliography (cons "~/Sync/WorkNotesOrg/References/zotero.bib"
-                                        (directory-files-recursively
-                                         (concat my/notes "References/")
-                                         ".*\.bib"))
+   ;; skipped where it doesn't exist (yet): bibtex-completion errors on a missing file
+   bibtex-completion-bibliography (append
+                                   (seq-filter #'file-exists-p
+                                               '("~/Sync/WorkNotesOrg/References/zotero.bib"))
+                                   (directory-files-recursively
+                                    (concat my/notes "References/")
+                                    ".*\.bib"))
    ;; directory-files-no-dot-files-regexp false)
 
    bibtex-completion-library-path '("~/DataBase/Papers/")
